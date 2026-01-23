@@ -1,0 +1,75 @@
+:root {
+    --primary: #6366f1;
+    --dark: #0f172a;
+    --light: #f8fafc;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 5%;
+    align-items: center;
+}
+
+.logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+.links a { color: var(--light); text-decoration: none; margin-left: 20px; font-size: 0.9rem; }
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5% 10%;
+    min-height: 80vh;
+}
+
+.hero-text h1 { font-size: 4rem; margin-bottom: 1rem; }
+.hero-text p { font-size: 1.2rem; color: #94a3b8; max-width: 500px; }
+
+.cta-btn {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    background: var(--primary);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.cta-btn:hover { transform: scale(1.05); }
+
+/* The Moving Phone Animation */
+.phone-container {
+    perspective: 1000px;
+}
+
+.phone {
+    width: 280px;
+    height: 560px;
+    background: #222;
+    border: 12px solid #334155;
+    border-radius: 36px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: float 6s ease-in-out infinite;
+}
+
+.phone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) rotateX(5deg) rotateY(-10deg); }
+    50% { transform: translateY(-20px) rotateX(10deg) rotateY(10deg); }
+    100% { transform: translateY(0px) rotateX(5deg) rotateY(-10deg); }
+}
