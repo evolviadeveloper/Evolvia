@@ -26,23 +26,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 30px 8%;
+            padding: 20px 5%;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: var(--gold);
-            text-transform: uppercase;
+        /* Logo Image Styling */
+        .logo img {
+            height: 50px; /* Adjust this height to fit your logo */
+            width: auto;
+            display: block;
         }
 
         .nav-links a {
             color: #ccc;
             text-decoration: none;
-            margin-left: 30px;
-            font-size: 0.9rem;
+            margin-left: 20px;
+            font-size: 0.85rem;
             transition: color 0.3s;
+            white-space: nowrap;
         }
 
         .nav-links a:hover { color: var(--gold); }
@@ -52,14 +52,18 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
-            padding: 60px 8%;
-            gap: 50px;
+            padding: 40px 8%;
+            gap: 40px;
         }
 
-        .hero-content { flex: 1; min-width: 300px; }
+        .hero-content { 
+            flex: 1; 
+            min-width: 300px; 
+            text-align: left;
+        }
 
         .hero-content h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 8vw, 4rem); /* Sizes down on mobile */
             margin-bottom: 20px;
             line-height: 1.1;
         }
@@ -91,14 +95,16 @@
         /* Animated Phone */
         .phone-wrapper {
             perspective: 1000px;
+            display: flex;
+            justify-content: center;
         }
 
         .phone-frame {
-            width: 280px;
-            height: 580px;
+            width: 260px; /* Slightly smaller for better mobile fit */
+            height: 540px;
             background: #111;
             border: 8px solid var(--gold);
-            border-radius: 45px;
+            border-radius: 40px;
             position: relative;
             box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 30px var(--gold-glow);
             animation: float 6s ease-in-out infinite;
@@ -114,7 +120,36 @@
 
         @keyframes float {
             0%, 100% { transform: translateY(0) rotateY(-10deg) rotateX(5deg); }
-            50% { transform: translateY(-25px) rotateY(10deg) rotateX(2deg); }
+            50% { transform: translateY(-20px) rotateY(10deg) rotateX(2deg); }
+        }
+
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px 0;
+            }
+            .nav-links {
+                display: flex;
+                gap: 10px;
+            }
+            .nav-links a {
+                margin: 0 10px;
+                font-size: 0.75rem;
+            }
+            .hero {
+                padding: 20px 5%;
+                text-align: center;
+            }
+            .hero-content {
+                min-width: 100%;
+                text-align: center;
+            }
+            .phone-frame {
+                width: 220px;
+                height: 460px;
+            }
         }
 
         footer {
@@ -128,7 +163,9 @@
 <body>
 
     <nav>
-        <div class="logo">Evolvia</div>
+        <div class="logo">
+            <img src="weblogo.png" alt="Evolvia Logo">
+        </div>
         <div class="nav-links">
             <a href="/privacy-policy/">Privacy Policy</a>
             <a href="/terms-and-conditions/">Terms & Conditions</a>
