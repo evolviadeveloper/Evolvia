@@ -1,190 +1,698 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evolvia | Premium App Experience</title>
-    <style>
-        :root {
-            --gold: #D4AF37;
-            --dark-bg: #000000;
-            --gold-glow: rgba(212, 175, 55, 0.2);
-            --soft-gold: #f1c40f;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evolvia – Evolve Your Experience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060606;--bg2:#0a0a0a;--surface:#111;--surface2:#161616;
+  --gold:#c9a84c;--gold2:#f0d080;--gold3:#8a6820;--goldx:#ffe090;
+  --gold-glow:rgba(201,168,76,.15);--gold-line:rgba(201,168,76,.18);
+  --text:#f0ece0;--muted:#6b6455;--muted2:#9a8f7a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;cursor:none}
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: radial-gradient(circle at top, var(--gold-glow) 0%, var(--dark-bg) 60%);
-            background-color: var(--dark-bg);
-            color: white;
-            overflow-x: hidden;
-        }
+/* cursor */
+#cur{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cur-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,168,76,.5);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
 
-        /* NAVIGATION */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 8%;
-        }
-        .logo img { height: 45px; width: auto; }
-        .nav-links a {
-            color: #ccc;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 0.85rem;
-            transition: 0.3s;
-        }
-        .nav-links a:hover { color: var(--gold); }
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-        /* HERO SECTION */
-        .hero {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 8%;
-            gap: 40px;
-            min-height: 80vh;
-        }
-        .hero-content { flex: 1; min-width: 300px; }
-        .hero-content h1 { font-size: clamp(2.5rem, 8vw, 4rem); line-height: 1.1; margin-bottom: 20px; }
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: 0.3s;
-        }
-        .cta-button:hover { background: var(--gold); color: black; box-shadow: 0 0 20px var(--gold-glow); }
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");z-index:1;pointer-events:none}
 
-        /* PHONE ANIMATION */
-        .phone-wrapper { perspective: 1000px; }
-        .phone-frame {
-            width: 260px; height: 540px;
-            background: #111;
-            border: 8px solid var(--gold);
-            border-radius: 40px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            animation: float 6s ease-in-out infinite;
-            overflow: hidden;
-        }
-        .phone-screen { width: 100%; height: 100%; object-fit: cover; }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:72px;background:rgba(6,6,6,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(201,168,76,.1)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.65rem;letter-spacing:.06em;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase}
+.nav-links{display:flex;gap:2.4rem;list-style:none;align-items:center}
+.nav-links a{color:var(--muted2);text-decoration:none;font-size:.84rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .28s ease}
+.nav-links a:hover{color:var(--gold2)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold)!important;padding:.42rem 1.3rem;border-radius:3px;font-weight:500!important;letter-spacing:.12em!important;transition:all .25s!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--gold)!important;color:#000!important}
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotateY(-10deg); }
-            50% { transform: translateY(-20px) rotateY(10deg); }
-        }
+/* HERO */
+#hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;padding:0 5%;padding-top:72px;gap:4rem}
+.hero-left{flex:1;max-width:600px}
+.hero-eyebrow{display:flex;align-items:center;gap:.8rem;margin-bottom:1.8rem;animation:fadeUp .7s ease both}
+.ey-line{width:40px;height:1px;background:var(--gold);opacity:.6}
+.ey-text{font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.8}
+.hero-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(3.2rem,6vw,5.8rem);line-height:1.02;letter-spacing:-.01em;margin-bottom:1.6rem;animation:fadeUp .7s .1s ease both}
+.hero-title strong{font-weight:700;font-style:italic;background:linear-gradient(120deg,var(--gold3) 0%,var(--gold) 35%,var(--gold2) 65%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200%;animation:shimmer 4s linear infinite}
+@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+.hero-sub{font-size:1.05rem;line-height:1.8;color:var(--muted2);max-width:460px;margin-bottom:2.8rem;font-weight:300;animation:fadeUp .7s .2s ease both}
+.store-btns{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .7s .3s ease both}
+.store-btn{display:flex;align-items:center;gap:1rem;padding:1rem 1.8rem;border-radius:14px;text-decoration:none;font-family:'Outfit',sans-serif;transition:transform .22s,box-shadow .22s,border-color .22s;min-width:186px}
+.store-btn:hover{transform:translateY(-4px)}
+.sbg{background:#0a0a0a;border:1.5px solid rgba(255,255,255,.14);color:#fff;box-shadow:0 8px 28px rgba(0,0,0,.55)}
+.sbg:hover{border-color:rgba(255,255,255,.32);box-shadow:0 16px 48px rgba(0,0,0,.7)}
+.sba{background:rgba(201,168,76,.05);border:1.5px solid rgba(201,168,76,.28);color:var(--muted2);position:relative}
+.sba:hover{border-color:rgba(201,168,76,.55);background:rgba(201,168,76,.1)}
+.cs-tag{position:absolute;top:5px;right:8px;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600;opacity:.9}
+.btn-icon-wrap{width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.btn-text{display:flex;flex-direction:column;line-height:1.25}
+.btn-text small{font-size:.64rem;opacity:.6;font-weight:300;letter-spacing:.02em}
+.btn-text strong{font-size:.96rem;font-weight:600;letter-spacing:.01em}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid rgba(201,168,76,.1);animation:fadeUp .7s .4s ease both}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--gold);line-height:1;margin-bottom:.2rem}
+.stat-label{font-size:.72rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
 
-        /* NEW SCROLLING FEATURES SECTION */
-        .features-section {
-            padding: 80px 8%;
-            background: linear-gradient(to bottom, transparent, #050505);
-            text-align: center;
-        }
-        .features-section h2 { color: var(--gold); font-size: 2rem; margin-bottom: 50px; }
+/* HERO PHONE */
+.hero-right{flex:0 0 auto;width:340px;display:flex;justify-content:center;align-items:center;position:relative;min-height:700px}
+.ph-rings span{position:absolute;border-radius:50%;border:1px solid rgba(201,168,76,.06);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;animation:rpulse 5s ease-in-out infinite}
+.ph-rings span:nth-child(1){width:340px;height:340px;animation-delay:0s}
+.ph-rings span:nth-child(2){width:460px;height:460px;animation-delay:1.5s}
+.ph-rings span:nth-child(3){width:580px;height:580px;animation-delay:3s}
+@keyframes rpulse{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)}50%{opacity:.1;transform:translate(-50%,-50%) scale(1.03)}}
+.ph-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:500px;border-radius:50%;background:radial-gradient(ellipse,rgba(201,168,76,.07) 0%,transparent 70%);pointer-events:none}
+.phone-scene{position:relative;width:290px;height:600px;perspective:1000px;cursor:grab}
+.phone-scene:active{cursor:grabbing}
+.phone-wrap{width:100%;height:100%;transform-style:preserve-3d;transition:transform .1s ease-out;animation:floatPhone 7s ease-in-out infinite;will-change:transform}
+@keyframes floatPhone{0%,100%{transform:translateY(0px) rotateY(-10deg) rotateX(3deg)}50%{transform:translateY(-20px) rotateY(-10deg) rotateX(3deg)}}
+.phone-outer{width:100%;height:100%;background:linear-gradient(170deg,#1a1610 0%,#0e0d0b 50%,#070707 100%);border-radius:46px;border:1.5px solid rgba(201,168,76,.22);box-shadow:0 0 0 1px rgba(255,255,255,.03),0 40px 100px rgba(0,0,0,.8),0 0 60px rgba(201,168,76,.08),inset 0 1px 0 rgba(201,168,76,.08);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.phone-outer::before{content:'';position:absolute;right:-3px;top:120px;width:3px;height:55px;background:rgba(201,168,76,.3);border-radius:0 4px 4px 0}
+.ph-notch{width:88px;height:26px;background:#050505;border-radius:0 0 18px 18px;margin:0 auto;flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:6px;position:relative;z-index:5}
+.nc{width:10px;height:10px;border-radius:50%;background:#0a0a0a;border:1.5px solid rgba(201,168,76,.25)}
+.nm{width:4px;height:4px;border-radius:50%;background:rgba(201,168,76,.3)}
+.ph-screen{flex:1;background:linear-gradient(180deg,#0c0b09 0%,#080807 100%);margin:5px;border-radius:38px;overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;padding:18px 14px 12px}
+.ph-screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(201,168,76,.07),transparent);pointer-events:none}
+.psh{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;z-index:1}
+.psl{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1rem;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.08em;text-transform:uppercase}
+.psa{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold3),var(--gold));display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#000;font-weight:700}
+.psc{width:100%;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.12);border-radius:14px;padding:12px;margin-bottom:8px;z-index:1}
+.psc-lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.psc-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--gold)}
+.psc-sub{font-size:.58rem;color:var(--muted);margin-top:2px}
+.psg{width:100%;height:65px;position:relative;overflow:hidden;z-index:1;margin-bottom:8px}
+.psg svg{width:100%;height:100%}
+.psrow{width:100%;display:flex;gap:7px;margin-bottom:8px;z-index:1}
+.psm{flex:1;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);border-radius:10px;padding:8px 10px}
+.psm-lbl{font-size:.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.psm-val{font-size:.88rem;font-weight:600;color:var(--gold2);margin-top:2px}
+.psbar-row{width:100%;z-index:1}
+.psbar-lbl{display:flex;justify-content:space-between;font-size:.58rem;color:var(--muted);margin-bottom:3px}
+.psbar{height:3px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden;margin-bottom:7px}
+.psbar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--gold3),var(--gold));animation:barAnim 3s ease-in-out infinite alternate}
+@keyframes barAnim{0%{width:40%}100%{width:74%}}
+.psbottom{width:100%;display:flex;justify-content:space-around;align-items:center;padding-top:8px;border-top:1px solid rgba(201,168,76,.07);margin-top:auto;z-index:1}
+.psnav{font-size:1rem;opacity:.3}
+.psnav.on{opacity:1;filter:drop-shadow(0 0 5px var(--gold))}
 
-        .feature-timeline {
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            text-align: left;
-            padding-left: 50px;
-        }
+/* STRIP */
+.features-strip{position:relative;z-index:2;background:rgba(10,10,8,.9);border-top:1px solid rgba(201,168,76,.07);border-bottom:1px solid rgba(201,168,76,.07);padding:2rem 5%;display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;backdrop-filter:blur(12px)}
+.fi{display:flex;align-items:center;gap:.65rem;color:var(--muted2);font-size:.84rem;font-weight:300;letter-spacing:.04em}
+.fi-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.7;flex-shrink:0}
 
-        /* The Gold Vertical Line */
-        .feature-timeline::before {
-            content: '';
-            position: absolute;
-            left: 20px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--gold), transparent);
-        }
+/* SECTIONS */
+.section{position:relative;z-index:2;padding:8rem 5%}
+.section-label{display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem}
+.sl-line{width:30px;height:1px;background:var(--gold);opacity:.5}
+.sl-text{font-size:.68rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.75}
+.section-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,4vw,3.6rem);line-height:1.1;letter-spacing:-.01em;margin-bottom:1.2rem}
+.section-title em{font-style:italic;color:var(--gold)}
+.section-sub{font-size:1rem;color:var(--muted2);line-height:1.75;font-weight:300;max-width:540px}
 
-        .feature-item {
-            position: relative;
-            margin-bottom: 60px;
-        }
+/* FOCUS */
+#focus{background:var(--bg2);border-top:1px solid rgba(201,168,76,.06);border-bottom:1px solid rgba(201,168,76,.06)}
+.focus-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.focus-phone-col{display:flex;justify-content:center;align-items:center;position:relative}
+.fp-wrap{position:relative;width:260px;height:530px}
+.fp-body{width:100%;height:100%;background:linear-gradient(170deg,#181410,#0e0c09,#080706);border-radius:44px;border:1.5px solid rgba(201,168,76,.2);box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 50px rgba(201,168,76,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;position:relative;overflow:hidden}
+.fp-body::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 30%,rgba(201,168,76,.05),transparent);pointer-events:none}
+.fp-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:80px;height:24px;background:#050504;border-radius:0 0 16px 16px}
+.ph-label{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.3);font-weight:500;text-align:center;z-index:1}
+.ph-icon{font-size:2.5rem;opacity:.15;z-index:1}
+.ph-frame{width:160px;height:200px;border:1px dashed rgba(201,168,76,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.6rem;z-index:1}
+.fpc{position:absolute;width:16px;height:16px;border-color:rgba(201,168,76,.35);border-style:solid}
+.fpc.tl{top:16px;left:16px;border-width:2px 0 0 2px}
+.fpc.tr{top:16px;right:16px;border-width:2px 2px 0 0}
+.fpc.bl{bottom:16px;left:16px;border-width:0 0 2px 2px}
+.fpc.br{bottom:16px;right:16px;border-width:0 2px 2px 0}
+.fp-glow{position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);width:200px;height:200px;border-radius:50%;background:radial-gradient(ellipse,rgba(201,168,76,.1) 0%,transparent 70%);pointer-events:none}
+.focus-features{margin-top:3rem;display:flex;flex-direction:column;gap:1.5rem}
+.ff-item{display:flex;gap:1.2rem;align-items:flex-start;padding:1.4rem 1.6rem;background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);border-radius:8px;transition:border-color .25s,background .25s}
+.ff-item:hover{border-color:rgba(201,168,76,.18);background:rgba(201,168,76,.06)}
+.ff-icon{width:42px;height:42px;border-radius:10px;flex-shrink:0;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.ff-title{font-weight:600;font-size:.95rem;margin-bottom:.3rem;color:var(--text)}
+.ff-desc{font-size:.84rem;color:var(--muted2);line-height:1.65;font-weight:300}
 
-        /* Gold Dots */
-        .feature-item::after {
-            content: '';
-            position: absolute;
-            left: -37px;
-            top: 5px;
-            width: 14px;
-            height: 14px;
-            background: var(--gold);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--gold);
-        }
+/* INSIGHTS */
+#insights{background:var(--bg)}
+.insights-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.insights-cards{display:flex;flex-direction:column;gap:1.2rem}
+.ic{background:var(--surface);border:1px solid rgba(201,168,76,.09);border-radius:12px;padding:1.6rem 1.8rem;position:relative;overflow:hidden;transition:transform .2s,border-color .25s}
+.ic::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--gold3),var(--gold))}
+.ic:hover{transform:translateX(4px);border-color:rgba(201,168,76,.2)}
+.ic-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem}
+.ic-title{font-weight:500;font-size:.92rem}
+.ic-badge{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:20px;background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.2)}
+.ic-val{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--gold);line-height:1;margin-bottom:.4rem}
+.ic-sub{font-size:.78rem;color:var(--muted)}
+.ic-bar-w{margin-top:1rem}
+.ic-bar{height:3px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden}
+.ic-bar-f{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--gold3),var(--gold2))}
+.insights-list{margin-top:2.5rem;display:flex;flex-direction:column;gap:1.8rem}
+.il{display:flex;gap:1rem;align-items:flex-start}
+.il-num{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:rgba(201,168,76,.25);line-height:1;flex-shrink:0;width:2rem}
+.il-title{font-weight:500;font-size:.93rem;margin-bottom:.3rem}
+.il-desc{font-size:.83rem;color:var(--muted2);line-height:1.65;font-weight:300}
 
-        .feature-item h3 { color: var(--gold); margin: 0 0 10px 0; font-size: 1.4rem; }
-        .feature-item p { color: #aaa; line-height: 1.5; margin: 0; }
+/* HOW */
+#how{background:var(--bg2);border-top:1px solid rgba(201,168,76,.06);border-bottom:1px solid rgba(201,168,76,.06)}
+.how-hdr{text-align:center;max-width:560px;margin:0 auto 4.5rem}
+.how-hdr .section-label{justify-content:center}
+.how-hdr .section-sub{margin:0 auto;text-align:center}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.step-card{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.09);border-radius:12px;padding:2.2rem 2rem;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+.step-card:hover{border-color:rgba(201,168,76,.22);transform:translateY(-6px)}
+.step-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.step-card:hover::after{opacity:.4}
+.step-num{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:700;color:rgba(201,168,76,.08);line-height:1;margin-bottom:1.2rem}
+.step-icon{font-size:1.8rem;margin-bottom:1rem}
+.step-title{font-weight:600;font-size:1rem;margin-bottom:.6rem}
+.step-desc{font-size:.84rem;color:var(--muted2);line-height:1.7;font-weight:300}
 
-        /* MOBILE RESPONSIVENESS */
-        @media (max-width: 768px) {
-            nav { flex-direction: column; gap: 15px; }
-            .hero { text-align: center; }
-            .phone-frame { width: 220px; height: 460px; }
-            .feature-timeline { padding-left: 40px; }
-        }
+/* PROOF */
+#proof{background:var(--bg)}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.proof-card{background:var(--surface);border:1px solid rgba(201,168,76,.08);border-radius:12px;padding:2rem;transition:border-color .25s,transform .25s}
+.proof-card:hover{border-color:rgba(201,168,76,.2);transform:translateY(-4px)}
+.proof-stars{color:var(--gold);font-size:.85rem;margin-bottom:1rem;letter-spacing:.1em}
+.proof-text{font-size:.88rem;color:var(--muted2);line-height:1.75;font-weight:300;margin-bottom:1.4rem;font-style:italic}
+.proof-author{display:flex;align-items:center;gap:.7rem}
+.proof-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold3),var(--gold));display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#000}
+.proof-name{font-size:.82rem;font-weight:600}
+.proof-role{font-size:.72rem;color:var(--muted)}
 
-        footer { text-align: center; padding: 60px; font-size: 0.8rem; color: #444; }
-    </style>
+/* CTA */
+#cta{position:relative;z-index:2;padding:7rem 5%;text-align:center;overflow:hidden}
+#cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(201,168,76,.06) 0%,transparent 70%);pointer-events:none}
+.cta-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,5vw,4.5rem);line-height:1.08;margin-bottom:1.6rem}
+.cta-title em{font-style:italic;color:var(--gold)}
+.cta-sub{font-size:1rem;color:var(--muted2);margin-bottom:3rem;font-weight:300;max-width:440px;margin-left:auto;margin-right:auto}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.cta-p{display:flex;align-items:center;gap:.7rem;padding:.9rem 2.2rem;border-radius:4px;background:linear-gradient(135deg,var(--gold3),var(--gold));color:#000;font-weight:600;font-size:.9rem;text-decoration:none;letter-spacing:.06em;transition:box-shadow .2s,transform .2s}
+.cta-p:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(201,168,76,.35)}
+.cta-s{display:flex;align-items:center;gap:.7rem;padding:.9rem 2.2rem;border-radius:4px;border:1px solid rgba(201,168,76,.3);color:var(--gold);font-weight:500;font-size:.9rem;text-decoration:none;letter-spacing:.06em;transition:background .2s,border-color .2s}
+.cta-s:hover{background:rgba(201,168,76,.07);border-color:rgba(201,168,76,.5)}
+
+/* FOOTER */
+footer{position:relative;z-index:2;background:rgba(4,4,3,.98);border-top:1px solid rgba(201,168,76,.1);padding:5rem 5% 2.5rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:3rem;margin-bottom:4rem}
+.fb .nav-logo{display:block;margin-bottom:1.2rem;font-size:1.5rem}
+.fb p{color:var(--muted);font-size:.86rem;line-height:1.75;max-width:230px;margin-bottom:1.8rem;font-weight:300}
+.social-links{display:flex;gap:.7rem}
+.sl{width:38px;height:38px;border-radius:6px;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.12);display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--muted2);transition:all .2s}
+.sl:hover{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--gold);transform:translateY(-2px)}
+.fc h4{font-family:'Outfit',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:1.4rem}
+.fc ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+.fc a{color:var(--muted);text-decoration:none;font-size:.86rem;font-weight:300;transition:color .2s}
+.fc a:hover{color:var(--gold2)}
+.footer-bottom{border-top:1px solid rgba(201,168,76,.07);padding-top:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;color:var(--muted);font-size:.8rem}
+.footer-bottom a{color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-bottom a:hover{color:var(--gold)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:960px){
+  #hero{flex-direction:column;padding-top:100px;gap:2.5rem}
+  .hero-right{width:100%;min-height:500px}
+  .focus-inner,.insights-inner{grid-template-columns:1fr}
+  .steps-grid,.proof-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .hero-stats{gap:1.5rem}
+}
+</style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo"><img src="weblogo.png" alt="Evolvia Logo"></div>
-        <div class="nav-links">
-            <a href="/privacy-policy/">Privacy Policy</a>
-            <a href="/terms-and-conditions/">Terms & Conditions</a>
-        </div>
-    </nav>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<canvas id="bg-canvas"></canvas>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Let's see where we can <br><span style="color: var(--gold); font-style: italic;">evolve</span></h1>
-            <p>We need usage access to unlock personalized insights and track your progress daily.</p>
-            <a href="#" class="cta-button">Grant Usage Access</a>
-        </div>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Evolvia</div>
+  <ul class="nav-links">
+    <li><a href="#focus">Product</a></li>
+    <li><a href="#insights">Use Cases</a></li>
+    <li><a href="#how">Help</a></li>
+    <li><a href="#proof">Blog</a></li>
+    <li><a href="#cta" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
 
-        <div class="phone-wrapper">
-            <div class="phone-frame">
-                <img src="mainscreen.jpg" class="phone-screen" alt="App Preview">
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow"><span class="ey-line"></span><span class="ey-text">Free on Android</span></div>
+    <h1 class="hero-title">The App That<br><strong>Evolves</strong><br>With You.</h1>
+    <p class="hero-sub">Evolvia brings together habit tracking, deep focus tools, and usage insights in one place — built for people who take their time seriously.</p>
+    <div class="store-btns">
+      <a href="https://play.google.com/store" target="_blank" class="store-btn sbg">
+        <span class="btn-icon-wrap"><svg width="26" height="26" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gp1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00C6FF"/>
+      <stop offset="100%" stop-color="#00A8E0"/>
+    </linearGradient>
+    <linearGradient id="gp2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD945"/>
+      <stop offset="100%" stop-color="#FF9A00"/>
+    </linearGradient>
+    <linearGradient id="gp3" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF3A44"/>
+      <stop offset="100%" stop-color="#C31162"/>
+    </linearGradient>
+    <linearGradient id="gp4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#32DF7E"/>
+      <stop offset="100%" stop-color="#00B057"/>
+    </linearGradient>
+  </defs>
+  <path d="M48 436.8V75.2C48 56.5 68.2 44.5 84.5 54L280 166.5 209.8 236.7 48 436.8z" fill="url(#gp1)"/>
+  <path d="M344 200.3l-64-36.8-70.2 70.2 70.2 70.2 64.8-37.3c18.3-10.5 18.3-37.6-.8-66.3z" fill="url(#gp2)"/>
+  <path d="M48 436.8l161.8-200.1L280 307l-195.5 112.8C68.2 429.3 48 429.3 48 436.8z" fill="url(#gp3)"/>
+  <path d="M48 75.2l161.8 161.5L280 166.5 84.5 54C68.2 44.5 48 56.5 48 75.2z" fill="url(#gp4)"/>
+</svg></span>
+        <span class="btn-text"><small>Get it on</small><strong>Google Play</strong></span>
+      </a>
+      <a href="#" class="store-btn sba">
+        <span class="cs-tag">Coming Soon</span>
+        <span class="btn-icon-wrap"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" style="color:rgba(201,168,76,.5)"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg></span>
+        <span class="btn-text"><small>Available on</small><strong>App Store</strong></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="ph-rings"><span></span><span></span><span></span></div>
+    <div class="ph-glow"></div>
+    <div class="phone-scene" id="phoneScene">
+      <div class="phone-wrap" id="phoneWrap">
+        <div class="phone-outer">
+          <div class="ph-notch"><div class="nc"></div><div class="nm"></div></div>
+          <div class="ph-screen">
+            <div class="psh"><span class="psl">Evolvia</span><div class="psa">E</div></div>
+            <div class="psc">
+              <div class="psc-lbl">Today's Growth</div>
+              <div class="psc-val">+24.7%</div>
+              <div class="psc-sub">↑ 3.2% from yesterday</div>
             </div>
+            <div class="psg">
+              <svg viewBox="0 0 250 65" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="gg" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#c9a84c" stop-opacity=".3"/>
+                    <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,48 C25,46 40,18 70,20 C100,22 120,42 150,28 C180,14 205,8 250,6" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M0,48 C25,46 40,18 70,20 C100,22 120,42 150,28 C180,14 205,8 250,6 L250,65 L0,65 Z" fill="url(#gg)"/>
+                <circle r="3.5" fill="#c9a84c" opacity=".9"><animateMotion dur="4s" repeatCount="indefinite"><mpath href="#gpath"/></animateMotion></circle>
+                <path id="gpath" d="M0,48 C25,46 40,18 70,20 C100,22 120,42 150,28 C180,14 205,8 250,6" fill="none"/>
+              </svg>
+            </div>
+            <div class="psrow">
+              <div class="psm"><div class="psm-lbl">Focus</div><div class="psm-val">4h 12m</div></div>
+              <div class="psm"><div class="psm-lbl">Streak</div><div class="psm-val">🔥 12d</div></div>
+            </div>
+            <div class="psbar-row">
+              <div class="psbar-lbl"><span>Daily Goal</span><span>74%</span></div>
+              <div class="psbar"><div class="psbar-fill"></div></div>
+              <div class="psbar-lbl"><span>Deep Work</span><span>60%</span></div>
+              <div class="psbar"><div class="psbar-fill" style="animation-delay:.5s"></div></div>
+            </div>
+            <div class="psbottom">
+              <span class="psnav on">⌂</span>
+              <span class="psnav">◎</span>
+              <span class="psnav">⊞</span>
+              <span class="psnav">◉</span>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section class="features-section">
-        <h2>App Insights</h2>
-        <div class="feature-timeline">
-            <div class="feature-item">
-                <h3>Unlock personalized insights</h3>
-                <p>We analyze your device habits to pinpoint exactly where your time goes each day.</p>
-            </div>
-            <div class="feature-item">
-                <h3>Track your progress</h3>
-                <p>Visualize your evolution with beautiful charts that map your focus vs. distraction.</p>
-            </div>
-            <div class="feature-item">
-                <h3>Receive smart recommendations</h3>
-                <p>Get nudges to help you stay on track with your long-term life goals.</p>
-            </div>
+<!-- STRIP -->
+<div class="features-strip">
+  <div class="fi"><span class="fi-dot"></span>Smart Usage Insights</div>
+  <div class="fi"><span class="fi-dot"></span>Strict Focus Mode</div>
+  <div class="fi"><span class="fi-dot"></span>Usage Analytics</div>
+  <div class="fi"><span class="fi-dot"></span>End-to-End Encrypted</div>
+  <div class="fi"><span class="fi-dot"></span>Offline Ready</div>
+</div>
+
+<!-- FOCUS -->
+<section class="section" id="focus">
+  <div class="focus-inner">
+    <div class="focus-phone-col reveal">
+      <div class="fp-wrap">
+        <div class="fp-body">
+          <div class="fp-notch"></div>
+          <div class="fpc tl"></div><div class="fpc tr"></div>
+          <div class="fpc bl"></div><div class="fpc br"></div>
+          <div class="ph-frame">
+            <span class="ph-icon">📱</span>
+            <span class="ph-label">Screenshot<br>Coming Soon</span>
+          </div>
         </div>
-    </section>
+        <div class="fp-glow"></div>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <div class="section-label"><span class="sl-line"></span><span class="sl-text">Focus & Discipline</span></div>
+      <h2 class="section-title">Take Control of<br><em>Your Focus.</em></h2>
+      <p class="section-sub">Evolvia gives you real tools to protect your time. Locked Mode and Strict Mode aren’t suggestions — they’re hard stops that keep you on task when it matters most.</p>
+      <div class="focus-features">
+        <div class="ff-item">
+          <div class="ff-icon">🔒</div>
+          <div><div class="ff-title">Strict Mode</div><div class="ff-desc">Set a session, choose what gets blocked, and commit. No override, no shortcuts. Strict Mode holds the line while you do the work.</div></div>
+        </div>
+        <div class="ff-item">
+          <div class="ff-icon">🔐</div>
+          <div><div class="ff-title">Locked Mode</div><div class="ff-desc">Go further — Locked Mode seals off your entire device except for what you allow. Built for deep work, study blocks, or any time you need zero distractions.</div></div>
+        </div>
+        <div class="ff-item">
+          <div class="ff-icon">🔥</div>
+          <div><div class="ff-title">Streak System</div><div class="ff-desc">Build momentum day by day. Streaks track your consistency and show you exactly how far you’ve come — no sugarcoating.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <footer>
-        &copy; 2026 Evolvia-app.com. Secure & Private.
-    </footer>
+<!-- INSIGHTS -->
+<section class="section" id="insights">
+  <div class="insights-inner">
+    <div class="reveal">
+      <div class="section-label"><span class="sl-line"></span><span class="sl-text">Usage Intelligence</span></div>
+      <h2 class="section-title">See Where Your<br><em>Time Actually Goes.</em></h2>
+      <p class="section-sub">Most people have no idea how their screen time actually breaks down. Evolvia shows you — hour by hour, app by app — so you can make clear decisions about where your attention goes.</p>
+      <div class="insights-list">
+        <div class="il"><span class="il-num">01</span><div><div class="il-title">App Usage Breakdown</div><div class="il-desc">Every app gets logged and sorted — productivity, social, entertainment. Updated throughout the day so nothing slips through.</div></div></div>
+        <div class="il"><span class="il-num">02</span><div><div class="il-title">Weekly & Monthly Reports</div><div class="il-desc">See how your habits shift over time. Spot your peak focus windows, notice where you’re slipping, and track real progress week to week.</div></div></div>
+        <div class="il"><span class="il-num">03</span><div><div class="il-title">Tailored Suggestions</div><div class="il-desc">Based on your own usage data, Evolvia’s algorithms surface adjustments that actually fit your routine — not recycled generic advice.</div></div></div>
+      </div>
+    </div>
+    <div class="insights-cards reveal" style="transition-delay:.15s">
+      <div class="ic">
+        <div class="ic-hdr"><div class="ic-title">Productive Hours Today</div><span class="ic-badge">Live</span></div>
+        <div class="ic-val">6h 34m</div>
+        <div class="ic-sub">↑ 18% above your weekly average</div>
+        <div class="ic-bar-w"><div class="ic-bar"><div class="ic-bar-f" style="width:72%"></div></div></div>
+      </div>
+      <div class="ic">
+        <div class="ic-hdr"><div class="ic-title">Focus Score</div><span class="ic-badge">Weekly</span></div>
+        <div class="ic-val">87</div>
+        <div class="ic-sub">Top 12% of all Evolvia users</div>
+        <div class="ic-bar-w"><div class="ic-bar"><div class="ic-bar-f" style="width:87%;animation-delay:.4s"></div></div></div>
+      </div>
+      <div class="ic">
+        <div class="ic-hdr"><div class="ic-title">Screen Time Reduced</div><span class="ic-badge">This Month</span></div>
+        <div class="ic-val">−2.3h</div>
+        <div class="ic-sub">Compared to last month's average</div>
+        <div class="ic-bar-w"><div class="ic-bar"><div class="ic-bar-f" style="width:55%;animation-delay:.8s"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- HOW -->
+<section class="section" id="how">
+  <div class="how-hdr reveal">
+    <div class="section-label"><span class="sl-line"></span><span class="sl-text">How It Works</span></div>
+    <h2 class="section-title" style="font-size:clamp(2rem,3.5vw,3.2rem)">Simple to Start,<br><em>Built to Last.</em></h2>
+    <p class="section-sub">Getting started takes a few minutes. The results take shape over days and weeks — and Evolvia tracks all of it.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card reveal" style="transition-delay:0s"><div class="step-num">01</div><div class="step-icon">⚡</div><div class="step-title">Set Your Goals</div><div class="step-desc">Tell Evolvia what matters — your focus schedule, daily targets, and which apps belong in your day. Quick to set up, stays out of your way after that.</div></div>
+    <div class="step-card reveal" style="transition-delay:.12s"><div class="step-num">02</div><div class="step-icon">⚙️</div><div class="step-title">Let It Run</div><div class="step-desc">Evolvia’s algorithms track your habits in the background — logging what you use, when you focus, and where you drift. No manual input needed.</div></div>
+    <div class="step-card reveal" style="transition-delay:.24s"><div class="step-num">03</div><div class="step-icon">📈</div><div class="step-title">Track Your Progress</div><div class="step-desc">Check in whenever you want. Your stats, streaks, and trends are all laid out clearly — honest data, no noise.</div></div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="section" id="proof">
+  <div style="text-align:center;max-width:560px;margin:0 auto 1rem">
+    <div class="section-label" style="justify-content:center"><span class="sl-line"></span><span class="sl-text">Early Tester Feedback</span></div>
+    <h2 class="section-title" style="font-size:clamp(1.9rem,3.5vw,3rem)">What Early Testers Are Saying</h2>
+  </div>
+  <div class="proof-grid">
+    <div class="proof-card reveal"><div class="proof-stars">★★★★★</div><div class="proof-text">"I didn't expect an app to actually shift how I use my phone. Two weeks in and my screen time dropped by almost half. The Strict Mode is no joke — once you’re in, you’re in."</div><div class="proof-author"><div class="proof-av">J</div><div><div class="proof-name">Jordan M.</div><div class="proof-role">Beta Tester — UX Designer</div></div></div></div>
+    <div class="proof-card reveal" style="transition-delay:.1s"><div class="proof-stars">★★★★★</div><div class="proof-text">"Seeing the breakdown of my screen time laid out clearly — which apps, how long, every single day — made it impossible to keep ignoring. I changed habits I’d been putting off for months."</div><div class="proof-author"><div class="proof-av">A</div><div><div class="proof-name">Aisha K.</div><div class="proof-role">Beta Tester — Small Business Owner</div></div></div></div>
+    <div class="proof-card reveal" style="transition-delay:.2s"><div class="proof-stars">★★★★★</div><div class="proof-text">"Locked Mode is the feature I didn't know I needed. Used it for a 4-hour study block and it was the most focused I’d been in months. The streak counter keeps pulling me back every day."</div><div class="proof-author"><div class="proof-av">R</div><div><div class="proof-name">Ryan T.</div><div class="proof-role">Beta Tester — Software Engineer</div></div></div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <h2 class="cta-title reveal">Download Evolvia<br><em>Today.</em></h2>
+  <p class="cta-sub reveal" style="transition-delay:.1s">Available now on Android. iOS coming soon. No subscriptions to start — just download and go.</p>
+  <div class="cta-btns reveal" style="transition-delay:.2s">
+    <a href="https://play.google.com/store" target="_blank" class="cta-p"><svg width="20" height="20" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+  <defs>
+    <linearGradient id="gps1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00C6FF"/><stop offset="100%" stop-color="#00A8E0"/></linearGradient>
+    <linearGradient id="gps2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFD945"/><stop offset="100%" stop-color="#FF9A00"/></linearGradient>
+    <linearGradient id="gps3" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FF3A44"/><stop offset="100%" stop-color="#C31162"/></linearGradient>
+    <linearGradient id="gps4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#32DF7E"/><stop offset="100%" stop-color="#00B057"/></linearGradient>
+  </defs>
+  <path d="M48 436.8V75.2C48 56.5 68.2 44.5 84.5 54L280 166.5 209.8 236.7 48 436.8z" fill="url(#gps1)"/>
+  <path d="M344 200.3l-64-36.8-70.2 70.2 70.2 70.2 64.8-37.3c18.3-10.5 18.3-37.6-.8-66.3z" fill="url(#gps2)"/>
+  <path d="M48 436.8l161.8-200.1L280 307l-195.5 112.8C68.2 429.3 48 429.3 48 436.8z" fill="url(#gps3)"/>
+  <path d="M48 75.2l161.8 161.5L280 166.5 84.5 54C68.2 44.5 48 56.5 48 75.2z" fill="url(#gps4)"/>
+</svg> Get it on Google Play</a>
+    <a href="#" class="cta-s"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;opacity:.65"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg> App Store — Coming Soon</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="fb">
+      <span class="nav-logo">Evolvia</span>
+      <p>A focus and habit tracking app built around real results. Your time, your data, your progress.</p>
+      <div class="social-links">
+        <a href="https://youtube.com" target="_blank" class="sl" title="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.75 15.5V8.5l6.5 3.5-6.5 3.5z"/></svg></a>
+        <a href="https://instagram.com" target="_blank" class="sl" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+        <a href="https://tiktok.com" target="_blank" class="sl" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.41a8.16 8.16 0 0 0 4.77 1.52V7.48a4.85 4.85 0 0 1-1-.79z"/></svg></a>
+      </div>
+    </div>
+    <div class="fc"><h4>Product</h4><ul><li><a href="#">Features</a></li><li><a href="#">Roadmap</a></li><li><a href="#">Changelog</a></li><li><a href="#">Pricing</a></li><li><a href="#">Beta Program</a></li></ul></div>
+    <div class="fc"><h4>Solutions</h4><ul><li><a href="#">For Individuals</a></li><li><a href="#">For Students</a></li><li><a href="#">For Teams</a></li><li><a href="#">Enterprise</a></li><li><a href="#">Developers</a></li></ul></div>
+    <div class="fc"><h4>Help</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Getting Started</a></li><li><a href="#">Community</a></li><li><a href="#">Contact Us</a></li><li><a href="#">System Status</a></li></ul></div>
+    <div class="fc"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Partners</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Evolvia. All rights reserved.</span>
+    <div style="display:flex;gap:1.6rem"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Refund Policy</a></div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
+document.querySelectorAll('a,button,.store-btn,.step-card,.proof-card,.ff-item,.ic').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='54px';ring.style.height='54px';ring.style.borderColor='rgba(201,168,76,.8)'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(201,168,76,.5)'});
+});
+
+// NEURAL CANVAS — fully interactive gold
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[],mouse={x:-9999,y:-9999},mvx=0,mvy=0,lmx=0,lmy=0;
+let clicks=[];
+
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();
+window.addEventListener('resize',()=>{resize();init()});
+
+document.addEventListener('mousemove',e=>{
+  mvx=e.clientX-lmx;mvy=e.clientY-lmy;
+  lmx=mouse.x=e.clientX;lmy=mouse.y=e.clientY;
+});
+
+// Click ripple
+canvas.style.pointerEvents='none';
+document.addEventListener('click',e=>{
+  clicks.push({x:e.clientX,y:e.clientY,r:0,life:1});
+});
+
+class Particle{
+  constructor(){this.reset(true)}
+  reset(rand){
+    this.x=rand?Math.random()*W:(Math.random()>0.5?Math.random()*W:(Math.random()<0.5?-5:W+5));
+    this.y=rand?Math.random()*H:(Math.random()>0.5?Math.random()*H:(Math.random()<0.5?-5:H+5));
+    this.vx=(Math.random()-.5)*.55;this.vy=(Math.random()-.5)*.55;
+    this.r=Math.random()*1.8+.4;
+    const roll=Math.random();
+    this.color=roll<.55?'201,168,76':roll<.75?'240,208,128':roll<.9?'138,104,32':'255,240,200';
+    this.alpha=Math.random()*.55+.1;
+    this.tw=Math.random()*Math.PI*2;this.tws=Math.random()*.04+.01;
+    this.attracted=false;
+  }
+  update(){
+    this.tw+=this.tws;
+    this.x+=this.vx;this.y+=this.vy;
+    const dx=this.x-mouse.x,dy=this.y-mouse.y;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    const speed=Math.sqrt(mvx*mvx+mvy*mvy);
+    if(dist<180){
+      const f=(180-dist)/180;
+      const boost=Math.min(speed*.04,2);
+      this.vx+=(dx/dist)*f*(.5+boost);
+      this.vy+=(dy/dist)*f*(.5+boost);
+    }
+    // Click attraction — particles rush toward clicks
+    clicks.forEach(c=>{
+      const cdx=c.x-this.x,cdy=c.y-this.y;
+      const cd=Math.sqrt(cdx*cdx+cdy*cdy);
+      if(cd<300&&cd>1){
+        const f=(300-cd)/300*2*c.life;
+        this.vx+=(cdx/cd)*f*.6;
+        this.vy+=(cdy/cd)*f*.6;
+      }
+    });
+    this.vx*=.991;this.vy*=.991;
+    if(this.x<-20||this.x>W+20||this.y<-20||this.y>H+20)this.reset(false);
+  }
+  draw(){
+    const a=this.alpha*(.7+.3*Math.sin(this.tw));
+    ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${this.color},${a})`;ctx.fill();
+    if(this.alpha>.38){
+      ctx.beginPath();ctx.arc(this.x,this.y,this.r*3.5,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${this.color},${a*.08})`;ctx.fill();
+    }
+  }
+}
+
+class Spark{
+  constructor(x,y,vx,vy){
+    this.x=x;this.y=y;
+    this.vx=vx*(Math.random()*2.5+.5)+(Math.random()-.5)*4;
+    this.vy=vy*(Math.random()*2.5+.5)+(Math.random()-.5)*4;
+    this.life=1;this.decay=Math.random()*.07+.04;this.r=Math.random()*2.5+.5;
+  }
+  update(){this.x+=this.vx;this.y+=this.vy;this.vx*=.93;this.vy*=.93;this.life-=this.decay}
+  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${this.life*.8})`;ctx.fill()}
+}
+
+let sparks=[];
+document.addEventListener('mousemove',e=>{
+  const sp=Math.sqrt(mvx*mvx+mvy*mvy);
+  if(sp>9){for(let i=0;i<Math.min(Math.floor(sp/4),6);i++)sparks.push(new Spark(e.clientX,e.clientY,mvx*.1,mvy*.1))}
+});
+
+// Click burst
+document.addEventListener('click',e=>{
+  for(let i=0;i<18;i++)sparks.push(new Spark(e.clientX,e.clientY,(Math.random()-.5)*8,(Math.random()-.5)*8));
+});
+
+function init(){
+  const count=Math.min(Math.floor(W*H/7000),200);
+  particles=Array.from({length:count},()=>new Particle());
+}
+
+function drawConnections(){
+  const maxD=140;
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+      const d2=dx*dx+dy*dy;
+      if(d2<maxD*maxD){
+        const d=Math.sqrt(d2);
+        ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(201,168,76,${(1-d/maxD)*.14})`;ctx.lineWidth=.6;ctx.stroke();
+      }
+    }
+    const dx=particles[i].x-mouse.x,dy=particles[i].y-mouse.y;
+    const d=Math.sqrt(dx*dx+dy*dy);
+    if(d<200){
+      const a=(1-d/200)*.55;
+      const gr=ctx.createLinearGradient(particles[i].x,particles[i].y,mouse.x,mouse.y);
+      gr.addColorStop(0,`rgba(201,168,76,${a})`);
+      gr.addColorStop(1,`rgba(240,208,128,${a*.3})`);
+      ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(mouse.x,mouse.y);
+      ctx.strokeStyle=gr;ctx.lineWidth=.9;ctx.stroke();
+    }
+  }
+}
+
+function drawClickRipples(){
+  clicks=clicks.filter(c=>c.life>0);
+  clicks.forEach(c=>{
+    c.r+=8;c.life-=.025;
+    ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);
+    ctx.strokeStyle=`rgba(201,168,76,${c.life*.5})`;ctx.lineWidth=1.5;ctx.stroke();
+    if(c.r>60){
+      ctx.beginPath();ctx.arc(c.x,c.y,c.r*1.4,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(240,208,128,${c.life*.2})`;ctx.lineWidth=.8;ctx.stroke();
+    }
+  });
+}
+
+function drawMouseGlow(){
+  if(mouse.x<0)return;
+  const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,140);
+  g.addColorStop(0,'rgba(201,168,76,0.07)');g.addColorStop(1,'rgba(201,168,76,0)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+}
+
+function loop(){
+  ctx.clearRect(0,0,W,H);
+  drawMouseGlow();drawConnections();drawClickRipples();
+  particles.forEach(p=>{p.update();p.draw()});
+  sparks=sparks.filter(s=>s.life>0);
+  sparks.forEach(s=>{s.update();s.draw()});
+  requestAnimationFrame(loop);
+}
+init();loop();
+
+// PHONE TILT
+const scene=document.getElementById('phoneScene'),wrap=document.getElementById('phoneWrap');
+let bRY=-10,bRX=3,isDrag=false,sX,sY;
+function tilt(rx,ry){wrap.style.animation='none';wrap.style.transform=`translateY(0) rotateY(${ry}deg) rotateX(${rx}deg)`}
+scene.addEventListener('mousemove',e=>{
+  if(isDrag)return;
+  const r=scene.getBoundingClientRect();
+  tilt(bRX-(e.clientY-r.top-r.height/2)/r.height*14, bRY+(e.clientX-r.left-r.width/2)/r.width*18);
+});
+scene.addEventListener('mouseleave',()=>{
+  if(isDrag)return;
+  wrap.style.transition='transform 0.9s ease';
+  wrap.style.transform=`translateY(0) rotateY(${bRY}deg) rotateX(${bRX}deg)`;
+  setTimeout(()=>{wrap.style.animation='';wrap.style.transition=''},900);
+});
+scene.addEventListener('mousedown',e=>{isDrag=true;sX=e.clientX;sY=e.clientY;wrap.style.animation='none';e.preventDefault()});
+window.addEventListener('mousemove',e=>{if(!isDrag)return;tilt(Math.max(-18,Math.min(18,bRX-(e.clientY-sY)*.12)),Math.max(-28,Math.min(28,bRY+(e.clientX-sX)*.18)))});
+window.addEventListener('mouseup',e=>{
+  if(!isDrag)return;isDrag=false;
+  bRY=Math.max(-28,Math.min(28,bRY+(e.clientX-sX)*.18));bRX=Math.max(-18,Math.min(18,bRX-(e.clientY-sY)*.12));
+  wrap.style.transition='transform 0.5s ease';
+  wrap.style.transform=`translateY(0) rotateY(${bRY}deg) rotateX(${bRX}deg)`;
+  setTimeout(()=>{wrap.style.animation='';wrap.style.transition=''},500);
+});
+scene.addEventListener('touchstart',e=>{const t=e.touches[0];sX=t.clientX;sY=t.clientY;isDrag=true;wrap.style.animation='none'},{passive:true});
+scene.addEventListener('touchmove',e=>{if(!isDrag)return;const t=e.touches[0];tilt(Math.max(-16,Math.min(16,bRX-(t.clientY-sY)*.12)),Math.max(-25,Math.min(25,bRY+(t.clientX-sX)*.18)))} ,{passive:true});
+scene.addEventListener('touchend',()=>{isDrag=false;wrap.style.transition='transform 0.5s ease';wrap.style.transform=`translateY(0) rotateY(${bRY}deg) rotateX(${bRX}deg)`;setTimeout(()=>{wrap.style.animation='';wrap.style.transition=''},500)});
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
 </body>
 </html>
