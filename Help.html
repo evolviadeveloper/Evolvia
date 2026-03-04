@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help & Support — Evolvia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060606;--bg2:#0a0a0a;--surface:#111;--surface2:#161616;
+  --gold:#c9a84c;--gold2:#f0d080;--gold3:#8a6820;
+  --text:#f0ece0;--muted:#6b6455;--muted2:#9a8f7a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;cursor:none;min-height:100vh}
+
+/* CURSOR */
+#cur{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cur-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,168,76,.5);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+
+/* CANVAS */
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* GRAIN */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");z-index:1;pointer-events:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:72px;background:rgba(6,6,6,.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(201,168,76,.1)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.65rem;letter-spacing:.06em;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;text-decoration:none}
+.nav-links{display:flex;gap:2.4rem;list-style:none;align-items:center}
+.nav-links a{color:var(--muted2);text-decoration:none;font-size:.84rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .28s ease}
+.nav-links a:hover{color:var(--gold2)}
+.nav-links a:hover::after{width:100%}
+.nav-links a.active{color:var(--gold)}
+.nav-links a.active::after{width:100%}
+.nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold)!important;padding:.42rem 1.3rem;border-radius:3px;font-weight:500!important;letter-spacing:.12em!important;transition:all .25s!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--gold)!important;color:#000!important}
+
+/* PAGE WRAPPER */
+.page{position:relative;z-index:2;padding-top:72px}
+
+/* HERO BANNER */
+.help-hero{
+  padding:6rem 5% 5rem;
+  position:relative;
+  overflow:hidden;
+  border-bottom:1px solid rgba(201,168,76,.08);
+}
+.help-hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 55% 70% at 50% 100%,rgba(201,168,76,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.help-hero-inner{max-width:720px;margin:0 auto;text-align:center}
+.h-eyebrow{display:inline-flex;align-items:center;gap:.7rem;margin-bottom:1.6rem;animation:fadeUp .6s ease both}
+.h-ey-line{width:28px;height:1px;background:var(--gold);opacity:.55}
+.h-ey-text{font-size:.68rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.8}
+.help-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.8rem,5vw,4.8rem);line-height:1.06;letter-spacing:-.01em;margin-bottom:1.4rem;animation:fadeUp .6s .08s ease both}
+.help-title em{font-style:italic;color:var(--gold)}
+.help-sub{font-size:1rem;color:var(--muted2);line-height:1.8;font-weight:300;max-width:540px;margin:0 auto;animation:fadeUp .6s .16s ease both}
+
+/* NOTICE CARD */
+.notice-wrap{
+  max-width:860px;margin:0 auto;
+  padding:0 5% 5rem;
+}
+.notice-card{
+  background:rgba(201,168,76,.04);
+  border:1px solid rgba(201,168,76,.16);
+  border-radius:14px;
+  padding:2.4rem 2.8rem;
+  position:relative;
+  overflow:hidden;
+  margin-top:-1px;
+  animation:fadeUp .6s .22s ease both;
+}
+.notice-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.5;
+}
+.notice-card::after{
+  content:'';
+  position:absolute;
+  bottom:-40px;right:-40px;
+  width:160px;height:160px;
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(201,168,76,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.notice-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+.notice-icon{
+  width:44px;height:44px;border-radius:10px;flex-shrink:0;
+  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+}
+.notice-label{font-size:.68rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.75;margin-bottom:.2rem}
+.notice-title-sm{font-weight:600;font-size:.96rem;color:var(--text)}
+.notice-body{font-size:.92rem;color:var(--muted2);line-height:1.82;font-weight:300}
+.notice-body p{margin-bottom:.9rem}
+.notice-body p:last-child{margin-bottom:0}
+.notice-body strong{color:var(--text);font-weight:500}
+
+/* MAIN GRID */
+.help-grid{
+  max-width:1100px;margin:0 auto;
+  padding:0 5% 7rem;
+  display:grid;
+  grid-template-columns:1fr 1.15fr;
+  gap:3.5rem;
+  align-items:start;
+}
+
+/* FAQ */
+.faq-col{}
+.col-label{display:flex;align-items:center;gap:.6rem;margin-bottom:1.8rem}
+.cl-line{width:24px;height:1px;background:var(--gold);opacity:.5}
+.cl-text{font-size:.66rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.7}
+.col-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:2rem;line-height:1.1;margin-bottom:2rem;letter-spacing:-.01em}
+.col-title em{font-style:italic;color:var(--gold)}
+
+.faq-list{display:flex;flex-direction:column;gap:.6rem}
+.faq-item{
+  background:rgba(201,168,76,.03);
+  border:1px solid rgba(201,168,76,.08);
+  border-radius:10px;
+  overflow:hidden;
+  transition:border-color .25s;
+}
+.faq-item:hover{border-color:rgba(201,168,76,.18)}
+.faq-q{
+  width:100%;background:none;border:none;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.2rem 1.4rem;
+  cursor:pointer;
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:500;
+  text-align:left;gap:1rem;
+}
+.faq-q:hover{color:var(--gold2)}
+.faq-arrow{font-size:.7rem;color:var(--gold);flex-shrink:0;transition:transform .3s ease;opacity:.7}
+.faq-item.open .faq-arrow{transform:rotate(180deg);opacity:1}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease, padding .3s ease;
+  font-size:.86rem;color:var(--muted2);line-height:1.75;font-weight:300;
+  padding:0 1.4rem;
+}
+.faq-item.open .faq-a{max-height:200px;padding:.1rem 1.4rem 1.3rem}
+
+/* CONTACT FORM */
+.form-col{}
+.form-card{
+  background:var(--surface);
+  border:1px solid rgba(201,168,76,.1);
+  border-radius:14px;
+  padding:2.6rem 2.4rem;
+  position:relative;
+  overflow:hidden;
+}
+.form-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.4;
+}
+.form-intro{font-size:.88rem;color:var(--muted2);line-height:1.7;font-weight:300;margin-bottom:2rem}
+.form-intro a{color:var(--gold);text-decoration:none}
+.form-intro a:hover{color:var(--gold2)}
+
+.form-group{margin-bottom:1.3rem}
+.form-label{display:block;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:.55rem}
+.form-input,.form-select,.form-textarea{
+  width:100%;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(201,168,76,.12);
+  border-radius:8px;
+  padding:.82rem 1.1rem;
+  color:var(--text);
+  font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:300;
+  outline:none;
+  transition:border-color .22s,background .22s,box-shadow .22s;
+  -webkit-appearance:none;
+}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);opacity:.6}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  border-color:rgba(201,168,76,.45);
+  background:rgba(201,168,76,.04);
+  box-shadow:0 0 0 3px rgba(201,168,76,.07);
+}
+.form-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a84c' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;color:var(--text)}
+.form-select option{background:#111;color:var(--text)}
+.form-textarea{resize:vertical;min-height:130px;line-height:1.65}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+.char-count{font-size:.68rem;color:var(--muted);text-align:right;margin-top:.35rem}
+
+.submit-btn{
+  width:100%;
+  padding:1rem 2rem;
+  border-radius:8px;
+  border:none;
+  background:linear-gradient(135deg,var(--gold3),var(--gold));
+  color:#000;
+  font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:600;
+  letter-spacing:.06em;cursor:pointer;
+  transition:transform .2s,box-shadow .2s,opacity .2s;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  margin-top:.6rem;
+}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(201,168,76,.3)}
+.submit-btn:active{transform:translateY(0)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.form-note{font-size:.72rem;color:var(--muted);text-align:center;margin-top:.9rem;line-height:1.6}
+.form-note a{color:var(--gold);text-decoration:none}
+.form-note a:hover{color:var(--gold2)}
+
+/* SUCCESS STATE */
+.success-msg{
+  display:none;
+  text-align:center;padding:2.5rem 1rem;
+}
+.success-msg.show{display:block}
+.success-icon{font-size:2.8rem;margin-bottom:1rem}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--gold);margin-bottom:.7rem}
+.success-sub{font-size:.9rem;color:var(--muted2);font-weight:300;line-height:1.7}
+
+/* DIRECT CONTACT */
+.direct-contact{
+  max-width:1100px;margin:0 auto;
+  padding:0 5% 7rem;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;
+}
+.dc-card{
+  background:rgba(201,168,76,.03);
+  border:1px solid rgba(201,168,76,.09);
+  border-radius:12px;padding:1.8rem 1.6rem;
+  text-decoration:none;
+  transition:border-color .25s,transform .25s,background .25s;
+  display:block;
+}
+.dc-card:hover{border-color:rgba(201,168,76,.22);transform:translateY(-4px);background:rgba(201,168,76,.05)}
+.dc-icon{font-size:1.6rem;margin-bottom:.9rem}
+.dc-title{font-weight:600;font-size:.92rem;margin-bottom:.4rem;color:var(--text)}
+.dc-desc{font-size:.82rem;color:var(--muted2);line-height:1.65;font-weight:300;margin-bottom:.8rem}
+.dc-link{font-size:.8rem;color:var(--gold);font-weight:500;letter-spacing:.03em}
+
+/* FOOTER */
+footer{position:relative;z-index:2;background:rgba(4,4,3,.98);border-top:1px solid rgba(201,168,76,.1);padding:3rem 5% 2rem}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;color:var(--muted);font-size:.8rem}
+.footer-bottom a{color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-bottom a:hover{color:var(--gold)}
+.footer-links{display:flex;gap:1.6rem}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:820px){
+  .help-grid{grid-template-columns:1fr}
+  .direct-contact{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Evolvia</a>
+  <ul class="nav-links">
+    <li><a href="index.html#focus">Product</a></li>
+    <li><a href="index.html#insights">Use Cases</a></li>
+    <li><a href="help.html" class="active">Help</a></li>
+    <li><a href="index.html#proof">Blog</a></li>
+    <li><a href="index.html#cta" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="help-hero">
+    <div class="help-hero-inner">
+      <div class="h-eyebrow">
+        <span class="h-ey-line"></span>
+        <span class="h-ey-text">Support Center</span>
+        <span class="h-ey-line"></span>
+      </div>
+      <h1 class="help-title">Help &amp; <em>Support</em></h1>
+      <p class="help-sub">We're here to help. Browse the common questions below, or send us a message and we'll get back to you as soon as we can.</p>
+    </div>
+  </div>
+
+  <!-- NOTICE CARD -->
+  <div class="notice-wrap">
+    <div class="notice-card reveal">
+      <div class="notice-header">
+        <div class="notice-icon">📋</div>
+        <div>
+          <div class="notice-label">A Note From Us</div>
+          <div class="notice-title-sm">Here at Evolvia</div>
+        </div>
+      </div>
+      <div class="notice-body">
+        <p>Evolvia is a <strong>new and actively growing app</strong>. We built it from the ground up with a focus on doing things right — but like any early-stage product, you may occasionally run into a bug, an unexpected behavior, or something that doesn't work quite the way you'd expect.</p>
+        <p>We take every report seriously. When you flag an issue, it goes directly to the people building the app — not a ticketing system, not a bot. If something isn't working for you, we genuinely want to know. Your feedback is a direct line into what gets fixed and improved next.</p>
+        <p>Thank you for being here early. It means more than we can say.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID: FAQ + FORM -->
+  <div class="help-grid">
+
+    <!-- FAQ -->
+    <div class="faq-col reveal">
+      <div class="col-label"><span class="cl-line"></span><span class="cl-text">Common Questions</span></div>
+      <h2 class="col-title">Frequently<br><em>Asked</em></h2>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Is Evolvia free to download?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-a">Yes — Evolvia is free to download on Android with no upfront cost. Some features may be expanded in future updates, but the core app is fully free to use.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            What is Strict Mode?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-a">Strict Mode blocks distracting apps and notifications during a focus session. Once active, it cannot be overridden until the session ends — keeping you accountable when it matters most.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            What is Locked Mode, and how is it different?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-a">Locked Mode goes further than Strict Mode — it restricts access to your entire device except for apps you've explicitly allowed. It's designed for deep focus blocks, study sessions, or any time you need full separation from distraction.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            I found a bug. What should I do?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-a">Use the form on this page or email us directly at support@evolvia-app.com. The more detail you can share — what happened, what you expected, and what device you're on — the faster we can investigate and resolve it.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            When is the iOS version coming?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-a">We're actively working on bringing Evolvia to iOS. We don't have a fixed release date yet, but it's a priority. Follow us on social media or check back here for updates.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            How is my usage data handled?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-a">Your usage data stays on your device. Evolvia does not sell or share your personal data with third parties. You can review our full Privacy Policy for details.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Can I request a refund?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-a">Yes. Refund requests are handled on a case-by-case basis. Reach out to us at support@evolvia-app.com with your order details and we'll review your request promptly.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CONTACT FORM -->
+    <div class="form-col reveal" style="transition-delay:.12s">
+      <div class="col-label"><span class="cl-line"></span><span class="cl-text">Send a Message</span></div>
+      <h2 class="col-title">Get in<br><em>Touch</em></h2>
+
+      <div class="form-card">
+        <p class="form-intro">Fill out the form below and your message will be sent directly to <a href="mailto:support@evolvia-app.com">support@evolvia-app.com</a>. We aim to respond within 1–2 business days.</p>
+
+        <div id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fname">First Name</label>
+              <input class="form-input" type="text" id="fname" placeholder="Jordan" autocomplete="given-name">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lname">Last Name</label>
+              <input class="form-input" type="text" id="lname" placeholder="Smith" autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input class="form-input" type="email" id="email" placeholder="you@example.com" autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="category">Category</label>
+            <select class="form-select" id="category">
+              <option value="" disabled selected>Select a topic</option>
+              <option value="bug">Bug Report</option>
+              <option value="feature">Feature Suggestion</option>
+              <option value="account">Account Issue</option>
+              <option value="refund">Refund Request</option>
+              <option value="feedback">General Feedback</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="subject">Subject</label>
+            <input class="form-input" type="text" id="subject" placeholder="Brief summary of your message">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">Message</label>
+            <textarea class="form-textarea" id="message" placeholder="Describe your issue, suggestion, or question in as much detail as you'd like..." maxlength="1000" oninput="updateCount(this)"></textarea>
+            <div class="char-count"><span id="charCount">0</span> / 1000</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="device">Device (optional)</label>
+            <input class="form-input" type="text" id="device" placeholder="e.g. Samsung Galaxy S23, Android 14">
+          </div>
+
+          <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m22 2-11 11M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+            Send Message
+          </button>
+          <p class="form-note">Your message is sent directly to our team. We do not use third-party ticketing software. <br>You can also email us directly at <a href="mailto:support@evolvia-app.com">support@evolvia-app.com</a>.</p>
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div class="success-msg" id="successMsg">
+          <div class="success-icon">✉️</div>
+          <div class="success-title">Message Sent</div>
+          <div class="success-sub">Thanks for reaching out. We've received your message and will follow up at your email address within 1–2 business days.<br><br>In the meantime, feel free to browse the FAQ above.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DIRECT CONTACT CARDS -->
+  <div class="direct-contact">
+    <a href="mailto:support@evolvia-app.com" class="dc-card reveal">
+      <div class="dc-icon">📧</div>
+      <div class="dc-title">Email Support</div>
+      <div class="dc-desc">For bugs, account issues, refund requests, or anything that needs a direct answer from our team.</div>
+      <div class="dc-link">support@evolvia-app.com</div>
+    </a>
+    <a href="mailto:feedback@evolvia-app.com" class="dc-card reveal" style="transition-delay:.1s">
+      <div class="dc-icon">💡</div>
+      <div class="dc-title">Share Feedback</div>
+      <div class="dc-desc">Have an idea, a suggestion, or something you'd like to see in the app? We read every message.</div>
+      <div class="dc-link">feedback@evolvia-app.com</div>
+    </a>
+    <a href="https://instagram.com" target="_blank" class="dc-card reveal" style="transition-delay:.2s">
+      <div class="dc-icon">📱</div>
+      <div class="dc-title">Social Media</div>
+      <div class="dc-desc">Follow us for updates, announcements, and the occasional behind-the-scenes look at what's coming next.</div>
+      <div class="dc-link">@evolvia on Instagram & TikTok</div>
+    </a>
+  </div>
+
+</div><!-- end .page -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-bottom">
+    <span>© 2025 Evolvia. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Refund Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar)})();
+document.querySelectorAll('a,button,.dc-card,.faq-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(201,168,76,.8)'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(201,168,76,.5)'});
+});
+
+// NEURAL CANVAS
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[],mouse={x:-9999,y:-9999},mvx=0,mvy=0,lmx=0,lmy=0,clicks=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();
+window.addEventListener('resize',()=>{resize();init()});
+document.addEventListener('mousemove',e=>{mvx=e.clientX-lmx;mvy=e.clientY-lmy;lmx=mouse.x=e.clientX;lmy=mouse.y=e.clientY});
+document.addEventListener('click',e=>{clicks.push({x:e.clientX,y:e.clientY,r:0,life:1})});
+
+class Particle{
+  constructor(){this.reset(true)}
+  reset(r){
+    this.x=r?Math.random()*W:(Math.random()>0.5?Math.random()*W:(Math.random()<0.5?-5:W+5));
+    this.y=r?Math.random()*H:(Math.random()>0.5?Math.random()*H:(Math.random()<0.5?-5:H+5));
+    this.vx=(Math.random()-.5)*.5;this.vy=(Math.random()-.5)*.5;
+    this.radius=Math.random()*1.6+.4;
+    const t=Math.random();
+    this.color=t<.55?'201,168,76':t<.75?'240,208,128':t<.9?'138,104,32':'255,240,200';
+    this.alpha=Math.random()*.5+.1;this.tw=Math.random()*Math.PI*2;this.tws=Math.random()*.04+.01;
+  }
+  update(){
+    this.tw+=this.tws;this.x+=this.vx;this.y+=this.vy;
+    const dx=this.x-mouse.x,dy=this.y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<170){const f=(170-d)/170,sp=Math.sqrt(mvx*mvx+mvy*mvy),b=Math.min(sp*.04,2);this.vx+=(dx/d)*f*(.5+b);this.vy+=(dy/d)*f*(.5+b)}
+    clicks.forEach(c=>{const cdx=c.x-this.x,cdy=c.y-this.y,cd=Math.sqrt(cdx*cdx+cdy*cdy);if(cd<280&&cd>1){const f=(280-cd)/280*2*c.life;this.vx+=(cdx/cd)*f*.5;this.vy+=(cdy/cd)*f*.5}});
+    this.vx*=.991;this.vy*=.991;
+    if(this.x<-20||this.x>W+20||this.y<-20||this.y>H+20)this.reset(false);
+  }
+  draw(){
+    const a=this.alpha*(.7+.3*Math.sin(this.tw));
+    ctx.beginPath();ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);ctx.fillStyle=`rgba(${this.color},${a})`;ctx.fill();
+    if(this.alpha>.38){ctx.beginPath();ctx.arc(this.x,this.y,this.radius*3,0,Math.PI*2);ctx.fillStyle=`rgba(${this.color},${a*.07})`;ctx.fill()}
+  }
+}
+class Spark{
+  constructor(x,y,vx,vy){this.x=x;this.y=y;this.vx=vx*(Math.random()*2.5+.5)+(Math.random()-.5)*4;this.vy=vy*(Math.random()*2.5+.5)+(Math.random()-.5)*4;this.life=1;this.decay=Math.random()*.07+.04;this.r=Math.random()*2+.5}
+  update(){this.x+=this.vx;this.y+=this.vy;this.vx*=.93;this.vy*=.93;this.life-=this.decay}
+  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${this.life*.8})`;ctx.fill()}
+}
+let sparks=[];
+document.addEventListener('mousemove',e=>{const sp=Math.sqrt(mvx*mvx+mvy*mvy);if(sp>9)for(let i=0;i<Math.min(Math.floor(sp/4),5);i++)sparks.push(new Spark(e.clientX,e.clientY,mvx*.1,mvy*.1))});
+document.addEventListener('click',e=>{for(let i=0;i<14;i++)sparks.push(new Spark(e.clientX,e.clientY,(Math.random()-.5)*8,(Math.random()-.5)*8))});
+function init(){particles=Array.from({length:Math.min(Math.floor(W*H/8000),160)},()=>new Particle())}
+function drawConns(){
+  const maxD=130;
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d2=dx*dx+dy*dy;if(d2<maxD*maxD){const d=Math.sqrt(d2);ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(201,168,76,${(1-d/maxD)*.13})`;ctx.lineWidth=.6;ctx.stroke()}}
+    const dx=particles[i].x-mouse.x,dy=particles[i].y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<190){const a=(1-d/190)*.5,gr=ctx.createLinearGradient(particles[i].x,particles[i].y,mouse.x,mouse.y);gr.addColorStop(0,`rgba(201,168,76,${a})`);gr.addColorStop(1,`rgba(240,208,128,${a*.3})`);ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=gr;ctx.lineWidth=.85;ctx.stroke()}
+  }
+}
+function drawRipples(){
+  clicks=clicks.filter(c=>c.life>0);
+  clicks.forEach(c=>{c.r+=8;c.life-=.025;ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.strokeStyle=`rgba(201,168,76,${c.life*.45})`;ctx.lineWidth=1.5;ctx.stroke();if(c.r>60){ctx.beginPath();ctx.arc(c.x,c.y,c.r*1.4,0,Math.PI*2);ctx.strokeStyle=`rgba(240,208,128,${c.life*.18})`;ctx.lineWidth=.8;ctx.stroke()}});
+}
+function drawGlow(){if(mouse.x<0)return;const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,130);g.addColorStop(0,'rgba(201,168,76,0.06)');g.addColorStop(1,'rgba(201,168,76,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
+function loop(){ctx.clearRect(0,0,W,H);drawGlow();drawConns();drawRipples();particles.forEach(p=>{p.update();p.draw()});sparks=sparks.filter(s=>s.life>0);sparks.forEach(s=>{s.update();s.draw()});requestAnimationFrame(loop)}
+init();loop();
+
+// FAQ ACCORDION
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.closest('.faq-item');
+    const isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+    if(!isOpen)item.classList.add('open');
+  });
+});
+
+// CHAR COUNTER
+function updateCount(el){
+  document.getElementById('charCount').textContent=el.value.length;
+}
+
+// FORM SUBMIT — opens mailto with prefilled content
+function submitForm(){
+  const fname=document.getElementById('fname').value.trim();
+  const lname=document.getElementById('lname').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const category=document.getElementById('category').value;
+  const subject=document.getElementById('subject').value.trim();
+  const message=document.getElementById('message').value.trim();
+  const device=document.getElementById('device').value.trim();
+
+  if(!email||!subject||!message){
+    // Shake empty required fields
+    ['email','subject','message'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(!el.value.trim()){el.style.borderColor='rgba(255,100,80,.5)';setTimeout(()=>el.style.borderColor='',2000)}
+    });
+    return;
+  }
+
+  const fullName=(fname+' '+lname).trim()||'Not provided';
+  const catLabel={bug:'Bug Report',feature:'Feature Suggestion',account:'Account Issue',refund:'Refund Request',feedback:'General Feedback',other:'Other'}[category]||'Not selected';
+
+  const body=`Name: ${fullName}
+From: ${email}
+Category: ${catLabel}
+Device: ${device||'Not provided'}
+
+---
+
+${message}`;
+
+  const mailtoLink=`mailto:support@evolvia-app.com?subject=${encodeURIComponent('Evolvia Support: '+subject)}&body=${encodeURIComponent(body)}`;
+
+  window.location.href=mailtoLink;
+
+  // Show success state after short delay
+  setTimeout(()=>{
+    document.getElementById('contactForm').style.display='none';
+    document.getElementById('successMsg').classList.add('show');
+  },800);
+}
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
