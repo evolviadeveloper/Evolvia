@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — Evolvia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060606;--bg2:#0a0a0a;--surface:#111;--surface2:#161616;
+  --gold:#c9a84c;--gold2:#f0d080;--gold3:#8a6820;
+  --text:#f0ece0;--muted:#6b6455;--muted2:#9a8f7a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;cursor:none;min-height:100vh}
+
+#cur{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cur-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,168,76,.5);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");z-index:1;pointer-events:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:72px;background:rgba(6,6,6,.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(201,168,76,.1)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.65rem;letter-spacing:.06em;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;text-decoration:none}
+.nav-links{display:flex;gap:2.4rem;list-style:none;align-items:center}
+.nav-links a{color:var(--muted2);text-decoration:none;font-size:.84rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .28s ease}
+.nav-links a:hover{color:var(--gold2)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a.active{color:var(--gold)}
+.nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold)!important;padding:.42rem 1.3rem;border-radius:3px;font-weight:500!important;letter-spacing:.12em!important;transition:all .25s!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--gold)!important;color:#000!important}
+
+/* PAGE */
+.page{position:relative;z-index:2;padding-top:72px}
+
+/* ── STICKY TAB NAV ── */
+.tab-nav-wrap{position:sticky;top:72px;z-index:100;background:rgba(6,6,6,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,.08)}
+.tab-nav{display:flex;max-width:1100px;margin:0 auto;padding:0 5%;overflow-x:auto;scrollbar-width:none}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{flex:0 0 auto;background:none;border:none;color:var(--muted2);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;padding:1.1rem 1.6rem;cursor:pointer;position:relative;transition:color .22s;white-space:nowrap}
+.tab-btn::after{content:'';position:absolute;bottom:0;left:1.6rem;right:1.6rem;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:center;transition:transform .28s ease}
+.tab-btn:hover{color:var(--gold2)}
+.tab-btn.active{color:var(--gold)}
+.tab-btn.active::after{transform:scaleX(1)}
+
+/* ── SHARED SECTION SHELL ── */
+.tab-section{display:none;animation:fadeIn .4s ease both}
+.tab-section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+.sec-hero{padding:5.5rem 5% 4rem;border-bottom:1px solid rgba(201,168,76,.07);position:relative;overflow:hidden}
+.sec-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 50% 100%,rgba(201,168,76,.055) 0%,transparent 70%);pointer-events:none}
+.sec-hero-inner{max-width:680px}
+.eyebrow{display:inline-flex;align-items:center;gap:.65rem;margin-bottom:1.4rem}
+.ey-line{width:26px;height:1px;background:var(--gold);opacity:.55}
+.ey-text{font-size:.68rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.8}
+.sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.6rem,4.5vw,4.2rem);line-height:1.07;letter-spacing:-.01em;margin-bottom:1.2rem}
+.sec-title em{font-style:italic;color:var(--gold)}
+.sec-sub{font-size:.98rem;color:var(--muted2);line-height:1.8;font-weight:300;max-width:520px}
+
+/* shared label */
+.s-label{display:flex;align-items:center;gap:.6rem;margin-bottom:1.6rem}
+.sl-line{width:22px;height:1px;background:var(--gold);opacity:.5}
+.sl-text{font-size:.66rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.7}
+
+/* ══════════════════════════════════
+   FEATURES
+══════════════════════════════════ */
+#sec-features .content{padding:5rem 5%;max-width:1100px;margin:0 auto}
+.feat-intro{max-width:600px;margin-bottom:4rem}
+.feat-intro p{font-size:.96rem;color:var(--muted2);line-height:1.8;font-weight:300}
+
+.feat-big-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:4rem}
+.fbig{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.09);border-radius:14px;padding:2rem 1.8rem;transition:border-color .25s,transform .25s,background .25s;position:relative;overflow:hidden}
+.fbig::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.fbig:hover{border-color:rgba(201,168,76,.2);transform:translateY(-5px);background:rgba(201,168,76,.055)}
+.fbig:hover::after{opacity:.4}
+.fbig-icon{font-size:1.7rem;margin-bottom:1.1rem}
+.fbig-title{font-weight:600;font-size:.95rem;margin-bottom:.55rem}
+.fbig-desc{font-size:.83rem;color:var(--muted2);line-height:1.7;font-weight:300}
+.fbig-tag{display:inline-block;margin-top:.9rem;font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);border-radius:4px;padding:.22rem .65rem}
+
+.feat-compare{background:var(--surface);border:1px solid rgba(201,168,76,.1);border-radius:14px;overflow:hidden;margin-bottom:4rem}
+.fc-header{display:grid;grid-template-columns:2fr 1fr 1fr;background:rgba(201,168,76,.05);border-bottom:1px solid rgba(201,168,76,.09);padding:1.1rem 1.6rem}
+.fc-col-label{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.75}
+.fc-col-label:first-child{color:var(--muted2)}
+.fc-row{display:grid;grid-template-columns:2fr 1fr 1fr;padding:.95rem 1.6rem;border-bottom:1px solid rgba(201,168,76,.05);transition:background .2s}
+.fc-row:hover{background:rgba(201,168,76,.03)}
+.fc-row:last-child{border-bottom:none}
+.fc-feat{font-size:.88rem;color:var(--text);font-weight:400}
+.fc-feat small{display:block;font-size:.74rem;color:var(--muted);font-weight:300;margin-top:.15rem}
+.fc-check{font-size:.9rem;text-align:center}
+.check-yes{color:var(--gold)}
+.check-no{color:var(--muted);opacity:.4}
+.check-partial{color:var(--muted2);font-size:.8rem;text-align:center}
+
+/* ══════════════════════════════════
+   ROADMAP
+══════════════════════════════════ */
+#sec-roadmap .content{padding:5rem 5%;max-width:900px;margin:0 auto}
+
+.roadmap-timeline{display:flex;flex-direction:column;gap:0}
+.rm-phase{display:grid;grid-template-columns:140px 1fr;gap:0;position:relative}
+.rm-phase:not(:last-child)::after{content:'';position:absolute;left:calc(140px + 23px);top:54px;bottom:-30px;width:1px;background:rgba(201,168,76,.12);z-index:0}
+
+.rm-left{padding-top:.85rem;padding-right:2rem;text-align:right}
+.rm-phase-label{font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem}
+.rm-phase-period{font-size:.78rem;color:var(--muted2);font-weight:300}
+
+.rm-dot-col{display:flex;flex-direction:column;align-items:center;padding-right:1.8rem;position:relative;z-index:1}
+.rm-dot{width:12px;height:12px;border-radius:50%;margin-top:1.1rem;flex-shrink:0}
+.rm-dot.done{background:var(--gold);box-shadow:0 0 10px rgba(201,168,76,.4)}
+.rm-dot.active{background:transparent;border:2px solid var(--gold);box-shadow:0 0 14px rgba(201,168,76,.3);animation:dotPulse 2s ease-in-out infinite}
+.rm-dot.upcoming{background:rgba(201,168,76,.15);border:1.5px solid rgba(201,168,76,.25)}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 8px rgba(201,168,76,.25)}50%{box-shadow:0 0 18px rgba(201,168,76,.5)}}
+
+.rm-right{padding-bottom:3rem}
+.rm-items{display:flex;flex-direction:column;gap:.8rem;padding-top:.6rem}
+.rm-item{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);border-radius:10px;padding:1.2rem 1.5rem;transition:border-color .25s}
+.rm-item:hover{border-color:rgba(201,168,76,.18)}
+.rm-item.done-item{border-color:rgba(201,168,76,.12)}
+.rm-item-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem}
+.rm-item-title{font-weight:600;font-size:.9rem}
+.rm-status{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .7rem;border-radius:4px}
+.rm-status.s-done{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.2)}
+.rm-status.s-live{background:rgba(0,220,130,.1);color:#00dc82;border:1px solid rgba(0,220,130,.2)}
+.rm-status.s-soon{background:rgba(201,168,76,.07);color:var(--muted2);border:1px solid rgba(201,168,76,.12)}
+.rm-status.s-planned{background:rgba(255,255,255,.04);color:var(--muted);border:1px solid rgba(255,255,255,.07)}
+.rm-item-desc{font-size:.82rem;color:var(--muted2);line-height:1.65;font-weight:300}
+
+/* ══════════════════════════════════
+   CHANGELOG
+══════════════════════════════════ */
+#sec-changelog .content{padding:5rem 5%;max-width:860px;margin:0 auto}
+
+.cl-entries{display:flex;flex-direction:column;gap:2rem}
+.cl-entry{border:1px solid rgba(201,168,76,.09);border-radius:14px;overflow:hidden;transition:border-color .25s}
+.cl-entry:hover{border-color:rgba(201,168,76,.18)}
+.cl-entry-head{display:flex;align-items:center;gap:1.4rem;padding:1.6rem 2rem;background:rgba(201,168,76,.03);border-bottom:1px solid rgba(201,168,76,.07)}
+.cl-version{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;color:var(--gold);min-width:80px}
+.cl-date{font-size:.75rem;color:var(--muted);font-weight:300}
+.cl-type-badge{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .75rem;border-radius:4px}
+.cl-type-badge.launch{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.25)}
+.cl-type-badge.patch{background:rgba(100,180,255,.08);color:#64b4ff;border:1px solid rgba(100,180,255,.18)}
+.cl-type-badge.update{background:rgba(0,220,130,.08);color:#00dc82;border:1px solid rgba(0,220,130,.18)}
+.cl-entry-body{padding:1.8rem 2rem}
+.cl-summary{font-size:.9rem;color:var(--muted2);line-height:1.75;font-weight:300;margin-bottom:1.4rem}
+.cl-changes{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.cl-change{display:flex;align-items:flex-start;gap:.75rem;font-size:.85rem;color:var(--muted2);font-weight:300;line-height:1.55}
+.cl-change-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:.45rem}
+.cl-change-dot.new{background:var(--gold)}
+.cl-change-dot.fix{background:#64b4ff}
+.cl-change-dot.imp{background:#00dc82}
+
+/* ══════════════════════════════════
+   PRICING
+══════════════════════════════════ */
+#sec-pricing .content{padding:5rem 5%;max-width:1100px;margin:0 auto}
+
+.pricing-toggle-wrap{display:flex;justify-content:center;margin-bottom:3.5rem}
+.pricing-toggle{display:flex;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:4px;gap:2px}
+.pt-btn{background:none;border:none;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:500;letter-spacing:.06em;color:var(--muted2);padding:.55rem 1.4rem;border-radius:5px;cursor:pointer;transition:all .22s;white-space:nowrap}
+.pt-btn.active{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.2)}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:4rem}
+.plan-card{border:1px solid rgba(201,168,76,.1);border-radius:16px;padding:2.4rem 2.2rem;position:relative;overflow:hidden;transition:border-color .28s,transform .28s}
+.plan-card:hover{transform:translateY(-6px)}
+.plan-card.featured{border-color:rgba(201,168,76,.35);background:rgba(201,168,76,.04)}
+.plan-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.7}
+.plan-glow{position:absolute;bottom:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(ellipse,rgba(201,168,76,.08),transparent 70%);pointer-events:none}
+
+.plan-badge{position:absolute;top:1.4rem;right:1.4rem;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:linear-gradient(135deg,var(--gold3),var(--gold));color:#000;padding:.3rem .85rem;border-radius:4px}
+.plan-name{font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.75;margin-bottom:.8rem}
+.plan-price-wrap{margin-bottom:.6rem}
+.plan-price{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:700;color:var(--text);line-height:1}
+.plan-price .currency{font-size:1.4rem;vertical-align:top;margin-top:.6rem;display:inline-block;color:var(--gold)}
+.plan-price .period{font-family:'Outfit',sans-serif;font-size:.78rem;color:var(--muted);font-weight:300;margin-left:.3rem}
+.plan-equiv{font-size:.75rem;color:var(--muted);font-weight:300;margin-bottom:1.4rem;min-height:1.1rem}
+.plan-desc{font-size:.84rem;color:var(--muted2);line-height:1.7;font-weight:300;margin-bottom:1.8rem;padding-bottom:1.8rem;border-bottom:1px solid rgba(201,168,76,.07)}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin-bottom:2.2rem}
+.pf{display:flex;align-items:flex-start;gap:.7rem;font-size:.85rem;color:var(--muted2);font-weight:300}
+.pf-check{color:var(--gold);flex-shrink:0;margin-top:1px;font-size:.8rem}
+.pf-x{color:var(--muted);opacity:.4;flex-shrink:0;margin-top:1px;font-size:.8rem}
+
+.plan-btn{width:100%;padding:.9rem;border-radius:8px;border:none;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;letter-spacing:.06em;cursor:pointer;transition:all .22s}
+.plan-btn-primary{background:linear-gradient(135deg,var(--gold3),var(--gold));color:#000}
+.plan-btn-primary:hover{box-shadow:0 10px 32px rgba(201,168,76,.3);transform:translateY(-1px)}
+.plan-btn-outline{background:transparent;border:1px solid rgba(201,168,76,.28);color:var(--gold)}
+.plan-btn-outline:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.5)}
+
+.savings-tag{display:inline-block;font-size:.7rem;font-weight:600;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:.2rem .65rem;margin-left:.5rem;vertical-align:middle}
+
+.pricing-faq{background:var(--surface);border:1px solid rgba(201,168,76,.09);border-radius:14px;padding:2.4rem 2.6rem}
+.pricing-faq-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--gold);margin-bottom:1.6rem}
+.pfaq-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem}
+.pfaq-q{font-weight:500;font-size:.88rem;margin-bottom:.4rem}
+.pfaq-a{font-size:.82rem;color:var(--muted2);line-height:1.65;font-weight:300}
+
+/* ══════════════════════════════════
+   BETA PROGRAM
+══════════════════════════════════ */
+#sec-beta .content{padding:5rem 5%;max-width:1000px;margin:0 auto}
+
+.beta-hero-card{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);border-radius:16px;padding:3rem 3.2rem;position:relative;overflow:hidden;margin-bottom:3.5rem}
+.beta-hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.55}
+.beta-hero-card::after{content:'';position:absolute;bottom:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(ellipse,rgba(201,168,76,.08),transparent 70%);pointer-events:none}
+.bhc-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center}
+.bhc-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--gold);margin-bottom:.8rem}
+.bhc-desc{font-size:.92rem;color:var(--muted2);line-height:1.8;font-weight:300;max-width:500px}
+.bhc-stat{text-align:center;flex-shrink:0}
+.bhc-num{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:700;color:var(--gold);line-height:1}
+.bhc-label{font-size:.65rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:.3rem}
+
+.beta-perks{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:3.5rem}
+.bp-card{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.09);border-radius:12px;padding:1.8rem 1.6rem;transition:border-color .25s,transform .25s,background .25s}
+.bp-card:hover{border-color:rgba(201,168,76,.2);transform:translateY(-4px);background:rgba(201,168,76,.055)}
+.bp-icon{font-size:1.6rem;margin-bottom:.9rem}
+.bp-title{font-weight:600;font-size:.92rem;margin-bottom:.45rem}
+.bp-desc{font-size:.82rem;color:var(--muted2);line-height:1.65;font-weight:300}
+
+.beta-form-wrap{background:var(--surface);border:1px solid rgba(201,168,76,.1);border-radius:14px;padding:2.6rem 2.8rem;position:relative;overflow:hidden}
+.beta-form-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.4}
+.bf-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--text);margin-bottom:.6rem}
+.bf-sub{font-size:.86rem;color:var(--muted2);line-height:1.7;font-weight:300;margin-bottom:2rem}
+.beta-form{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.bf-full{grid-column:1/-1}
+.form-group{display:flex;flex-direction:column;gap:.5rem}
+.form-label{font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2)}
+.form-input,.form-select,.form-textarea{background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:.82rem 1.1rem;color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:300;outline:none;transition:border-color .22s,background .22s,box-shadow .22s;-webkit-appearance:none;width:100%}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);opacity:.55}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(201,168,76,.45);background:rgba(201,168,76,.04);box-shadow:0 0 0 3px rgba(201,168,76,.07)}
+.form-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a84c' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+.form-select option{background:#111;color:var(--text)}
+.form-textarea{resize:vertical;min-height:100px;line-height:1.65}
+.submit-btn{grid-column:1/-1;padding:1rem;border-radius:8px;border:none;background:linear-gradient(135deg,var(--gold3),var(--gold));color:#000;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:600;letter-spacing:.06em;cursor:pointer;transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:.6rem}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,168,76,.3)}
+.form-note{grid-column:1/-1;font-size:.72rem;color:var(--muted);text-align:center;line-height:1.6}
+.form-note a{color:var(--gold);text-decoration:none}
+.success-msg{display:none;text-align:center;padding:2.5rem 1rem}
+.success-msg.show{display:block}
+.success-icon{font-size:2.8rem;margin-bottom:1rem}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--gold);margin-bottom:.7rem}
+.success-sub{font-size:.9rem;color:var(--muted2);font-weight:300;line-height:1.7}
+
+/* FOOTER */
+footer{position:relative;z-index:2;background:rgba(4,4,3,.98);border-top:1px solid rgba(201,168,76,.1);padding:3rem 5% 2rem}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;color:var(--muted);font-size:.8rem}
+.footer-bottom a{color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-bottom a:hover{color:var(--gold)}
+.footer-links{display:flex;gap:1.6rem}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:860px){
+  .feat-big-grid,.pricing-grid,.beta-perks{grid-template-columns:1fr 1fr}
+  .pfaq-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .bhc-inner{grid-template-columns:1fr}
+  .bhc-stat{text-align:left}
+  .beta-form{grid-template-columns:1fr}
+  .bf-full{grid-column:1}
+  .submit-btn,.form-note{grid-column:1}
+}
+@media(max-width:560px){
+  .feat-big-grid,.pricing-grid,.beta-perks{grid-template-columns:1fr}
+  .fc-header,.fc-row{grid-template-columns:2fr 1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">Evolvia</a>
+  <ul class="nav-links">
+    <li><a href="product.html" class="active">Product</a></li>
+    <li><a href="usecases.html">Use Cases</a></li>
+    <li><a href="help.html">Help</a></li>
+    <li><a href="index.html#proof">Blog</a></li>
+    <li><a href="product.html#sec-pricing" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+
+  <!-- STICKY TAB NAV -->
+  <div class="tab-nav-wrap">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('features',this)">Features</button>
+      <button class="tab-btn" onclick="switchTab('roadmap',this)">Roadmap</button>
+      <button class="tab-btn" onclick="switchTab('changelog',this)">Changelog</button>
+      <button class="tab-btn" onclick="switchTab('pricing',this)">Pricing</button>
+      <button class="tab-btn" onclick="switchTab('beta',this)">Beta Program</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════ FEATURES ══════════════════ -->
+  <div class="tab-section active" id="sec-features">
+    <div class="sec-hero">
+      <div class="sec-hero-inner">
+        <div class="eyebrow"><span class="ey-line"></span><span class="ey-text">Features</span></div>
+        <h1 class="sec-title">Everything you need.<br><em>Nothing you don't.</em></h1>
+        <p class="sec-sub">Evolvia is built around a small set of features done properly — not a bloated list of things that sound useful but never get used.</p>
+      </div>
+    </div>
+    <div class="content" style="padding:5rem 5%;max-width:1100px;margin:0 auto">
+
+      <div class="s-label reveal"><span class="sl-line"></span><span class="sl-text">Core Features</span></div>
+      <div class="feat-big-grid reveal" style="transition-delay:.05s">
+        <div class="fbig">
+          <div class="fbig-icon">🔒</div>
+          <div class="fbig-title">Strict Mode</div>
+          <div class="fbig-desc">Start a focus session and lock out every distracting app until the timer ends. No override button. No "just five minutes." You set the rules — Strict Mode holds them.</div>
+          <span class="fbig-tag">Available Now</span>
+        </div>
+        <div class="fbig">
+          <div class="fbig-icon">🔐</div>
+          <div class="fbig-title">Locked Mode</div>
+          <div class="fbig-desc">A harder version of Strict Mode. Locked Mode restricts your entire device except for apps you explicitly allow. Built for deep work blocks, study sessions, and focus days.</div>
+          <span class="fbig-tag">Available Now</span>
+        </div>
+        <div class="fbig">
+          <div class="fbig-icon">📊</div>
+          <div class="fbig-title">Usage Analytics</div>
+          <div class="fbig-desc">A clear, daily breakdown of how your time gets spent — by app, by category, by hour. The numbers don't lie, and neither does Evolvia.</div>
+          <span class="fbig-tag">Available Now</span>
+        </div>
+        <div class="fbig">
+          <div class="fbig-icon">📈</div>
+          <div class="fbig-title">Trend Reports</div>
+          <div class="fbig-desc">Weekly and monthly views of your habits over time. See where you've improved, where you're slipping, and how your streaks are holding up.</div>
+          <span class="fbig-tag">Available Now</span>
+        </div>
+        <div class="fbig">
+          <div class="fbig-icon">🔥</div>
+          <div class="fbig-title">Streak Tracking</div>
+          <div class="fbig-desc">Build daily habits that compound. Your streak is a simple, honest number — and missing a day resets it. Real accountability, no softening.</div>
+          <span class="fbig-tag">Available Now</span>
+        </div>
+        <div class="fbig">
+          <div class="fbig-icon">🎯</div>
+          <div class="fbig-title">Personal Goals</div>
+          <div class="fbig-desc">Set daily screen time limits, minimum focus hours, or app-specific usage caps. Evolvia tracks every one of them and shows you your hit rate.</div>
+          <span class="fbig-tag">Available Now</span>
+        </div>
+        <div class="fbig">
+          <div class="fbig-icon">🔔</div>
+          <div class="fbig-title">Focus Reminders</div>
+          <div class="fbig-desc">Smart nudges that surface at the right moment — not a flood of notifications, just a well-timed prompt when you've been off-track for a while.</div>
+          <span class="fbig-tag">Coming Soon</span>
+        </div>
+        <div class="fbig">
+          <div class="fbig-icon">🧩</div>
+          <div class="fbig-title">No Account Required</div>
+          <div class="fbig-desc">Evolvia works out of the box with no sign-up, no profile, no email. Your data lives on your device. You stay in control of all of it.</div>
+          <span class="fbig-tag">Always</span>
+        </div>
+        <div class="fbig">
+          <div class="fbig-icon">📱</div>
+          <div class="fbig-title">iOS Support</div>
+          <div class="fbig-desc">Currently Android-only. iOS is actively in development and is a top priority. Join the beta program to be first in line when it ships.</div>
+          <span class="fbig-tag" style="background:rgba(100,180,255,.08);color:#64b4ff;border-color:rgba(100,180,255,.2)">In Development</span>
+        </div>
+      </div>
+
+      <div class="s-label reveal" style="margin-bottom:1.4rem"><span class="sl-line"></span><span class="sl-text">Free vs Pro</span></div>
+      <div class="feat-compare reveal" style="transition-delay:.05s">
+        <div class="fc-header">
+          <div class="fc-col-label">Feature</div>
+          <div class="fc-col-label" style="text-align:center">Free</div>
+          <div class="fc-col-label" style="text-align:center">Pro</div>
+        </div>
+        <div class="fc-row"><div class="fc-feat">Strict Mode<small>Session-based app blocking</small></div><div class="fc-check check-yes">✦</div><div class="fc-check check-yes">✦</div></div>
+        <div class="fc-row"><div class="fc-feat">Locked Mode<small>Full device restriction</small></div><div class="fc-check check-yes">✦</div><div class="fc-check check-yes">✦</div></div>
+        <div class="fc-row"><div class="fc-feat">Daily Usage Breakdown<small>App-level detail</small></div><div class="fc-check check-yes">✦</div><div class="fc-check check-yes">✦</div></div>
+        <div class="fc-row"><div class="fc-feat">Streak Tracking<small>Daily habit streaks</small></div><div class="fc-check check-yes">✦</div><div class="fc-check check-yes">✦</div></div>
+        <div class="fc-row"><div class="fc-feat">Goals<small>Daily screen time & focus targets</small></div><div class="fc-check check-partial" style="color:var(--muted2);font-size:.78rem">Up to 3</div><div class="fc-check check-yes">✦</div></div>
+        <div class="fc-row"><div class="fc-feat">Trend Reports<small>Weekly & monthly history</small></div><div class="fc-check check-partial" style="color:var(--muted2);font-size:.78rem">7 days</div><div class="fc-check check-yes">✦</div></div>
+        <div class="fc-row"><div class="fc-feat">Custom Block Lists<small>Choose exactly which apps to block</small></div><div class="fc-check check-no">✕</div><div class="fc-check check-yes">✦</div></div>
+        <div class="fc-row"><div class="fc-feat">Focus Reminders<small>Smart nudges when you drift</small></div><div class="fc-check check-no">✕</div><div class="fc-check check-yes">✦</div></div>
+        <div class="fc-row"><div class="fc-feat">Full Data History<small>Unlimited retention</small></div><div class="fc-check check-no">✕</div><div class="fc-check check-yes">✦</div></div>
+        <div class="fc-row"><div class="fc-feat">Priority Support<small>Direct line to our team</small></div><div class="fc-check check-no">✕</div><div class="fc-check check-yes">✦</div></div>
+      </div>
+
+      <div style="text-align:center;margin-top:1rem">
+        <button onclick="switchTabById('pricing')" style="background:linear-gradient(135deg,var(--gold3),var(--gold));color:#000;border:none;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:600;letter-spacing:.06em;padding:.9rem 2.4rem;border-radius:8px;cursor:pointer;transition:box-shadow .2s,transform .2s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 32px rgba(201,168,76,.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">See Pricing →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════ ROADMAP ══════════════════ -->
+  <div class="tab-section" id="sec-roadmap">
+    <div class="sec-hero">
+      <div class="sec-hero-inner">
+        <div class="eyebrow"><span class="ey-line"></span><span class="ey-text">Roadmap</span></div>
+        <h1 class="sec-title">Where we're<br><em>headed.</em></h1>
+        <p class="sec-sub">A transparent look at what's shipped, what's in progress, and what's planned next. We build in public and update this regularly.</p>
+      </div>
+    </div>
+    <div class="content" style="padding:5rem 5%;max-width:900px;margin:0 auto">
+      <div class="roadmap-timeline">
+
+        <!-- PHASE 1 -->
+        <div class="rm-phase reveal">
+          <div class="rm-left">
+            <div class="rm-phase-label">Phase 1</div>
+            <div class="rm-phase-period">Launch</div>
+          </div>
+          <div class="rm-dot-col"><div class="rm-dot done"></div></div>
+          <div class="rm-right">
+            <div class="rm-items">
+              <div class="rm-item done-item">
+                <div class="rm-item-header"><div class="rm-item-title">Initial Android Launch</div><span class="rm-status s-done">Shipped</span></div>
+                <div class="rm-item-desc">Evolvia goes live on the Google Play Store. Core features available: usage tracking, daily breakdown, goals.</div>
+              </div>
+              <div class="rm-item done-item">
+                <div class="rm-item-header"><div class="rm-item-title">Strict Mode</div><span class="rm-status s-done">Shipped</span></div>
+                <div class="rm-item-desc">Session-based app blocking. No override, no bypass — once you're in, you're in.</div>
+              </div>
+              <div class="rm-item done-item">
+                <div class="rm-item-header"><div class="rm-item-title">Streak Tracking</div><span class="rm-status s-done">Shipped</span></div>
+                <div class="rm-item-desc">Daily habit streaks that track consistency without shortcuts or grace periods.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHASE 2 -->
+        <div class="rm-phase reveal" style="transition-delay:.08s">
+          <div class="rm-left">
+            <div class="rm-phase-label">Phase 2</div>
+            <div class="rm-phase-period">Now</div>
+          </div>
+          <div class="rm-dot-col"><div class="rm-dot active"></div></div>
+          <div class="rm-right">
+            <div class="rm-items">
+              <div class="rm-item">
+                <div class="rm-item-header"><div class="rm-item-title">Locked Mode</div><span class="rm-status s-live">Live</span></div>
+                <div class="rm-item-desc">Full device restriction mode. Only approved apps remain accessible during a session. Built for deep work and study blocks.</div>
+              </div>
+              <div class="rm-item">
+                <div class="rm-item-header"><div class="rm-item-title">Weekly Trend Reports</div><span class="rm-status s-live">Live</span></div>
+                <div class="rm-item-desc">7-day and 30-day historical views of usage, focus time, and goal performance over time.</div>
+              </div>
+              <div class="rm-item">
+                <div class="rm-item-header"><div class="rm-item-title">Custom Block Lists (Pro)</div><span class="rm-status s-soon">In Progress</span></div>
+                <div class="rm-item-desc">Let users define exactly which apps get blocked per session — not a global setting, but configurable per focus type.</div>
+              </div>
+              <div class="rm-item">
+                <div class="rm-item-header"><div class="rm-item-title">Pro Subscription Launch</div><span class="rm-status s-soon">In Progress</span></div>
+                <div class="rm-item-desc">Monthly, annual, and lifetime pricing tiers. Free tier stays free — always.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHASE 3 -->
+        <div class="rm-phase reveal" style="transition-delay:.16s">
+          <div class="rm-left">
+            <div class="rm-phase-label">Phase 3</div>
+            <div class="rm-phase-period">Coming Next</div>
+          </div>
+          <div class="rm-dot-col"><div class="rm-dot upcoming"></div></div>
+          <div class="rm-right">
+            <div class="rm-items">
+              <div class="rm-item">
+                <div class="rm-item-header"><div class="rm-item-title">Focus Reminders</div><span class="rm-status s-planned">Planned</span></div>
+                <div class="rm-item-desc">Contextual nudges that trigger when your usage patterns suggest you've drifted from your goals — not a notification flood, just well-timed check-ins.</div>
+              </div>
+              <div class="rm-item">
+                <div class="rm-item-header"><div class="rm-item-title">Widget Support</div><span class="rm-status s-planned">Planned</span></div>
+                <div class="rm-item-desc">Home screen and lock screen widgets showing your daily stats, active streak, and current session status at a glance.</div>
+              </div>
+              <div class="rm-item">
+                <div class="rm-item-header"><div class="rm-item-title">iOS Launch</div><span class="rm-status s-planned">Planned</span></div>
+                <div class="rm-item-desc">Full feature parity with Android. Beta access for iOS will open to the waitlist before general availability. Join the beta program to get early access.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHASE 4 -->
+        <div class="rm-phase reveal" style="transition-delay:.24s">
+          <div class="rm-left">
+            <div class="rm-phase-label">Phase 4</div>
+            <div class="rm-phase-period">Horizon</div>
+          </div>
+          <div class="rm-dot-col"><div class="rm-dot upcoming"></div></div>
+          <div class="rm-right">
+            <div class="rm-items">
+              <div class="rm-item">
+                <div class="rm-item-header"><div class="rm-item-title">Shared Focus Rooms (Teams)</div><span class="rm-status s-planned">Planned</span></div>
+                <div class="rm-item-desc">Opt-in group focus sessions where teams can signal they're in a distraction-free block — no central dashboard, no monitoring, just shared intent.</div>
+              </div>
+              <div class="rm-item">
+                <div class="rm-item-header"><div class="rm-item-title">Deeper Calendar Integration</div><span class="rm-status s-planned">Planned</span></div>
+                <div class="rm-item-desc">Let Evolvia read your calendar to auto-schedule focus blocks around meetings, deadlines, and recurring commitments.</div>
+              </div>
+              <div class="rm-item">
+                <div class="rm-item-header"><div class="rm-item-title">Enterprise Tier</div><span class="rm-status s-planned">Planned</span></div>
+                <div class="rm-item-desc">Organization-level deployment tools, custom onboarding, and direct support for larger teams. Contact us if you're interested early.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:3rem;padding:1.8rem 2rem;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12);border-radius:12px;font-size:.88rem;color:var(--muted2);line-height:1.7;font-weight:300">
+        <strong style="color:var(--text)">Have a feature request?</strong> We read everything. Send us a message at <a href="mailto:feedback@evolvia-app.com" style="color:var(--gold);text-decoration:none">feedback@evolvia-app.com</a> or use the form on the <a href="help.html" style="color:var(--gold);text-decoration:none">Help page</a>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ CHANGELOG ══════════════════ -->
+  <div class="tab-section" id="sec-changelog">
+    <div class="sec-hero">
+      <div class="sec-hero-inner">
+        <div class="eyebrow"><span class="ey-line"></span><span class="ey-text">Changelog</span></div>
+        <h1 class="sec-title">What's changed,<br><em>and when.</em></h1>
+        <p class="sec-sub">A running log of every update we ship. We don't bury patch notes — if something changed, it's here.</p>
+      </div>
+    </div>
+    <div class="content" style="padding:5rem 5%;max-width:860px;margin:0 auto">
+      <div class="cl-entries">
+
+        <div class="cl-entry reveal">
+          <div class="cl-entry-head">
+            <div class="cl-version">v1.2</div>
+            <div>
+              <div style="font-weight:600;font-size:.9rem;margin-bottom:.15rem">Locked Mode & Trend Reports</div>
+              <div class="cl-date">June 2025</div>
+            </div>
+            <span class="cl-type-badge update">Update</span>
+          </div>
+          <div class="cl-entry-body">
+            <div class="cl-summary">Our biggest update since launch. Locked Mode is now live, alongside weekly and monthly trend reports for all users. Several stability fixes included.</div>
+            <ul class="cl-changes">
+              <li class="cl-change"><span class="cl-change-dot new"></span>Added Locked Mode — full device restriction with a user-defined allow list</li>
+              <li class="cl-change"><span class="cl-change-dot new"></span>Added 7-day and 30-day trend reports with visual breakdowns</li>
+              <li class="cl-change"><span class="cl-change-dot imp"></span>Improved session timer accuracy when screen turns off during Strict Mode</li>
+              <li class="cl-change"><span class="cl-change-dot fix"></span>Fixed an issue where streak count wouldn't update until app restart</li>
+              <li class="cl-change"><span class="cl-change-dot fix"></span>Fixed occasional layout shift on the daily breakdown screen</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cl-entry reveal" style="transition-delay:.07s">
+          <div class="cl-entry-head">
+            <div class="cl-version">v1.1</div>
+            <div>
+              <div style="font-weight:600;font-size:.9rem;margin-bottom:.15rem">Streak Fixes & Goal Improvements</div>
+              <div class="cl-date">May 2025</div>
+            </div>
+            <span class="cl-type-badge patch">Patch</span>
+          </div>
+          <div class="cl-entry-body">
+            <div class="cl-summary">A focused patch addressing the most common issues reported by our first wave of beta testers. Thank you for the detailed reports — they made this faster.</div>
+            <ul class="cl-changes">
+              <li class="cl-change"><span class="cl-change-dot imp"></span>Streak tracking now handles midnight timezone edge cases correctly</li>
+              <li class="cl-change"><span class="cl-change-dot imp"></span>Goal completion percentage now rounds correctly on summary screen</li>
+              <li class="cl-change"><span class="cl-change-dot fix"></span>Fixed a crash on older Android versions (9 and below) during app startup</li>
+              <li class="cl-change"><span class="cl-change-dot fix"></span>Fixed missing haptic feedback on session start/end buttons</li>
+              <li class="cl-change"><span class="cl-change-dot fix"></span>Corrected category labels appearing as "Unknown" for some system apps</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cl-entry reveal" style="transition-delay:.14s">
+          <div class="cl-entry-head">
+            <div class="cl-version">v1.0</div>
+            <div>
+              <div style="font-weight:600;font-size:.9rem;margin-bottom:.15rem">Initial Launch</div>
+              <div class="cl-date">April 2025</div>
+            </div>
+            <span class="cl-type-badge launch">Launch</span>
+          </div>
+          <div class="cl-entry-body">
+            <div class="cl-summary">Evolvia launches on Android. This is version one — not perfect, but solid. Core features are stable and we're listening closely for what needs to improve.</div>
+            <ul class="cl-changes">
+              <li class="cl-change"><span class="cl-change-dot new"></span>Usage tracking — per-app and per-category breakdown, updated daily</li>
+              <li class="cl-change"><span class="cl-change-dot new"></span>Strict Mode — session-based blocking with no override</li>
+              <li class="cl-change"><span class="cl-change-dot new"></span>Streak tracking — daily goal completion streaks</li>
+              <li class="cl-change"><span class="cl-change-dot new"></span>Personal goals — up to 3 active goals on the free tier</li>
+              <li class="cl-change"><span class="cl-change-dot new"></span>Focus score — a daily composite metric based on your goals and sessions</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ PRICING ══════════════════ -->
+  <div class="tab-section" id="sec-pricing">
+    <div class="sec-hero">
+      <div class="sec-hero-inner">
+        <div class="eyebrow"><span class="ey-line"></span><span class="ey-text">Pricing</span></div>
+        <h1 class="sec-title">Straightforward.<br><em>No surprises.</em></h1>
+        <p class="sec-sub">The free tier is genuinely free — no trial period, no feature hiding. Pro unlocks the full experience for those who want it.</p>
+      </div>
+    </div>
+    <div class="content" style="padding:5rem 5%;max-width:1100px;margin:0 auto">
+
+      <div class="pricing-grid reveal">
+
+        <!-- FREE -->
+        <div class="plan-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-price-wrap">
+            <div class="plan-price"><span class="currency">$</span>0</div>
+          </div>
+          <div class="plan-equiv">Always free. No card required.</div>
+          <div class="plan-desc">Everything you need to get started. Core tracking, Strict Mode, Locked Mode, and streaks — all at no cost.</div>
+          <ul class="plan-features">
+            <li class="pf"><span class="pf-check">✦</span>Daily usage breakdown</li>
+            <li class="pf"><span class="pf-check">✦</span>Strict Mode & Locked Mode</li>
+            <li class="pf"><span class="pf-check">✦</span>Streak tracking</li>
+            <li class="pf"><span class="pf-check">✦</span>Up to 3 personal goals</li>
+            <li class="pf"><span class="pf-check">✦</span>7-day history</li>
+            <li class="pf"><span class="pf-x">✕</span><span style="color:var(--muted)">Custom block lists</span></li>
+            <li class="pf"><span class="pf-x">✕</span><span style="color:var(--muted)">Full history & reports</span></li>
+            <li class="pf"><span class="pf-x">✕</span><span style="color:var(--muted)">Priority support</span></li>
+          </ul>
+          <a href="https://play.google.com/store" target="_blank"><button class="plan-btn plan-btn-outline">Download Free</button></a>
+        </div>
+
+        <!-- PRO MONTHLY -->
+        <div class="plan-card featured">
+          <div class="plan-badge">Most Popular</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-price-wrap">
+            <div class="plan-price"><span class="currency">$</span>4<span style="font-size:1.8rem">.99</span><span class="period">/ month</span></div>
+          </div>
+          <div class="plan-equiv">or <strong style="color:var(--gold)">$39.99/year</strong> — save 33% <span class="savings-tag">Best Value</span></div>
+          <div class="plan-desc">The complete Evolvia experience. Unlimited goals, full history, custom block lists, and direct access to our support team.</div>
+          <ul class="plan-features">
+            <li class="pf"><span class="pf-check">✦</span>Everything in Free</li>
+            <li class="pf"><span class="pf-check">✦</span>Unlimited personal goals</li>
+            <li class="pf"><span class="pf-check">✦</span>Full usage history (unlimited)</li>
+            <li class="pf"><span class="pf-check">✦</span>Weekly & monthly reports</li>
+            <li class="pf"><span class="pf-check">✦</span>Custom block lists per session</li>
+            <li class="pf"><span class="pf-check">✦</span>Focus reminders (when live)</li>
+            <li class="pf"><span class="pf-check">✦</span>Priority support</li>
+            <li class="pf"><span class="pf-check">✦</span>All future Pro features</li>
+          </ul>
+          <button class="plan-btn plan-btn-primary" onclick="window.location.href='https://play.google.com/store'">Get Pro — $4.99/mo</button>
+          <div class="plan-glow"></div>
+        </div>
+
+        <!-- LIFETIME -->
+        <div class="plan-card">
+          <div class="plan-name">Lifetime</div>
+          <div class="plan-price-wrap">
+            <div class="plan-price"><span class="currency">$</span>100</div>
+          </div>
+          <div class="plan-equiv">One payment. Pro forever.</div>
+          <div class="plan-desc">Pay once and own it. Every Pro feature, every future update — no recurring charges, no renewal reminders, ever.</div>
+          <ul class="plan-features">
+            <li class="pf"><span class="pf-check">✦</span>Everything in Pro</li>
+            <li class="pf"><span class="pf-check">✦</span>One-time payment</li>
+            <li class="pf"><span class="pf-check">✦</span>All future updates included</li>
+            <li class="pf"><span class="pf-check">✦</span>iOS access when it launches</li>
+            <li class="pf"><span class="pf-check">✦</span>Lifetime priority support</li>
+            <li class="pf"><span class="pf-check">✦</span>Early access to new features</li>
+            <li class="pf"><span class="pf-check">✦</span>Beta program access</li>
+            <li class="pf" style="opacity:.4"><span class="pf-x">—</span><span style="color:var(--muted)">No subscription. Ever.</span></li>
+          </ul>
+          <button class="plan-btn plan-btn-outline" onclick="window.location.href='https://play.google.com/store'">Get Lifetime — $100</button>
+        </div>
+
+      </div>
+
+      <!-- PRICING FAQ -->
+      <div class="pricing-faq reveal">
+        <div class="pricing-faq-title">Common questions about pricing</div>
+        <div class="pfaq-grid">
+          <div><div class="pfaq-q">Can I try Pro before paying?</div><div class="pfaq-a">Yes — we offer a 7-day free trial on monthly and annual plans. No charge until the trial ends, and you can cancel anytime before then.</div></div>
+          <div><div class="pfaq-q">What happens if I cancel Pro?</div><div class="pfaq-a">Your account drops to the free tier at the end of your billing period. Your data is retained — you just lose access to Pro-only features.</div></div>
+          <div><div class="pfaq-q">Does the Lifetime plan include iOS?</div><div class="pfaq-a">Yes. Lifetime access covers both Android and iOS (when it launches) under the same purchase — no additional payment needed.</div></div>
+          <div><div class="pfaq-q">Do you offer refunds?</div><div class="pfaq-a">Yes, on a case-by-case basis. Email us at <a href="mailto:support@evolvia-app.com" style="color:var(--gold)">support@evolvia-app.com</a> with your order details and we'll review it promptly.</div></div>
+          <div><div class="pfaq-q">Is there a student or team discount?</div><div class="pfaq-a">We're working on it. If you're interested in discounted access for a school or organization, reach out directly and we'll see what we can do.</div></div>
+          <div><div class="pfaq-q">What payment methods are accepted?</div><div class="pfaq-a">Payments are processed through the Google Play Store. All major credit and debit cards, as well as Google Pay, are supported.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════ BETA ══════════════════ -->
+  <div class="tab-section" id="sec-beta">
+    <div class="sec-hero">
+      <div class="sec-hero-inner">
+        <div class="eyebrow"><span class="ey-line"></span><span class="ey-text">Beta Program</span></div>
+        <h1 class="sec-title">Help us build<br><em>what's next.</em></h1>
+        <p class="sec-sub">Beta testers get early access to features before they ship publicly. In return, we ask for honest, direct feedback — the kind that actually shapes what gets built.</p>
+      </div>
+    </div>
+    <div class="content" style="padding:5rem 5%;max-width:1000px;margin:0 auto">
+
+      <div class="beta-hero-card reveal">
+        <div class="bhc-inner">
+          <div>
+            <div class="bhc-title">Why Join the Beta?</div>
+            <div class="bhc-desc">Evolvia is an early product. The people who join the beta program aren't just testing software — they're deciding what it becomes. Every report, suggestion, and piece of feedback from our beta testers has directly influenced what we build next. If you want a say in how this app evolves, this is how you get it.</div>
+          </div>
+          <div class="bhc-stat">
+            <div class="bhc-num">Beta</div>
+            <div class="bhc-label">Applications Open</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-label reveal"><span class="sl-line"></span><span class="sl-text">What Beta Testers Get</span></div>
+      <div class="beta-perks reveal" style="transition-delay:.06s">
+        <div class="bp-card">
+          <div class="bp-icon">⚡</div>
+          <div class="bp-title">Early Feature Access</div>
+          <div class="bp-desc">Test new features — including iOS, custom block lists, and focus reminders — before they go live for everyone else.</div>
+        </div>
+        <div class="bp-card">
+          <div class="bp-icon">💬</div>
+          <div class="bp-title">Direct Line to the Team</div>
+          <div class="bp-desc">A dedicated channel to share feedback, report bugs, and ask questions. Your reports go straight to the people building the app.</div>
+        </div>
+        <div class="bp-card">
+          <div class="bp-icon">🎁</div>
+          <div class="bp-title">Free Pro Access</div>
+          <div class="bp-desc">All active beta testers get Pro features for free while they're in the program. No charge, no expiry — as long as you're contributing.</div>
+        </div>
+        <div class="bp-card">
+          <div class="bp-icon">📱</div>
+          <div class="bp-title">iOS Beta Priority</div>
+          <div class="bp-desc">When iOS enters testing, current Android beta testers are first on the list. You won't have to join a new waitlist.</div>
+        </div>
+        <div class="bp-card">
+          <div class="bp-icon">🏅</div>
+          <div class="bp-title">Founding Tester Credit</div>
+          <div class="bp-desc">Beta testers from this early period will be recognized in the app when it reaches broader release. Small thing, but it's real.</div>
+        </div>
+        <div class="bp-card">
+          <div class="bp-icon">🗺</div>
+          <div class="bp-title">Roadmap Input</div>
+          <div class="bp-desc">Beta testers vote on what gets prioritized next. Your feedback directly influences the order features get built.</div>
+        </div>
+      </div>
+
+      <div class="s-label reveal"><span class="sl-line"></span><span class="sl-text">Apply to Join</span></div>
+      <div class="beta-form-wrap reveal" style="transition-delay:.06s">
+        <div class="bf-title">Beta Application</div>
+        <div class="bf-sub">Fill in the form below and we'll review your application. We accept testers on a rolling basis — most applicants hear back within a week. All device types and experience levels welcome.</div>
+
+        <div id="betaFormInner">
+          <div class="beta-form">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input class="form-input" type="text" id="b-fname" placeholder="Your first name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input class="form-input" type="text" id="b-lname" placeholder="Your last name">
+            </div>
+            <div class="form-group bf-full">
+              <label class="form-label">Email Address</label>
+              <input class="form-input" type="email" id="b-email" placeholder="The email we'll use to contact you">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Android Device</label>
+              <input class="form-input" type="text" id="b-device" placeholder="e.g. Samsung Galaxy S22">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Android Version</label>
+              <input class="form-input" type="text" id="b-android" placeholder="e.g. Android 13">
+            </div>
+            <div class="form-group bf-full">
+              <label class="form-label">How do you currently manage your screen time?</label>
+              <select class="form-select" id="b-current">
+                <option value="" disabled selected>Select an option</option>
+                <option>I don't — that's why I'm here</option>
+                <option>Built-in Android Digital Wellbeing</option>
+                <option>Another third-party app</option>
+                <option>Manual discipline / willpower</option>
+                <option>I already use Evolvia</option>
+              </select>
+            </div>
+            <div class="form-group bf-full">
+              <label class="form-label">What would you most like to test or improve in Evolvia?</label>
+              <textarea class="form-textarea" id="b-focus" placeholder="Be as specific as you'd like. Bug reports, feature gaps, UX ideas — all of it is useful."></textarea>
+            </div>
+            <button class="submit-btn" onclick="submitBeta()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m22 2-11 11M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+              Submit Application
+            </button>
+            <div class="form-note">We'll follow up at the email address above. Applications are reviewed by a real person — usually within 3–7 days.<br>Questions? <a href="mailto:support@evolvia-app.com">support@evolvia-app.com</a></div>
+          </div>
+        </div>
+
+        <div class="success-msg" id="betaSuccess">
+          <div class="success-icon">🎉</div>
+          <div class="success-title">Application Received</div>
+          <div class="success-sub">Thanks for applying to the Evolvia Beta Program. We'll review your application and be in touch within 3–7 days.<br><br>In the meantime, make sure you have Evolvia downloaded from the Google Play Store.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end .page -->
+
+<footer>
+  <div class="footer-bottom">
+    <span>© 2025 Evolvia. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Refund Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar)})();
+document.querySelectorAll('a,button,.fbig,.rm-item,.cl-entry,.plan-card,.bp-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(201,168,76,.8)'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(201,168,76,.5)'});
+});
+
+// TAB SWITCHING
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  btn.classList.add('active');
+  btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  window.scrollTo({top:72,behavior:'smooth'});
+}
+function switchTabById(id){
+  const btn=document.querySelector(`.tab-btn[onclick*="${id}"]`);
+  if(btn) switchTab(id,btn);
+}
+
+// URL hash routing — so product.html#pricing goes straight to pricing
+window.addEventListener('DOMContentLoaded',()=>{
+  const hash=window.location.hash.replace('#','');
+  const valid=['features','roadmap','changelog','pricing','beta'];
+  if(valid.includes(hash)){
+    const btn=document.querySelector(`.tab-btn[onclick*="${hash}"]`);
+    if(btn) switchTab(hash,btn);
+  }
+});
+
+// BETA SUBMIT
+function submitBeta(){
+  const email=document.getElementById('b-email').value.trim();
+  const fname=document.getElementById('b-fname').value.trim();
+  const lname=document.getElementById('b-lname').value.trim();
+  const device=document.getElementById('b-device').value.trim();
+  const android=document.getElementById('b-android').value.trim();
+  const current=document.getElementById('b-current').value;
+  const focus=document.getElementById('b-focus').value.trim();
+  if(!email){document.getElementById('b-email').style.borderColor='rgba(255,100,80,.5)';setTimeout(()=>document.getElementById('b-email').style.borderColor='',2000);return}
+  const body=`Beta Application\n\nName: ${fname} ${lname}\nEmail: ${email}\nDevice: ${device||'Not provided'}\nAndroid Version: ${android||'Not provided'}\nCurrent Screen Time Method: ${current||'Not selected'}\n\nWhat they want to test:\n${focus||'Not provided'}`;
+  window.location.href=`mailto:support@evolvia-app.com?subject=${encodeURIComponent('Evolvia Beta Application — '+fname+' '+lname)}&body=${encodeURIComponent(body)}`;
+  setTimeout(()=>{
+    document.getElementById('betaFormInner').style.display='none';
+    document.getElementById('betaSuccess').classList.add('show');
+  },800);
+}
+
+// NEURAL CANVAS
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[],mouse={x:-9999,y:-9999},mvx=0,mvy=0,lmx=0,lmy=0,clicks=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',()=>{resize();init()});
+document.addEventListener('mousemove',e=>{mvx=e.clientX-lmx;mvy=e.clientY-lmy;lmx=mouse.x=e.clientX;lmy=mouse.y=e.clientY});
+document.addEventListener('click',e=>{clicks.push({x:e.clientX,y:e.clientY,r:0,life:1})});
+class Particle{
+  constructor(){this.reset(true)}
+  reset(r){
+    this.x=r?Math.random()*W:(Math.random()>0.5?Math.random()*W:(Math.random()<0.5?-5:W+5));
+    this.y=r?Math.random()*H:(Math.random()>0.5?Math.random()*H:(Math.random()<0.5?-5:H+5));
+    this.vx=(Math.random()-.5)*.5;this.vy=(Math.random()-.5)*.5;
+    this.rad=Math.random()*1.6+.4;
+    const t=Math.random();this.color=t<.55?'201,168,76':t<.75?'240,208,128':t<.9?'138,104,32':'255,240,200';
+    this.alpha=Math.random()*.5+.1;this.tw=Math.random()*Math.PI*2;this.tws=Math.random()*.04+.01;
+  }
+  update(){
+    this.tw+=this.tws;this.x+=this.vx;this.y+=this.vy;
+    const dx=this.x-mouse.x,dy=this.y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<170&&d>0){const f=(170-d)/170,sp=Math.sqrt(mvx*mvx+mvy*mvy),b=Math.min(sp*.04,2);this.vx+=(dx/d)*f*(.5+b);this.vy+=(dy/d)*f*(.5+b)}
+    clicks.forEach(c=>{const cdx=c.x-this.x,cdy=c.y-this.y,cd=Math.sqrt(cdx*cdx+cdy*cdy);if(cd<270&&cd>0){const f=(270-cd)/270*2*c.life;this.vx+=(cdx/cd)*f*.5;this.vy+=(cdy/cd)*f*.5}});
+    this.vx*=.991;this.vy*=.991;
+    if(this.x<-20||this.x>W+20||this.y<-20||this.y>H+20)this.reset(false);
+  }
+  draw(){
+    const a=this.alpha*(.7+.3*Math.sin(this.tw));
+    ctx.beginPath();ctx.arc(this.x,this.y,this.rad,0,Math.PI*2);ctx.fillStyle=`rgba(${this.color},${a})`;ctx.fill();
+    if(this.alpha>.38){ctx.beginPath();ctx.arc(this.x,this.y,this.rad*3,0,Math.PI*2);ctx.fillStyle=`rgba(${this.color},${a*.07})`;ctx.fill()}
+  }
+}
+class Spark{
+  constructor(x,y,vx,vy){this.x=x;this.y=y;this.vx=vx*(Math.random()*2.5+.5)+(Math.random()-.5)*4;this.vy=vy*(Math.random()*2.5+.5)+(Math.random()-.5)*4;this.life=1;this.decay=Math.random()*.07+.04;this.r=Math.random()*2+.5}
+  update(){this.x+=this.vx;this.y+=this.vy;this.vx*=.93;this.vy*=.93;this.life-=this.decay}
+  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${this.life*.8})`;ctx.fill()}
+}
+let sparks=[];
+document.addEventListener('mousemove',e=>{const sp=Math.sqrt(mvx*mvx+mvy*mvy);if(sp>9)for(let i=0;i<Math.min(Math.floor(sp/4),5);i++)sparks.push(new Spark(e.clientX,e.clientY,mvx*.1,mvy*.1))});
+document.addEventListener('click',e=>{for(let i=0;i<14;i++)sparks.push(new Spark(e.clientX,e.clientY,(Math.random()-.5)*8,(Math.random()-.5)*8))});
+function init(){particles=Array.from({length:Math.min(Math.floor(W*H/8000),160)},()=>new Particle())}
+function drawConns(){
+  const maxD=130;
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d2=dx*dx+dy*dy;if(d2<maxD*maxD){const d=Math.sqrt(d2);ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(201,168,76,${(1-d/maxD)*.12})`;ctx.lineWidth=.6;ctx.stroke()}}
+    const dx=particles[i].x-mouse.x,dy=particles[i].y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<190&&d>0){const a=(1-d/190)*.5,gr=ctx.createLinearGradient(particles[i].x,particles[i].y,mouse.x,mouse.y);gr.addColorStop(0,`rgba(201,168,76,${a})`);gr.addColorStop(1,`rgba(240,208,128,${a*.3})`);ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=gr;ctx.lineWidth=.85;ctx.stroke()}
+  }
+}
+function drawRipples(){clicks=clicks.filter(c=>c.life>0);clicks.forEach(c=>{c.r+=8;c.life-=.025;ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.strokeStyle=`rgba(201,168,76,${c.life*.45})`;ctx.lineWidth=1.5;ctx.stroke();if(c.r>60){ctx.beginPath();ctx.arc(c.x,c.y,c.r*1.4,0,Math.PI*2);ctx.strokeStyle=`rgba(240,208,128,${c.life*.18})`;ctx.lineWidth=.8;ctx.stroke()}})}
+function drawGlow(){if(mouse.x<0)return;const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,130);g.addColorStop(0,'rgba(201,168,76,0.06)');g.addColorStop(1,'rgba(201,168,76,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
+function loop(){ctx.clearRect(0,0,W,H);drawGlow();drawConns();drawRipples();particles.forEach(p=>{p.update();p.draw()});sparks=sparks.filter(s=>s.life>0);sparks.forEach(s=>{s.update();s.draw()});requestAnimationFrame(loop)}
+init();loop();
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
