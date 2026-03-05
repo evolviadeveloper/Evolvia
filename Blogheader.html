@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company — Evolvia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060606;--bg2:#0a0a0a;--surface:#111;--surface2:#161616;
+  --gold:#c9a84c;--gold2:#f0d080;--gold3:#8a6820;
+  --text:#f0ece0;--muted:#6b6455;--muted2:#9a8f7a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;cursor:none;min-height:100vh}
+
+#cur{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cur-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,168,76,.5);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");z-index:1;pointer-events:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:72px;background:rgba(6,6,6,.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(201,168,76,.1)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.65rem;letter-spacing:.06em;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;text-decoration:none}
+.nav-links{display:flex;gap:2.4rem;list-style:none;align-items:center}
+.nav-links a{color:var(--muted2);text-decoration:none;font-size:.84rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .28s ease}
+.nav-links a:hover{color:var(--gold2)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a.active{color:var(--gold)}
+.nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold)!important;padding:.42rem 1.3rem;border-radius:3px;font-weight:500!important;letter-spacing:.12em!important;transition:all .25s!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--gold)!important;color:#000!important}
+
+/* PAGE */
+.page{position:relative;z-index:2;padding-top:72px}
+
+/* TAB NAV */
+.tab-nav-wrap{position:sticky;top:72px;z-index:100;background:rgba(6,6,6,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,.08)}
+.tab-nav{display:flex;max-width:1100px;margin:0 auto;padding:0 5%;overflow-x:auto;scrollbar-width:none}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{flex:0 0 auto;background:none;border:none;color:var(--muted2);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;padding:1.1rem 1.6rem;cursor:pointer;position:relative;transition:color .22s;white-space:nowrap}
+.tab-btn::after{content:'';position:absolute;bottom:0;left:1.6rem;right:1.6rem;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:center;transition:transform .28s ease}
+.tab-btn:hover{color:var(--gold2)}
+.tab-btn.active{color:var(--gold)}
+.tab-btn.active::after{transform:scaleX(1)}
+
+/* SECTION SHELL */
+.tab-section{display:none;animation:fadeIn .4s ease both}
+.tab-section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+.sec-hero{padding:5.5rem 5% 4.5rem;border-bottom:1px solid rgba(201,168,76,.07);position:relative;overflow:hidden}
+.sec-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 80% at 50% 100%,rgba(201,168,76,.055),transparent 70%);pointer-events:none}
+.sec-hero-inner{max-width:700px}
+.eyebrow{display:inline-flex;align-items:center;gap:.65rem;margin-bottom:1.4rem}
+.ey-line{width:26px;height:1px;background:var(--gold);opacity:.55}
+.ey-text{font-size:.68rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.8}
+.sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.6rem,4.5vw,4.2rem);line-height:1.07;letter-spacing:-.01em;margin-bottom:1.2rem}
+.sec-title em{font-style:italic;color:var(--gold)}
+.sec-sub{font-size:.98rem;color:var(--muted2);line-height:1.82;font-weight:300;max-width:520px}
+
+.s-label{display:flex;align-items:center;gap:.6rem;margin-bottom:1.6rem}
+.sl-line{width:22px;height:1px;background:var(--gold);opacity:.5}
+.sl-text{font-size:.66rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.7}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ══════════════════════════════════
+   ABOUT
+══════════════════════════════════ */
+#sec-about .content{padding:5rem 5%;max-width:1100px;margin:0 auto}
+
+.about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:6rem;align-items:start;margin-bottom:6rem}
+.about-text p{font-size:.96rem;color:var(--muted2);line-height:1.88;font-weight:300;margin-bottom:1.3rem}
+.about-text p:last-child{margin-bottom:0}
+.about-text strong{color:var(--text);font-weight:500}
+
+.about-values{display:flex;flex-direction:column;gap:1rem}
+.av-card{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.09);border-radius:12px;padding:1.5rem 1.6rem;transition:border-color .25s,background .25s,transform .25s}
+.av-card:hover{border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.055);transform:translateX(5px)}
+.av-title{font-weight:600;font-size:.9rem;margin-bottom:.35rem;display:flex;align-items:center;gap:.6rem}
+.av-icon{font-size:1rem}
+.av-desc{font-size:.82rem;color:var(--muted2);line-height:1.65;font-weight:300}
+
+.about-team-label{margin-bottom:2rem}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;margin-bottom:5rem}
+.tm{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);border-radius:14px;padding:2rem 1.6rem;text-align:center;transition:border-color .25s,transform .25s,background .25s}
+.tm:hover{border-color:rgba(201,168,76,.2);transform:translateY(-5px);background:rgba(201,168,76,.05)}
+.tm-av{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--gold3),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:#000;margin:0 auto 1rem}
+.tm-name{font-weight:600;font-size:.9rem;margin-bottom:.2rem}
+.tm-role{font-size:.75rem;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem;opacity:.8}
+.tm-bio{font-size:.78rem;color:var(--muted2);line-height:1.6;font-weight:300}
+
+.about-mission{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12);border-radius:16px;padding:3rem 3.5rem;position:relative;overflow:hidden;text-align:center}
+.about-mission::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5}
+.am-quote{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;font-style:italic;line-height:1.65;color:var(--text);max-width:680px;margin:0 auto}
+.am-source{margin-top:1.4rem;font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+/* ══════════════════════════════════
+   CAREERS
+══════════════════════════════════ */
+#sec-careers .content{padding:5rem 5%;max-width:1000px;margin:0 auto}
+
+.careers-notice{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.14);border-radius:14px;padding:2.2rem 2.6rem;margin-bottom:4rem;position:relative;overflow:hidden}
+.careers-notice::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.45}
+.cn-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--gold);margin-bottom:.7rem}
+.cn-text{font-size:.9rem;color:var(--muted2);line-height:1.8;font-weight:300}
+.cn-text strong{color:var(--text);font-weight:500}
+.cn-text a{color:var(--gold);text-decoration:none}
+.cn-text a:hover{color:var(--gold2)}
+
+.careers-solo{display:grid;grid-template-columns:auto 1fr;gap:2.4rem;align-items:start;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.13);border-radius:14px;padding:2.6rem 2.8rem;margin-bottom:4rem;position:relative;overflow:hidden}
+.careers-solo::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.45}
+.cs-icon{font-size:2.4rem;flex-shrink:0;margin-top:.2rem}
+.cs-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--text);margin-bottom:.9rem}
+.cs-text p{font-size:.9rem;color:var(--muted2);line-height:1.82;font-weight:300;margin-bottom:.85rem}
+.cs-text p:last-child{margin-bottom:0}
+.cs-text strong{color:var(--text);font-weight:500}
+
+.now-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:4rem}
+.now-card{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);border-radius:12px;padding:1.8rem 1.6rem;transition:border-color .25s,transform .25s,background .25s;display:flex;flex-direction:column}
+.now-card:hover{border-color:rgba(201,168,76,.2);transform:translateY(-4px);background:rgba(201,168,76,.055)}
+.now-icon{font-size:1.6rem;margin-bottom:.9rem}
+.now-title{font-weight:600;font-size:.92rem;margin-bottom:.45rem}
+.now-desc{font-size:.82rem;color:var(--muted2);line-height:1.65;font-weight:300;flex:1;margin-bottom:1rem}
+.now-link{font-size:.78rem;font-weight:600;color:var(--gold);text-decoration:none;letter-spacing:.03em;transition:color .2s}
+.now-link:hover{color:var(--gold2)}
+
+.careers-future{background:var(--surface);border:1px solid rgba(201,168,76,.09);border-radius:14px;padding:3rem;text-align:center;margin-bottom:2rem}
+.cf-label{font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:.7rem}
+.cf-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;margin-bottom:.7rem}
+.cf-sub{font-size:.88rem;color:var(--muted2);font-weight:300;line-height:1.72;margin-bottom:1.8rem;max-width:440px;margin-left:auto;margin-right:auto}
+.cf-btn{display:inline-flex;align-items:center;padding:.82rem 2rem;border-radius:8px;background:linear-gradient(135deg,var(--gold3),var(--gold));color:#000;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;text-decoration:none;letter-spacing:.06em;transition:box-shadow .2s,transform .2s}
+.cf-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,168,76,.3)}
+
+.culture-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:4rem}
+.cg-card{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);border-radius:12px;padding:1.8rem 1.6rem;transition:border-color .25s,transform .25s,background .25s}
+.cg-card:hover{border-color:rgba(201,168,76,.2);transform:translateY(-4px);background:rgba(201,168,76,.055)}
+.cg-icon{font-size:1.6rem;margin-bottom:.9rem}
+.cg-title{font-weight:600;font-size:.9rem;margin-bottom:.45rem}
+.cg-desc{font-size:.82rem;color:var(--muted2);line-height:1.65;font-weight:300}
+
+.job-list{display:flex;flex-direction:column;gap:.9rem;margin-bottom:4rem}
+.job-card{background:var(--surface);border:1px solid rgba(201,168,76,.09);border-radius:12px;padding:1.6rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:2rem;transition:border-color .25s,background .25s,transform .2s}
+.job-card:hover{border-color:rgba(201,168,76,.22);background:rgba(201,168,76,.03);transform:translateX(4px)}
+.job-info{}
+.job-title{font-weight:600;font-size:.95rem;margin-bottom:.3rem}
+.job-meta{display:flex;gap:.8rem;flex-wrap:wrap}
+.job-tag{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .7rem;border-radius:4px;background:rgba(201,168,76,.07);color:var(--gold);border:1px solid rgba(201,168,76,.15)}
+.job-tag.remote{background:rgba(0,220,130,.07);color:#00dc82;border-color:rgba(0,220,130,.18)}
+.job-tag.parttime{background:rgba(100,180,255,.07);color:#64b4ff;border-color:rgba(100,180,255,.18)}
+.job-apply{flex-shrink:0;padding:.6rem 1.4rem;border-radius:6px;background:transparent;border:1px solid rgba(201,168,76,.25);color:var(--gold);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:500;letter-spacing:.06em;cursor:pointer;transition:all .22s;white-space:nowrap}
+.job-apply:hover{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.5)}
+.job-desc{font-size:.83rem;color:var(--muted2);font-weight:300;line-height:1.6;margin-top:.5rem}
+
+.careers-cta{background:var(--surface);border:1px solid rgba(201,168,76,.09);border-radius:14px;padding:2.4rem 2.8rem;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+.careers-cta-text{}
+.cct-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;margin-bottom:.4rem}
+.cct-sub{font-size:.86rem;color:var(--muted2);font-weight:300}
+.cct-btn{flex-shrink:0;padding:.85rem 2rem;border-radius:8px;background:linear-gradient(135deg,var(--gold3),var(--gold));color:#000;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;letter-spacing:.06em;border:none;cursor:pointer;transition:box-shadow .22s,transform .22s;white-space:nowrap;text-decoration:none;display:inline-block}
+.cct-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,168,76,.3)}
+
+/* ══════════════════════════════════
+   PRESS
+══════════════════════════════════ */
+#sec-press .content{padding:5rem 5%;max-width:1000px;margin:0 auto}
+
+.press-intro{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12);border-radius:14px;padding:2.4rem 2.8rem;margin-bottom:4rem;position:relative;overflow:hidden}
+.press-intro::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.45}
+.press-intro p{font-size:.92rem;color:var(--muted2);line-height:1.8;font-weight:300;margin-bottom:.8rem}
+.press-intro p:last-child{margin-bottom:0}
+.press-intro a{color:var(--gold);text-decoration:none}
+.press-intro a:hover{color:var(--gold2)}
+.press-intro strong{color:var(--text);font-weight:500}
+
+.press-kit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:4.5rem}
+.pk-card{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.09);border-radius:12px;padding:1.8rem 1.6rem;text-align:center;transition:border-color .25s,transform .25s,background .25s;cursor:pointer}
+.pk-card:hover{border-color:rgba(201,168,76,.22);transform:translateY(-4px);background:rgba(201,168,76,.055)}
+.pk-icon{font-size:2rem;margin-bottom:.9rem}
+.pk-title{font-weight:600;font-size:.9rem;margin-bottom:.4rem}
+.pk-desc{font-size:.8rem;color:var(--muted2);line-height:1.6;font-weight:300;margin-bottom:.9rem}
+.pk-action{font-size:.72rem;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
+
+.press-coverage{margin-bottom:4.5rem}
+.coverage-empty{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);border-radius:12px;padding:3rem 2rem;text-align:center}
+.coverage-empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:.4}
+.coverage-empty-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--gold);margin-bottom:.6rem}
+.coverage-empty-sub{font-size:.86rem;color:var(--muted2);font-weight:300;line-height:1.7;max-width:420px;margin:0 auto}
+
+.press-contact{background:var(--surface);border:1px solid rgba(201,168,76,.09);border-radius:14px;padding:2.4rem 2.8rem}
+.pc-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;margin-bottom:.6rem}
+.pc-sub{font-size:.88rem;color:var(--muted2);font-weight:300;line-height:1.7;margin-bottom:1.6rem}
+.pc-email{display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 1.8rem;border-radius:8px;background:linear-gradient(135deg,var(--gold3),var(--gold));color:#000;font-weight:600;font-size:.88rem;text-decoration:none;letter-spacing:.04em;transition:box-shadow .2s,transform .2s}
+.pc-email:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,168,76,.3)}
+
+/* ══════════════════════════════════
+   BLOG
+══════════════════════════════════ */
+#sec-blog .content{padding:5rem 5%;max-width:1100px;margin:0 auto}
+
+.blog-featured{display:grid;grid-template-columns:1.4fr 1fr;gap:2rem;margin-bottom:3.5rem}
+.blog-card{background:var(--surface);border:1px solid rgba(201,168,76,.09);border-radius:14px;overflow:hidden;transition:border-color .25s,transform .25s;cursor:pointer;text-decoration:none;display:block}
+.blog-card:hover{border-color:rgba(201,168,76,.22);transform:translateY(-5px)}
+.blog-card-img{width:100%;aspect-ratio:16/8;background:linear-gradient(135deg,var(--bg2),var(--surface2));display:flex;align-items:center;justify-content:center;font-size:3rem;border-bottom:1px solid rgba(201,168,76,.07);position:relative;overflow:hidden}
+.blog-card-img::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 40%,rgba(201,168,76,.06),transparent)}
+.blog-card-body{padding:1.8rem 2rem}
+.blog-cat{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+.blog-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;line-height:1.25;margin-bottom:.7rem;color:var(--text)}
+.blog-title.sm{font-size:1.1rem}
+.blog-excerpt{font-size:.84rem;color:var(--muted2);line-height:1.7;font-weight:300;margin-bottom:1.2rem}
+.blog-meta{display:flex;align-items:center;gap:.8rem;font-size:.72rem;color:var(--muted)}
+.blog-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--gold3),var(--gold));display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#000;flex-shrink:0}
+.blog-dot{width:3px;height:3px;border-radius:50%;background:var(--muted);opacity:.5}
+
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:3.5rem}
+.blog-card.sm .blog-card-img{aspect-ratio:16/7}
+
+.blog-cats{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2.4rem}
+.bcat{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.12);border-radius:20px;padding:.35rem 1rem;font-size:.72rem;font-weight:500;color:var(--muted2);cursor:pointer;transition:all .22s;letter-spacing:.03em}
+.bcat:hover,.bcat.active{background:rgba(201,168,76,.14);border-color:rgba(201,168,76,.3);color:var(--gold)}
+
+.blog-empty-note{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);border-radius:12px;padding:2.5rem;text-align:center}
+.ben-icon{font-size:2rem;margin-bottom:.8rem;opacity:.5}
+.ben-text{font-size:.88rem;color:var(--muted2);font-weight:300;line-height:1.7}
+
+.blog-newsletter{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.14);border-radius:16px;padding:3rem;text-align:center;position:relative;overflow:hidden}
+.blog-newsletter::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5}
+.bn-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;margin-bottom:.8rem}
+.bn-title em{font-style:italic;color:var(--gold)}
+.bn-sub{font-size:.9rem;color:var(--muted2);font-weight:300;margin-bottom:2rem}
+.bn-form{display:flex;gap:.8rem;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.bn-input{flex:1;min-width:200px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:.82rem 1.2rem;color:var(--text);font-family:'Outfit',sans-serif;font-size:.88rem;outline:none;transition:border-color .22s,box-shadow .22s}
+.bn-input::placeholder{color:var(--muted);opacity:.6}
+.bn-input:focus{border-color:rgba(201,168,76,.45);box-shadow:0 0 0 3px rgba(201,168,76,.07)}
+.bn-btn{padding:.82rem 1.8rem;border-radius:8px;background:linear-gradient(135deg,var(--gold3),var(--gold));color:#000;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;border:none;cursor:pointer;transition:box-shadow .2s,transform .2s;white-space:nowrap}
+.bn-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,.3)}
+.bn-note{font-size:.72rem;color:var(--muted);margin-top:.9rem}
+
+/* ══════════════════════════════════
+   PARTNERS
+══════════════════════════════════ */
+#sec-partners .content{padding:5rem 5%;max-width:1000px;margin:0 auto}
+
+.partners-intro{font-size:.96rem;color:var(--muted2);line-height:1.85;font-weight:300;max-width:620px;margin-bottom:4rem}
+.partners-intro strong{color:var(--text);font-weight:500}
+
+.partner-tiers{display:flex;flex-direction:column;gap:3.5rem;margin-bottom:4.5rem}
+.ptier-label{display:flex;align-items:center;gap:.6rem;margin-bottom:1.4rem}
+.pt-line{width:22px;height:1px;opacity:.5;background:var(--gold)}
+.pt-text{font-size:.66rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;opacity:.7;color:var(--gold)}
+.ptier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+
+.partner-card{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.09);border-radius:14px;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.8rem;transition:border-color .25s,transform .25s,background .25s;position:relative;overflow:hidden}
+.partner-card:hover{border-color:rgba(201,168,76,.2);transform:translateY(-4px);background:rgba(201,168,76,.05)}
+.partner-card.open{border-style:dashed;border-color:rgba(201,168,76,.2)}
+.pc-logo-wrap{width:60px;height:60px;border-radius:14px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;font-size:1.6rem}
+.pc-name{font-weight:600;font-size:.9rem}
+.pc-type{font-size:.68rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.pc-desc{font-size:.8rem;color:var(--muted2);line-height:1.6;font-weight:300}
+.pc-open-badge{position:absolute;top:1rem;right:1rem;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:.2rem .6rem}
+
+.become-partner{background:var(--surface);border:1px solid rgba(201,168,76,.09);border-radius:16px;overflow:hidden}
+.bp-top{padding:2.8rem 3rem;border-bottom:1px solid rgba(201,168,76,.07);display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center}
+.bp-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;margin-bottom:.7rem}
+.bp-title em{font-style:italic;color:var(--gold)}
+.bp-desc{font-size:.9rem;color:var(--muted2);font-weight:300;line-height:1.75}
+.bp-badge-stack{display:flex;flex-direction:column;gap:.6rem;flex-shrink:0}
+.bpb{font-size:.72rem;font-weight:500;color:var(--muted2);background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.1);border-radius:6px;padding:.4rem 1rem;white-space:nowrap;text-align:center}
+.bp-form{padding:2.4rem 3rem}
+.bp-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.bpf-full{grid-column:1/-1}
+.form-group{display:flex;flex-direction:column;gap:.5rem}
+.form-label{font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2)}
+.form-input,.form-select,.form-textarea{background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:.82rem 1.1rem;color:var(--text);font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:300;outline:none;transition:border-color .22s,box-shadow .22s;width:100%;-webkit-appearance:none}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);opacity:.55}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(201,168,76,.45);box-shadow:0 0 0 3px rgba(201,168,76,.07)}
+.form-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a84c' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+.form-select option{background:#111;color:var(--text)}
+.form-textarea{resize:vertical;min-height:110px;line-height:1.65}
+.bp-submit{grid-column:1/-1;padding:1rem;border-radius:8px;border:none;background:linear-gradient(135deg,var(--gold3),var(--gold));color:#000;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:600;letter-spacing:.06em;cursor:pointer;transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:.6rem}
+.bp-submit:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,168,76,.3)}
+.bp-submit-note{grid-column:1/-1;font-size:.72rem;color:var(--muted);text-align:center}
+.bp-submit-note a{color:var(--gold);text-decoration:none}
+
+/* SUCCESS */
+.success-msg{display:none;text-align:center;padding:2.5rem 1rem}
+.success-msg.show{display:block}
+.success-icon{font-size:2.8rem;margin-bottom:1rem}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--gold);margin-bottom:.7rem}
+.success-sub{font-size:.9rem;color:var(--muted2);font-weight:300;line-height:1.7}
+
+/* FOOTER */
+footer{position:relative;z-index:2;background:rgba(4,4,3,.98);border-top:1px solid rgba(201,168,76,.1);padding:3rem 5% 2rem}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;color:var(--muted);font-size:.8rem}
+.footer-bottom a{color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-bottom a:hover{color:var(--gold)}
+.footer-links{display:flex;gap:1.6rem}
+
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .founder-card{grid-template-columns:1fr;gap:2rem}
+  .now-grid{grid-template-columns:1fr 1fr}
+  .careers-solo{grid-template-columns:1fr}
+  .culture-grid,.press-kit-grid,.ptier-grid,.blog-grid{grid-template-columns:1fr 1fr}
+  .blog-featured{grid-template-columns:1fr}
+  .bp-top{grid-template-columns:1fr}
+  .bp-form-grid{grid-template-columns:1fr}
+  .bpf-full,.bp-submit,.bp-submit-note{grid-column:1}
+  .nav-links{display:none}
+  .careers-cta{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:560px){
+  .team-grid,.culture-grid,.press-kit-grid,.ptier-grid,.blog-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">Evolvia</a>
+  <ul class="nav-links">
+    <li><a href="product.html">Product</a></li>
+    <li><a href="usecases.html">Use Cases</a></li>
+    <li><a href="help.html">Help</a></li>
+    <li><a href="company.html" class="active">Blog</a></li>
+    <li><a href="product.html#pricing" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+
+  <div class="tab-nav-wrap">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('about',this)">About Us</button>
+      <button class="tab-btn" onclick="switchTab('careers',this)">Careers</button>
+      <button class="tab-btn" onclick="switchTab('press',this)">Press</button>
+      <button class="tab-btn" onclick="switchTab('blog',this)">Blog</button>
+      <button class="tab-btn" onclick="switchTab('partners',this)">Partners</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ABOUT ══════════════════ -->
+  <div class="tab-section active" id="sec-about">
+    <div class="sec-hero">
+      <div class="sec-hero-inner">
+        <div class="eyebrow"><span class="ey-line"></span><span class="ey-text">About Us</span></div>
+        <h1 class="sec-title">We built the app<br><em>we needed.</em></h1>
+        <p class="sec-sub">Evolvia is built, designed, and maintained by a single person. This is the story of why it exists and where it's going.</p>
+      </div>
+    </div>
+    <div class="content" id="about-content">
+
+      <div class="about-grid reveal">
+        <div class="about-text">
+          <div class="s-label"><span class="sl-line"></span><span class="sl-text">The Story</span></div>
+          <p>Evolvia was built by one person. Not a team, not a startup — just someone who got tired of looking at a screen time report and feeling nothing change. The built-in tools were either too passive to matter or too blunt to be useful. Something in between felt missing.</p>
+          <p>So I built it. Evolvia is the app I actually wanted: <strong>honest about where your time goes</strong>, clear about what you can do about it, and designed to stay out of your way the rest of the time. No nags, no guilt trips, no dark patterns.</p>
+          <p>Everything in Evolvia — every feature, every screen, every line of code — was built and shipped by one person. That means things move at a different pace than a funded startup. But it also means <strong>every decision is intentional</strong>, and every piece of feedback goes directly to the person who can act on it.</p>
+          <p>Evolvia is early. There will be bugs. There will be rough edges. But the foundation is solid and the direction is clear — and it's only getting better from here.</p>
+        </div>
+        <div class="about-values">
+          <div class="s-label"><span class="sl-line"></span><span class="sl-text">What We Believe</span></div>
+          <div class="av-card"><div class="av-title"><span class="av-icon">🔍</span> Honesty over comfort</div><div class="av-desc">Your data should tell you the truth, not what you want to hear. We don't soften numbers or add grace periods that let you off the hook.</div></div>
+          <div class="av-card"><div class="av-title"><span class="av-icon">🛡</span> Privacy by default</div><div class="av-desc">Your usage data lives on your device. We don't want it, we don't store it, and we will never sell it. Full stop.</div></div>
+          <div class="av-card"><div class="av-title"><span class="av-icon">⚙️</span> Tools, not tricks</div><div class="av-desc">We don't use dark patterns, streaks designed to create anxiety, or gamification that makes you feel bad for living your life. Evolvia is a tool — use it when it helps you.</div></div>
+          <div class="av-card"><div class="av-title"><span class="av-icon">🚀</span> Ship and improve</div><div class="av-desc">We'd rather put something real in front of users and improve it than wait for perfection. If something breaks, we fix it fast and tell you what happened.</div></div>
+        </div>
+      </div>
+
+      <div class="s-label about-team-label reveal"><span class="sl-line"></span><span class="sl-text">The Person Behind It</span></div>
+      <div class="founder-card reveal" style="transition-delay:.06s">
+        <div class="founder-av-wrap">
+          <div class="founder-av">E</div>
+          <div class="founder-av-glow"></div>
+        </div>
+        <div class="founder-info">
+          <div class="founder-name">Sole Creator & Developer</div>
+          <div class="founder-role">Evolvia — Built Independently</div>
+          <div class="founder-bio">
+            <p>Evolvia is a one-person project. I handle everything — design, development, support, and every decision about where the product goes next. That's not a limitation I'm apologizing for. It's what allows every part of the app to be intentional rather than committee-approved.</p>
+            <p>I use Evolvia every day. When something doesn't work right, I'm the first to notice it. When a user sends a bug report, it lands directly in my inbox. There's no buffer between the person who made the app and the people using it — and that's exactly how I want it.</p>
+          </div>
+          <div class="founder-links">
+            <a href="mailto:support@evolvia-app.com" class="fl-btn">📧 Reach Out</a>
+            <a href="company.html#blog" class="fl-btn" onclick="switchTabByName('blog')">📝 Read the Blog</a>
+            <a href="company.html#partners" class="fl-btn" onclick="switchTabByName('partners')">🤝 Partner With Me</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-mission reveal" style="transition-delay:.1s">
+        <div class="am-quote">"Most productivity apps try to optimize you. I just want to give you an honest picture of how you're spending your time — and trust you to do something about it."</div>
+        <div class="am-source">— Evolvia, Built by One Person</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════ CAREERS ══════════════════ -->
+  <div class="tab-section" id="sec-careers">
+    <div class="sec-hero">
+      <div class="sec-hero-inner">
+        <div class="eyebrow"><span class="ey-line"></span><span class="ey-text">Careers</span></div>
+        <h1 class="sec-title">No openings right now.<br><em>But stay close.</em></h1>
+        <p class="sec-sub">Evolvia is a solo project. There's no team to hire into today — but that won't always be the case. This page is here for when things change.</p>
+      </div>
+    </div>
+    <div class="content">
+
+      <div class="careers-solo reveal">
+        <div class="cs-icon">🛠</div>
+        <div class="cs-body">
+          <div class="cs-title">Built by one person, for now.</div>
+          <div class="cs-text">
+            <p>Evolvia is currently built, designed, and maintained entirely by its sole creator. There are no open positions, no applications being accepted, and no hiring pipeline in place right now.</p>
+            <p>That's not a permanent state. As the app grows — more users, more platforms, more features — the work will eventually require more people. When that moment comes, this page will be the first place it shows up.</p>
+            <p>If you're genuinely interested in being part of what Evolvia becomes, the best thing you can do right now is <strong>use the app, send feedback, and stay in touch</strong>. The people who understand what Evolvia is trying to do will be the first to hear about opportunities when they arise.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-label reveal" style="margin-top:1rem"><span class="sl-line"></span><span class="sl-text">What You Can Do Now</span></div>
+      <div class="now-grid reveal" style="transition-delay:.06s">
+        <div class="now-card">
+          <div class="now-icon">📱</div>
+          <div class="now-title">Use the App</div>
+          <div class="now-desc">Download Evolvia on Android. Use it for real. The people who understand it best are the ones who've actually lived with it.</div>
+          <a href="https://play.google.com/store" target="_blank" class="now-link">Download on Google Play →</a>
+        </div>
+        <div class="now-card">
+          <div class="now-icon">💬</div>
+          <div class="now-title">Send Feedback</div>
+          <div class="now-desc">Bug reports, feature ideas, things that feel off — all of it goes directly to the person building the app. Your name gets remembered.</div>
+          <a href="help.html" class="now-link">Go to Help & Feedback →</a>
+        </div>
+        <div class="now-card">
+          <div class="now-icon">🧪</div>
+          <div class="now-title">Join the Beta</div>
+          <div class="now-desc">Beta testers are the closest thing to collaborators Evolvia has right now. Early access, direct communication, real influence on what gets built.</div>
+          <a href="product.html#beta" class="now-link">Apply for Beta Access →</a>
+        </div>
+        <div class="now-card">
+          <div class="now-icon">🤝</div>
+          <div class="now-title">Become a Partner</div>
+          <div class="now-desc">If you have an audience, a platform, or a community that aligns with what Evolvia is doing — a partnership might be the right starting point.</div>
+          <a href="#" onclick="switchTabByName('partners');return false;" class="now-link">View Partnership Options →</a>
+        </div>
+        <div class="now-card">
+          <div class="now-icon">📝</div>
+          <div class="now-title">Follow the Blog</div>
+          <div class="now-desc">The blog is where updates, thinking, and behind-the-scenes context gets shared. It's the closest thing to a window into how Evolvia is built.</div>
+          <a href="#" onclick="switchTabByName('blog');return false;" class="now-link">Read the Blog →</a>
+        </div>
+        <div class="now-card">
+          <div class="now-icon">📬</div>
+          <div class="now-title">Stay in Touch</div>
+          <div class="now-desc">No jobs list to check. But a quick email saying who you are and what you do is always read — and sometimes remembered at exactly the right moment.</div>
+          <a href="mailto:support@evolvia-app.com?subject=Staying in Touch" class="now-link">Send a Note →</a>
+        </div>
+      </div>
+
+      <div class="careers-future reveal" style="transition-delay:.1s">
+        <div class="cf-label">When hiring does open</div>
+        <div class="cf-title">It'll show up here first.</div>
+        <div class="cf-sub">No recruiters, no job boards, no LinkedIn posts before this page updates. Subscribe to the blog newsletter or check back — whichever works for you.</div>
+        <a href="#" class="cf-btn" onclick="switchTabByName('blog');return false;">Subscribe to Updates →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════ PRESS ══════════════════ -->
+  <div class="tab-section" id="sec-press">
+    <div class="sec-hero">
+      <div class="sec-hero-inner">
+        <div class="eyebrow"><span class="ey-line"></span><span class="ey-text">Press</span></div>
+        <h1 class="sec-title">Writing about<br><em>Evolvia?</em></h1>
+        <p class="sec-sub">We're happy to support journalists, researchers, and media covering productivity, digital wellbeing, or the future of focus. Everything you need is here — and our team is accessible.</p>
+      </div>
+    </div>
+    <div class="content">
+
+      <div class="press-intro reveal">
+        <p>Evolvia is a <strong>focus and habit tracking app</strong> for Android, built around honest usage data, Strict Mode, and Locked Mode. It launched in April 2025 and is free to download on the Google Play Store. A Pro tier and iOS version are in active development.</p>
+        <p>If you're writing about us, we ask that you use our official name (<strong>Evolvia</strong>, not Evolva or Evolve) and describe what we do accurately. We're a focus and digital wellbeing app — not a parental control tool, a blocker, or a screen time manager in the traditional sense.</p>
+        <p>For all press inquiries — interviews, fact-checking, asset requests, or anything else — reach out to <a href="mailto:support@evolvia-app.com">support@evolvia-app.com</a> and mark your subject line with <strong>[Press]</strong>. We respond to media inquiries within 24 hours on business days.</p>
+      </div>
+
+      <div class="s-label reveal"><span class="sl-line"></span><span class="sl-text">Press Kit</span></div>
+      <div class="press-kit-grid reveal" style="transition-delay:.06s">
+        <div class="pk-card" onclick="window.location.href='mailto:support@evolvia-app.com?subject=[Press] Logo Request'">
+          <div class="pk-icon">🎨</div>
+          <div class="pk-title">Logo & Brand Assets</div>
+          <div class="pk-desc">Official Evolvia logos in all formats — light, dark, icon-only, and wordmark. Color specifications and usage guidelines included.</div>
+          <div class="pk-action">Request via Email →</div>
+        </div>
+        <div class="pk-card" onclick="window.location.href='mailto:support@evolvia-app.com?subject=[Press] Screenshot Request'">
+          <div class="pk-icon">📱</div>
+          <div class="pk-title">App Screenshots</div>
+          <div class="pk-desc">High-resolution screenshots of key screens — usage breakdown, Strict Mode, Locked Mode, streaks, and the onboarding flow.</div>
+          <div class="pk-action">Request via Email →</div>
+        </div>
+        <div class="pk-card" onclick="window.location.href='mailto:support@evolvia-app.com?subject=[Press] Boilerplate Request'">
+          <div class="pk-icon">📄</div>
+          <div class="pk-title">Company Boilerplate</div>
+          <div class="pk-desc">Approved one-paragraph and one-sentence descriptions of Evolvia, suitable for use in articles, roundups, and press releases.</div>
+          <div class="pk-action">Request via Email →</div>
+        </div>
+      </div>
+
+      <div class="s-label reveal"><span class="sl-line"></span><span class="sl-text">Media Coverage</span></div>
+      <div class="press-coverage reveal" style="transition-delay:.06s">
+        <div class="coverage-empty">
+          <div class="coverage-empty-icon">📰</div>
+          <div class="coverage-empty-title">Nothing here yet</div>
+          <div class="coverage-empty-sub">We're a new app. Media coverage is on the way — check back soon, or if you'd like to be among the first to cover us, reach out below.</div>
+        </div>
+      </div>
+
+      <div class="press-contact reveal" style="transition-delay:.1s">
+        <div class="pc-title">Press Contact</div>
+        <div class="pc-sub">For interviews, review copies, embargo requests, or any media-related inquiry — email us directly. We respond quickly and we don't use PR agencies. You'll talk to a real person on the team.</div>
+        <a href="mailto:support@evolvia-app.com?subject=[Press] Inquiry" class="pc-email">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          support@evolvia-app.com — subject [Press]
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════ BLOG ══════════════════ -->
+  <div class="tab-section" id="sec-blog">
+    <div class="sec-hero">
+      <div class="sec-hero-inner">
+        <div class="eyebrow"><span class="ey-line"></span><span class="ey-text">Blog</span></div>
+        <h1 class="sec-title">Thoughts on focus,<br><em>time, and building.</em></h1>
+        <p class="sec-sub">Writing from the Evolvia team on productivity, digital habits, and what we're learning as we build. Occasional product updates too.</p>
+      </div>
+    </div>
+    <div class="content">
+
+      <div class="blog-cats reveal">
+        <button class="bcat active" onclick="filterBlog('all',this)">All</button>
+        <button class="bcat" onclick="filterBlog('focus',this)">Focus & Habits</button>
+        <button class="bcat" onclick="filterBlog('product',this)">Product</button>
+        <button class="bcat" onclick="filterBlog('team',this)">Team</button>
+        <button class="bcat" onclick="filterBlog('tips',this)">Tips</button>
+      </div>
+
+      <div class="blog-featured reveal" style="transition-delay:.05s">
+        <a class="blog-card" href="#" data-cat="focus">
+          <div class="blog-card-img">⏱</div>
+          <div class="blog-card-body">
+            <div class="blog-cat">Focus & Habits</div>
+            <div class="blog-title">Why Your Screen Time Report Isn't Changing Your Behavior — And What Might</div>
+            <div class="blog-excerpt">Seeing the number isn't enough. Here's what the research says about why awareness alone rarely leads to lasting change — and what actually does.</div>
+            <div class="blog-meta">
+              <div class="blog-av">E</div>
+              <span>Evolvia — Creator</span>
+              <div class="blog-dot"></div>
+              <span>June 12, 2025</span>
+              <div class="blog-dot"></div>
+              <span>6 min read</span>
+            </div>
+          </div>
+        </a>
+        <a class="blog-card" href="#" data-cat="product">
+          <div class="blog-card-img">🔐</div>
+          <div class="blog-card-body">
+            <div class="blog-cat">Product</div>
+            <div class="blog-title">Why We Built Locked Mode — And Why It's Harder Than It Looks</div>
+            <div class="blog-excerpt">The technical and philosophical decisions behind Evolvia's most opinionated feature.</div>
+            <div class="blog-meta">
+              <div class="blog-av">E</div>
+              <span>Evolvia — Dev Notes</span>
+              <div class="blog-dot"></div>
+              <span>May 28, 2025</span>
+              <div class="blog-dot"></div>
+              <span>8 min read</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="blog-grid reveal" style="transition-delay:.08s">
+        <a class="blog-card sm" href="#" data-cat="tips">
+          <div class="blog-card-img" style="font-size:2rem">🔥</div>
+          <div class="blog-card-body">
+            <div class="blog-cat">Tips</div>
+            <div class="blog-title sm">How to Actually Keep a Streak Going When Life Gets Busy</div>
+            <div class="blog-meta">
+              <div class="blog-av">E</div><span>Evolvia Team</span>
+              <div class="blog-dot"></div><span>May 14, 2025</span>
+            </div>
+          </div>
+        </a>
+        <a class="blog-card sm" href="#" data-cat="team">
+          <div class="blog-card-img" style="font-size:2rem">🚀</div>
+          <div class="blog-card-body">
+            <div class="blog-cat">Team</div>
+            <div class="blog-title sm">What We Learned From Our First 1,000 Beta Testers</div>
+            <div class="blog-meta">
+              <div class="blog-av">E</div><span>Evolvia — Creator</span>
+              <div class="blog-dot"></div><span>April 30, 2025</span>
+            </div>
+          </div>
+        </a>
+        <a class="blog-card sm" href="#" data-cat="focus">
+          <div class="blog-card-img" style="font-size:2rem">🧠</div>
+          <div class="blog-card-body">
+            <div class="blog-cat">Focus & Habits</div>
+            <div class="blog-title sm">The Case for Boring Consistency Over Motivation</div>
+            <div class="blog-meta">
+              <div class="blog-av">E</div><span>Evolvia Team</span>
+              <div class="blog-dot"></div><span>April 18, 2025</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="blog-newsletter reveal" style="transition-delay:.1s">
+        <div class="bn-title">Stay in the <em>loop.</em></div>
+        <div class="bn-sub">New posts, product updates, and occasional thoughts from the team. No noise, no frequency abuse.</div>
+        <div class="bn-form">
+          <input class="bn-input" type="email" id="newsletterEmail" placeholder="your@email.com">
+          <button class="bn-btn" onclick="subscribeNewsletter()">Subscribe</button>
+        </div>
+        <div class="bn-note" id="newsletterNote">We send maybe once a month. Unsubscribe anytime.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════ PARTNERS ══════════════════ -->
+  <div class="tab-section" id="sec-partners">
+    <div class="sec-hero">
+      <div class="sec-hero-inner">
+        <div class="eyebrow"><span class="ey-line"></span><span class="ey-text">Partners</span></div>
+        <h1 class="sec-title">Growing together<br><em>intentionally.</em></h1>
+        <p class="sec-sub">We're selective about who we work with. Every partner relationship should make Evolvia more useful — not just bigger.</p>
+      </div>
+    </div>
+    <div class="content">
+
+      <div class="partners-intro reveal">
+        Evolvia is early-stage, and our partner ecosystem reflects that — we're building it carefully and deliberately. We currently work with a small number of partners across technology, education, and productivity. If you're interested in partnering with us, the form at the bottom of this page is the right place to start. We read every submission.
+      </div>
+
+      <div class="partner-tiers reveal">
+
+        <div>
+          <div class="ptier-label"><span class="pt-line"></span><span class="pt-text">Technology Partners</span></div>
+          <div class="ptier-grid">
+            <div class="partner-card">
+              <div class="pc-logo-wrap">☁️</div>
+              <div class="pc-name">Google Play</div>
+              <div class="pc-type">Distribution</div>
+              <div class="pc-desc">Our primary distribution channel for Android. Evolvia is available on the Play Store globally.</div>
+            </div>
+            <div class="partner-card open">
+              <span class="pc-open-badge">Open Slot</span>
+              <div class="pc-logo-wrap">🔧</div>
+              <div class="pc-name">Android Developer Partner</div>
+              <div class="pc-type">Technology</div>
+              <div class="pc-desc">Looking for a technology partner with deep Android expertise to help us push device management capabilities further.</div>
+            </div>
+            <div class="partner-card open">
+              <span class="pc-open-badge">Open Slot</span>
+              <div class="pc-logo-wrap">📊</div>
+              <div class="pc-name">Analytics Partner</div>
+              <div class="pc-type">Technology</div>
+              <div class="pc-desc">Seeking a privacy-first analytics partner aligned with our no-data-sharing values for aggregate app performance insights only.</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="ptier-label"><span class="pt-line"></span><span class="pt-text">Education Partners</span></div>
+          <div class="ptier-grid">
+            <div class="partner-card open">
+              <span class="pc-open-badge">Open Slot</span>
+              <div class="pc-logo-wrap">🎓</div>
+              <div class="pc-name">University Partner</div>
+              <div class="pc-type">Education</div>
+              <div class="pc-desc">We're looking for universities or student organizations interested in piloting Evolvia as part of a student wellness or productivity initiative.</div>
+            </div>
+            <div class="partner-card open">
+              <span class="pc-open-badge">Open Slot</span>
+              <div class="pc-logo-wrap">📚</div>
+              <div class="pc-name">Study Platform</div>
+              <div class="pc-type">Education</div>
+              <div class="pc-desc">Interested in partnering with productivity and study tools that share our values around focus and honest usage data.</div>
+            </div>
+            <div class="partner-card open">
+              <span class="pc-open-badge">Open Slot</span>
+              <div class="pc-logo-wrap">🏫</div>
+              <div class="pc-name">School / District</div>
+              <div class="pc-type">Education</div>
+              <div class="pc-desc">Open to structured pilots with schools or districts exploring digital wellness tools for students. Reach out to discuss terms.</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="ptier-label"><span class="pt-line"></span><span class="pt-text">Content & Community Partners</span></div>
+          <div class="ptier-grid">
+            <div class="partner-card open">
+              <span class="pc-open-badge">Open Slot</span>
+              <div class="pc-logo-wrap">🎙</div>
+              <div class="pc-name">Podcast / Creator</div>
+              <div class="pc-type">Content</div>
+              <div class="pc-desc">If you create content around productivity, focus, or intentional technology use and want to explore a partnership, let's talk.</div>
+            </div>
+            <div class="partner-card open">
+              <span class="pc-open-badge">Open Slot</span>
+              <div class="pc-logo-wrap">📰</div>
+              <div class="pc-name">Newsletter Partner</div>
+              <div class="pc-type">Content</div>
+              <div class="pc-desc">Open to cross-promotion with newsletters whose audiences care about focus, digital wellbeing, or personal productivity.</div>
+            </div>
+            <div class="partner-card open">
+              <span class="pc-open-badge">Open Slot</span>
+              <div class="pc-logo-wrap">🤝</div>
+              <div class="pc-name">Wellbeing Platform</div>
+              <div class="pc-type">Community</div>
+              <div class="pc-desc">Looking to connect with organizations in the digital wellbeing space for mutual referrals and collaborative content.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PARTNER FORM -->
+      <div class="become-partner reveal" style="transition-delay:.08s">
+        <div class="bp-top">
+          <div>
+            <div class="bp-title">Become a <em>Partner</em></div>
+            <div class="bp-desc">Tell us a bit about who you are and what kind of partnership you have in mind. We review every submission personally and respond to strong fits within a week.</div>
+          </div>
+          <div class="bp-badge-stack">
+            <div class="bpb">Technology</div>
+            <div class="bpb">Education</div>
+            <div class="bpb">Content</div>
+            <div class="bpb">Enterprise</div>
+          </div>
+        </div>
+        <div class="bp-form">
+          <div id="partnerFormInner">
+            <div class="bp-form-grid">
+              <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input class="form-input" type="text" id="p-name" placeholder="Full name">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Company / Organization</label>
+                <input class="form-input" type="text" id="p-company" placeholder="Your org or project name">
+              </div>
+              <div class="form-group bpf-full">
+                <label class="form-label">Email Address</label>
+                <input class="form-input" type="email" id="p-email" placeholder="your@email.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Partnership Type</label>
+                <select class="form-select" id="p-type">
+                  <option value="" disabled selected>Select a type</option>
+                  <option>Technology Integration</option>
+                  <option>Education / Student Pilot</option>
+                  <option>Content / Creator</option>
+                  <option>Enterprise / B2B</option>
+                  <option>Cross-Promotion</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Audience / Reach</label>
+                <input class="form-input" type="text" id="p-reach" placeholder="e.g. 50k newsletter subscribers">
+              </div>
+              <div class="form-group bpf-full">
+                <label class="form-label">What are you proposing?</label>
+                <textarea class="form-textarea" id="p-proposal" placeholder="Describe the partnership you have in mind — what it would look like, who would benefit, and why it's a good fit for Evolvia."></textarea>
+              </div>
+              <button class="bp-submit" onclick="submitPartner()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m22 2-11 11M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+                Submit Partnership Inquiry
+              </button>
+              <div class="bp-submit-note">Sent directly to our team. We respond to serious inquiries within 5–7 business days. Questions? <a href="mailto:support@evolvia-app.com">support@evolvia-app.com</a></div>
+            </div>
+          </div>
+          <div class="success-msg" id="partnerSuccess">
+            <div class="success-icon">🤝</div>
+            <div class="success-title">Inquiry Received</div>
+            <div class="success-sub">Thanks for reaching out. We'll review your proposal and follow up at the email address you provided within 5–7 business days.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <span>© 2025 Evolvia. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Refund Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar)})();
+document.querySelectorAll('a,button,.av-card,.tm,.cg-card,.job-card,.pk-card,.partner-card,.blog-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(201,168,76,.8)'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(201,168,76,.5)'});
+});
+
+// TAB SWITCHING
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  btn.classList.add('active');
+  btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  window.scrollTo({top:72,behavior:'smooth'});
+}
+
+// HASH ROUTING
+window.addEventListener('DOMContentLoaded',()=>{
+  const hash=window.location.hash.replace('#','').toLowerCase();
+  const valid=['about','careers','press','blog','partners'];
+  if(valid.includes(hash)){
+    const btn=document.querySelector(`.tab-btn[onclick*="${hash}"]`);
+    if(btn) switchTab(hash,btn);
+  }
+});
+
+// BLOG FILTER
+function filterBlog(cat,btn){
+  document.querySelectorAll('.bcat').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.blog-card,.blog-card.sm').forEach(card=>{
+    if(cat==='all'||card.dataset.cat===cat){card.style.display='';card.style.opacity='1'}
+    else{card.style.opacity='0';setTimeout(()=>{card.style.display='none'},250)}
+  });
+}
+
+// JOB APPLY
+function applyJob(role){
+  const subject=encodeURIComponent(`Job Application — ${role}`);
+  const body=encodeURIComponent(`Hi Evolvia team,\n\nI'd like to apply for the ${role} position.\n\n[Tell us about yourself, link to your portfolio/GitHub/LinkedIn, and anything else relevant.]`);
+  window.location.href=`mailto:support@evolvia-app.com?subject=${subject}&body=${body}`;
+}
+
+// NEWSLETTER
+function subscribeNewsletter(){
+  const email=document.getElementById('newsletterEmail').value.trim();
+  if(!email){document.getElementById('newsletterEmail').style.borderColor='rgba(255,100,80,.5)';return}
+  const subject=encodeURIComponent('Newsletter Signup');
+  const body=encodeURIComponent(`Please add me to the Evolvia newsletter.\n\nEmail: ${email}`);
+  window.location.href=`mailto:support@evolvia-app.com?subject=${subject}&body=${body}`;
+  document.getElementById('newsletterNote').textContent="Thanks! You'll hear from us soon.";
+  document.getElementById('newsletterNote').style.color='var(--gold)';
+}
+
+// PARTNER SUBMIT
+function submitPartner(){
+  const email=document.getElementById('p-email').value.trim();
+  const name=document.getElementById('p-name').value.trim();
+  const company=document.getElementById('p-company').value.trim();
+  const type=document.getElementById('p-type').value;
+  const reach=document.getElementById('p-reach').value.trim();
+  const proposal=document.getElementById('p-proposal').value.trim();
+  if(!email){document.getElementById('p-email').style.borderColor='rgba(255,100,80,.5)';setTimeout(()=>document.getElementById('p-email').style.borderColor='',2000);return}
+  const subject=encodeURIComponent(`Partnership Inquiry — ${company||name}`);
+  const bodyTxt=`Partnership Inquiry\n\nName: ${name}\nCompany: ${company||'Not provided'}\nEmail: ${email}\nType: ${type||'Not selected'}\nAudience/Reach: ${reach||'Not provided'}\n\nProposal:\n${proposal||'Not provided'}`;
+  window.location.href=`mailto:support@evolvia-app.com?subject=${subject}&body=${encodeURIComponent(bodyTxt)}`;
+  setTimeout(()=>{
+    document.getElementById('partnerFormInner').style.display='none';
+    document.getElementById('partnerSuccess').classList.add('show');
+  },800);
+}
+
+// NEURAL CANVAS
+const canvas=document.getElementById('bg-canvas'),ctx=canvas.getContext('2d');
+let W,H,particles=[],mouse={x:-9999,y:-9999},mvx=0,mvy=0,lmx=0,lmy=0,clicks=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',()=>{resize();init()});
+document.addEventListener('mousemove',e=>{mvx=e.clientX-lmx;mvy=e.clientY-lmy;lmx=mouse.x=e.clientX;lmy=mouse.y=e.clientY});
+document.addEventListener('click',e=>{clicks.push({x:e.clientX,y:e.clientY,r:0,life:1})});
+class Particle{
+  constructor(){this.reset(true)}
+  reset(r){this.x=r?Math.random()*W:(Math.random()>.5?Math.random()*W:(Math.random()<.5?-5:W+5));this.y=r?Math.random()*H:(Math.random()>.5?Math.random()*H:(Math.random()<.5?-5:H+5));this.vx=(Math.random()-.5)*.5;this.vy=(Math.random()-.5)*.5;this.rad=Math.random()*1.6+.4;const t=Math.random();this.color=t<.55?'201,168,76':t<.75?'240,208,128':t<.9?'138,104,32':'255,240,200';this.alpha=Math.random()*.5+.1;this.tw=Math.random()*Math.PI*2;this.tws=Math.random()*.04+.01}
+  update(){this.tw+=this.tws;this.x+=this.vx;this.y+=this.vy;const dx=this.x-mouse.x,dy=this.y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);if(d<170&&d>0){const f=(170-d)/170,sp=Math.sqrt(mvx*mvx+mvy*mvy),b=Math.min(sp*.04,2);this.vx+=(dx/d)*f*(.5+b);this.vy+=(dy/d)*f*(.5+b)}clicks.forEach(c=>{const cdx=c.x-this.x,cdy=c.y-this.y,cd=Math.sqrt(cdx*cdx+cdy*cdy);if(cd<270&&cd>0){const f=(270-cd)/270*2*c.life;this.vx+=(cdx/cd)*f*.5;this.vy+=(cdy/cd)*f*.5}});this.vx*=.991;this.vy*=.991;if(this.x<-20||this.x>W+20||this.y<-20||this.y>H+20)this.reset(false)}
+  draw(){const a=this.alpha*(.7+.3*Math.sin(this.tw));ctx.beginPath();ctx.arc(this.x,this.y,this.rad,0,Math.PI*2);ctx.fillStyle=`rgba(${this.color},${a})`;ctx.fill();if(this.alpha>.38){ctx.beginPath();ctx.arc(this.x,this.y,this.rad*3,0,Math.PI*2);ctx.fillStyle=`rgba(${this.color},${a*.07})`;ctx.fill()}}
+}
+class Spark{constructor(x,y,vx,vy){this.x=x;this.y=y;this.vx=vx*(Math.random()*2.5+.5)+(Math.random()-.5)*4;this.vy=vy*(Math.random()*2.5+.5)+(Math.random()-.5)*4;this.life=1;this.decay=Math.random()*.07+.04;this.r=Math.random()*2+.5}update(){this.x+=this.vx;this.y+=this.vy;this.vx*=.93;this.vy*=.93;this.life-=this.decay}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${this.life*.8})`;ctx.fill()}}
+let sparks=[];
+document.addEventListener('mousemove',e=>{const sp=Math.sqrt(mvx*mvx+mvy*mvy);if(sp>9)for(let i=0;i<Math.min(Math.floor(sp/4),5);i++)sparks.push(new Spark(e.clientX,e.clientY,mvx*.1,mvy*.1))});
+document.addEventListener('click',e=>{for(let i=0;i<14;i++)sparks.push(new Spark(e.clientX,e.clientY,(Math.random()-.5)*8,(Math.random()-.5)*8))});
+function init(){particles=Array.from({length:Math.min(Math.floor(W*H/8000),160)},()=>new Particle())}
+function drawConns(){const maxD=130;for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d2=dx*dx+dy*dy;if(d2<maxD*maxD){const d=Math.sqrt(d2);ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(201,168,76,${(1-d/maxD)*.12})`;ctx.lineWidth=.6;ctx.stroke()}}const dx=particles[i].x-mouse.x,dy=particles[i].y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);if(d<190&&d>0){const a=(1-d/190)*.5,gr=ctx.createLinearGradient(particles[i].x,particles[i].y,mouse.x,mouse.y);gr.addColorStop(0,`rgba(201,168,76,${a})`);gr.addColorStop(1,`rgba(240,208,128,${a*.3})`);ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=gr;ctx.lineWidth=.85;ctx.stroke()}}}
+function drawRipples(){clicks=clicks.filter(c=>c.life>0);clicks.forEach(c=>{c.r+=8;c.life-=.025;ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.strokeStyle=`rgba(201,168,76,${c.life*.45})`;ctx.lineWidth=1.5;ctx.stroke();if(c.r>60){ctx.beginPath();ctx.arc(c.x,c.y,c.r*1.4,0,Math.PI*2);ctx.strokeStyle=`rgba(240,208,128,${c.life*.18})`;ctx.lineWidth=.8;ctx.stroke()}})}
+function drawGlow(){if(mouse.x<0)return;const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,130);g.addColorStop(0,'rgba(201,168,76,0.06)');g.addColorStop(1,'rgba(201,168,76,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
+function loop(){ctx.clearRect(0,0,W,H);drawGlow();drawConns();drawRipples();particles.forEach(p=>{p.update();p.draw()});sparks=sparks.filter(s=>s.life>0);sparks.forEach(s=>{s.update();s.draw()});requestAnimationFrame(loop)}
+init();loop();
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
