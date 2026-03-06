@@ -833,6 +833,7 @@ document.querySelectorAll('a,button,.av-card,.tm,.cg-card,.job-card,.pk-card,.pa
 
 // TAB SWITCHING
 function switchTab(id,btn){
+  history.replaceState(null,'','#'+id);
   document.querySelectorAll('.tab-section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('sec-'+id).classList.add('active');
@@ -840,6 +841,7 @@ function switchTab(id,btn){
   btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
   window.scrollTo({top:72,behavior:'smooth'});
 }
+
 
 // HASH ROUTING
 window.addEventListener('DOMContentLoaded',()=>{
