@@ -555,6 +555,16 @@ function switchTab(id, btn) {
   // Scroll tab into view on mobile
   btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
 }
+// Auto-open tab from URL hash
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash.replace('#', '');
+  const validTabs = ['individuals', 'students', 'teams', 'enterprise', 'developers'];
+  if (validTabs.includes(hash)) {
+    const btn = [...document.querySelectorAll('.tab-btn')]
+      .find(b => b.getAttribute('onclick').includes(hash));
+    if (btn) switchTab(hash, btn);
+  }
+});
 
 // NEURAL CANVAS
 const canvas=document.getElementById('bg-canvas');
