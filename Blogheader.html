@@ -328,11 +328,11 @@ footer{position:relative;z-index:2;background:rgba(4,4,3,.98);border-top:1px sol
 <nav>
   <a href="index.html" class="nav-logo">Evolvia</a>
   <ul class="nav-links">
-    <li><a href="product.html">Product</a></li>
-    <li><a href="usecases.html">Use Cases</a></li>
+    <li><a href="ProductAndroid.html">Product</a></li>
+    <li><a href="Use.html">Use Cases</a></li>
     <li><a href="help.html">Help</a></li>
-    <li><a href="company.html" class="active">Blog</a></li>
-    <li><a href="product.html#pricing" class="nav-cta">Get Started</a></li>
+    <li><a href="Blogheader.html" class="active">Blog</a></li>
+    <li><a href="ProductAndroid.html#pricing" class="nav-cta">Get Started</a></li>
   </ul>
 </nav>
 
@@ -841,7 +841,10 @@ function switchTab(id,btn){
   btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
   window.scrollTo({top:72,behavior:'smooth'});
 }
-
+function switchTabByName(id){
+  const btn=document.querySelector(`.tab-btn[onclick*="${id}"]`);
+  if(btn) switchTab(id,btn);
+}
 
 // HASH ROUTING
 window.addEventListener('DOMContentLoaded',()=>{
