@@ -548,11 +548,11 @@ document.querySelectorAll('a,button,.feat-card,.dc-card').forEach(el=>{
 
 // TAB SWITCHING
 function switchTab(id, btn) {
+  history.replaceState(null, '', '#' + id);
   document.querySelectorAll('.uc-section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('uc-'+id).classList.add('active');
   btn.classList.add('active');
-  // Scroll tab into view on mobile
   btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
 }
 // Auto-open tab from URL hash
