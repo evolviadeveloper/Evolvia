@@ -1,152 +1,922 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms & Conditions | Evolvia</title>
-    <style>
-        :root {
-            --gold: #D4AF37;
-            --dark-bg: #000000;
-            --gold-glow: rgba(212, 175, 55, 0.1);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms &amp; Conditions — Evolvia</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0b07;
+    --surface: #141208;
+    --border: #2a2410;
+    --accent: #f5c518;
+    --accent2: #ffaa00;
+    --muted: #4a3e10;
+    --text: #f2edd8;
+    --text-dim: #9a8c5a;
+    --text-dimmer: #5a4e28;
+  }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
-            background: radial-gradient(circle at top, var(--gold-glow) 0%, var(--dark-bg) 60%);
-            background-color: var(--dark-bg);
-            color: #e0e0e0;
-            line-height: 1.7;
-        }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-        nav {
-            margin-bottom: 50px;
-        }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.6;
+  }
 
-        .back-btn {
-            color: var(--gold);
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid var(--gold);
-            padding: 8px 20px;
-            border-radius: 50px;
-            transition: 0.3s;
-        }
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(245, 197, 24, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-        .back-btn:hover {
-            background: var(--gold);
-            color: black;
-        }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(12, 11, 7, 0.88);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 10px var(--accent2);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .header-meta { font-size: 11px; color: var(--text-dim); letter-spacing: 0.05em; }
 
-        header {
-            border-bottom: 1px solid #333;
-            padding-bottom: 30px;
-            margin-bottom: 40px;
-        }
+  .hero {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 2rem 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    padding: 5px 10px;
+    border: 1px solid rgba(245, 197, 24, 0.25);
+    border-radius: 3px;
+    background: rgba(245, 197, 24, 0.06);
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+  h1 span { color: var(--accent); }
+  .hero-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dimmer); }
+  .meta-value { font-size: 13px; color: var(--text-dim); }
 
-        h1 {
-            color: var(--gold);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
+  .layout {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 0;
+    padding-bottom: 80px;
+  }
 
-        h2, h3 {
-            color: var(--gold);
-            margin-top: 40px;
-        }
+  .sidebar {
+    padding: 40px 24px 40px 2rem;
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 60px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .sidebar::-webkit-scrollbar { display: none; }
+  .sidebar-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dimmer); margin-bottom: 16px; }
+  .nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .nav-list a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+    border-left: 2px solid transparent;
+    line-height: 1.4;
+  }
+  .nav-list a:hover { color: var(--text); background: rgba(245,197,24,0.04); border-left-color: var(--accent); }
+  .nav-num { color: var(--text-dimmer); margin-right: 6px; font-size: 10px; }
 
-        p, li {
-            color: #bbb;
-            font-size: 1.05rem;
-        }
+  .content { padding: 40px 2rem 40px 48px; }
 
-        ul {
-            padding-left: 20px;
-        }
+  .section { margin-bottom: 56px; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.05em; white-space: nowrap; }
+  h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--text); }
 
-        .contact-box {
-            background: #0a0a0a;
-            border: 1px solid #222;
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 50px;
-            text-align: center;
-        }
+  .clause {
+    margin-bottom: 14px;
+    padding-left: 16px;
+    border-left: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .clause:hover { border-left-color: var(--muted); }
+  .clause-num { font-size: 11px; color: var(--text-dimmer); display: inline; margin-right: 8px; }
+  .clause p { display: inline; color: var(--text-dim); font-size: 13px; line-height: 1.9; }
 
-        .email-link {
-            color: var(--gold);
-            text-decoration: underline;
-        }
+  .clause.important {
+    border-left-color: rgba(245, 197, 24, 0.5);
+    background: rgba(245, 197, 24, 0.05);
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+  }
+  .clause.warning {
+    border-left-color: rgba(255, 100, 40, 0.45);
+    background: rgba(255, 100, 40, 0.04);
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+  }
+  .clause.warning p, .clause.warning .clause-num { color: rgba(255, 165, 80, 0.9); }
 
-        footer {
-            margin-top: 80px;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #444;
-        }
-    </style>
+  .clause-list {
+    margin: 10px 0 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .clause-list li {
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.8;
+    padding: 6px 10px 6px 12px;
+    border-left: 1px solid var(--border);
+  }
+  .clause-list li strong { color: var(--text); }
+
+  .caps-block {
+    background: rgba(30, 24, 8, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    margin: 12px 0;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+  }
+
+  .pricing-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  .pricing-table th {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dimmer);
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+  }
+  .pricing-table td { padding: 12px 16px; color: var(--text-dim); border-bottom: 1px solid rgba(42,36,16,0.5); }
+  .pricing-table tr:hover td { background: rgba(245,197,24,0.02); }
+  .pricing-table .plan-name { color: var(--text); font-family: 'Syne', sans-serif; font-weight: 600; font-size: 13px; }
+  .pricing-table .price { color: var(--accent); font-weight: 500; }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: rgba(245, 197, 24, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(245, 197, 24, 0.25);
+    margin-left: 6px;
+  }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .contact-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px; transition: border-color 0.2s; }
+  .contact-card:hover { border-color: var(--muted); }
+  .contact-card-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dimmer); margin-bottom: 6px; }
+  .contact-card-value { font-size: 12px; color: var(--accent); }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 32px 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer p { font-size: 12px; color: var(--text-dimmer); }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; color: var(--text-dim); }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 2px; }
+
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .content { padding: 32px 1.5rem; }
+    .hero { padding: 50px 1.5rem 40px; }
+    h1 { font-size: 2.2rem; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .hero-meta { gap: 20px; }
+  }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <nav>
-            <a href="/" class="back-btn">← Back to Evolvia</a>
-        </nav>
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo"><span class="logo-dot"></span>Evolvia</a>
+    <span class="header-meta">Legal Document &middot; v1.0 &middot; March 2026</span>
+  </div>
+</header>
 
-        <header>
-            <h1>Terms & Conditions</h1>
-            <p>Effective Date: January 22, 2026</p>
-        </header>
+<div class="hero">
+  <div class="hero-label">&#11041; Legal Agreement</div>
+  <h1>Terms &amp;<br><span>Conditions</span></h1>
+  <div class="hero-meta">
+    <div class="meta-item"><span class="meta-label">Entity</span><span class="meta-value">Evolvia Studios LLC</span></div>
+    <div class="meta-item"><span class="meta-label">Effective Date</span><span class="meta-value">March 4, 2026</span></div>
+    <div class="meta-item"><span class="meta-label">Jurisdiction</span><span class="meta-value">Wyoming, USA</span></div>
+    <div class="meta-item"><span class="meta-label">Website</span><span class="meta-value">www.evolvia-app.com</span></div>
+  </div>
+</div>
 
-        <section>
-            <p>These terms and conditions apply to the <strong>Evolvia</strong> app (hereby referred to as "Application") for mobile devices created by <strong>Evolvia</strong> (hereby referred to as "Service Provider") as a Freemium service.</p>
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Sections</div>
+    <ul class="nav-list">
+      <li><a href="#s1"><span class="nav-num">01</span>Acceptance of Terms</a></li>
+      <li><a href="#s2"><span class="nav-num">02</span>Eligibility &amp; Age</a></li>
+      <li><a href="#s3"><span class="nav-num">03</span>Description of App</a></li>
+      <li><a href="#s4"><span class="nav-num">04</span>User Accounts</a></li>
+      <li><a href="#s5"><span class="nav-num">05</span>Subscription Plans</a></li>
+      <li><a href="#s6"><span class="nav-num">06</span>Free Trial</a></li>
+      <li><a href="#s7"><span class="nav-num">07</span>Refund Policy</a></li>
+      <li><a href="#s8"><span class="nav-num">08</span>Data &amp; Privacy</a></li>
+      <li><a href="#s9"><span class="nav-num">09</span>Android Permissions</a></li>
+      <li><a href="#s10"><span class="nav-num">10</span>Locked &amp; Strict Mode</a></li>
+      <li><a href="#s11"><span class="nav-num">11</span>Intellectual Property</a></li>
+      <li><a href="#s12"><span class="nav-num">12</span>Prohibited Uses</a></li>
+      <li><a href="#s13"><span class="nav-num">13</span>Third-Party Services</a></li>
+      <li><a href="#s14"><span class="nav-num">14</span>Disclaimer of Warranties</a></li>
+      <li><a href="#s15"><span class="nav-num">15</span>Limitation of Liability</a></li>
+      <li><a href="#s16"><span class="nav-num">16</span>Indemnification</a></li>
+      <li><a href="#s17"><span class="nav-num">17</span>Termination</a></li>
+      <li><a href="#s18"><span class="nav-num">18</span>Modifications</a></li>
+      <li><a href="#s19"><span class="nav-num">19</span>Governing Law</a></li>
+      <li><a href="#s20"><span class="nav-num">20</span>App Store Compliance</a></li>
+      <li><a href="#s21"><span class="nav-num">21</span>International Use</a></li>
+      <li><a href="#s22"><span class="nav-num">22</span>Accessibility</a></li>
+      <li><a href="#s23"><span class="nav-num">23</span>Severability</a></li>
+      <li><a href="#s24"><span class="nav-num">24</span>Entire Agreement</a></li>
+      <li><a href="#s25"><span class="nav-num">25</span>Contact &amp; Notices</a></li>
+    </ul>
+  </nav>
 
-            <p>Upon downloading or utilizing the Application, you are automatically agreeing to the following terms. It is strongly advised that you thoroughly read and understand these terms prior to using the Application.</p>
+  <main class="content">
 
-            <h2>Intellectual Property</h2>
-            <p>Unauthorized copying, modification of the Application, any part of the Application, or our trademarks is strictly prohibited. Any attempts to extract the source code, translate the Application, or create derivative versions are not permitted. All intellectual property rights remain the property of the Service Provider.</p>
+    <section class="section" id="s1">
+      <div class="section-header"><span class="section-num">§ 01</span><h2>Acceptance of Terms</h2></div>
+      <div class="clause important">
+        <span class="clause-num">1.1</span>
+        <p>These Terms and Conditions ("Agreement," "Terms") constitute a legally binding contract between you ("User," "you," or "your") and Evolvia Studios LLC, a limited liability company organized and existing under the laws of the State of Wyoming, United States of America ("Company," "we," "us," or "our"), governing your access to and use of the Evolvia &#8211; Block. Focus. Evolve mobile application ("Application," "App," "Service").</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">1.2</span>
+        <p>By downloading, installing, accessing, or using the Application, you acknowledge that you have read, understood, and agree to be bound by these Terms in their entirety. If you do not agree to these Terms, you must immediately cease all use of the Application and uninstall it from your device.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">1.3</span>
+        <p>These Terms apply to all versions of the Application distributed through the Google Play Store, the Apple App Store, and any other authorized distribution channel.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">1.4</span>
+        <p>Your continued use of the Application following any modifications to these Terms constitutes your acceptance of the revised Terms. It is your responsibility to review these Terms periodically.</p>
+      </div>
+    </section>
 
-            <h2>Service Modifications</h2>
-            <p>The Service Provider reserves the right to modify the Application or charge for its services at any time and for any reason. Any charges will be clearly communicated to you.</p>
+    <section class="section" id="s2">
+      <div class="section-header"><span class="section-num">§ 02</span><h2>Eligibility and Age Requirements</h2></div>
+      <div class="clause">
+        <span class="clause-num">2.1</span>
+        <p>The Application is intended for users who are 13 years of age or older. By using the Application, you represent and warrant that you meet this minimum age requirement.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">2.2</span>
+        <p>Users between the ages of 13 and 17 ("Minor Users") may only use the Application with the verifiable consent of a parent or legal guardian, who accepts these Terms on their behalf and assumes full responsibility for the Minor User's use of the Application.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">2.3</span>
+        <p>The Company does not knowingly collect personal information from children under the age of 13. If we become aware that a child under 13 has provided personal data without parental consent, we will take immediate steps to delete such information. Parents or guardians who believe a child under 13 has created an account should contact us immediately at legal@evolvia-app.com.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">2.4</span>
+        <p>The Company complies with the Children's Online Privacy Protection Act (COPPA), the General Data Protection Regulation (GDPR) (for European users), and applicable child privacy laws across jurisdictions in which the Application is available.</p>
+      </div>
+    </section>
 
-            <h2>Security & Data</h2>
-            <p>The Application processes personal data that you have provided to provide the Service. It is your responsibility to maintain the security of your phone. We strongly advise against <strong>jailbreaking or rooting</strong> your phone, as it may expose your device to malware and compromise the Application's functionality.</p>
+    <section class="section" id="s3">
+      <div class="section-header"><span class="section-num">§ 03</span><h2>Description of the Application</h2></div>
+      <div class="clause">
+        <span class="clause-num">3.1</span>
+        <p>Evolvia is a digital wellness and productivity application designed to assist users in managing, reducing, and overcoming excessive smartphone usage, social media dependency, and digital distraction through the following core features:</p>
+        <ul class="clause-list">
+          <li><strong>App Blocking:</strong> Prevents access to user-selected applications (including, but not limited to, social media platforms, short-form video services such as YouTube Shorts, Instagram Reels, and TikTok), for durations selected by the user.</li>
+          <li><strong>Website Blocking:</strong> Restricts access to designated websites or web-based services within the user's browsing environment.</li>
+          <li><strong>Screen Time Monitoring:</strong> Tracks and reports device usage patterns to provide insights into user behavior.</li>
+          <li><strong>Strict Mode:</strong> Applies heightened restrictions that prevent modification of blocking settings during an active session.</li>
+          <li><strong>Locked Mode:</strong> Initiates a user-defined lockout period of up to seven (7) consecutive days, after which a one (1) day unlock window is automatically granted before the cycle may resume, subject to the user's election.</li>
+          <li><strong>Password Protection:</strong> Allows users to set access passwords for settings modification. An administrative bypass password is available as a recovery mechanism.</li>
+        </ul>
+      </div>
+      <div class="clause">
+        <span class="clause-num">3.2</span>
+        <p>The Application operates using the following Android system-level permissions, which are required for core functionality: Accessibility Services, Usage Access Permission, and Device Administrator Privileges. By granting these permissions, you authorize the Application to perform its stated functions on your device.</p>
+      </div>
+      <div class="clause important">
+        <span class="clause-num">3.3</span>
+        <p>All user data processed by the Application is stored exclusively on the user's local device. No personal usage data, browsing history, or behavioral data is transmitted to or stored on Company servers.</p>
+      </div>
+    </section>
 
-            <h2>Third-Party Terms</h2>
-            <p>The Application utilizes third-party services that have their own Terms and Conditions:</p>
-            <ul>
-                <li><a href="https://www.google.com/policies/privacy/" target="_blank" class="email-link">Google Play Services</a></li>
-                <li><a href="https://support.google.com/admob/answer/6128543?hl=en" target="_blank" class="email-link">AdMob</a></li>
-            </ul>
+    <section class="section" id="s4">
+      <div class="section-header"><span class="section-num">§ 04</span><h2>User Accounts and Registration</h2></div>
+      <div class="clause">
+        <span class="clause-num">4.1</span>
+        <p>To access certain features of the Application, you may be required to create a user account. You agree to provide accurate, current, and complete information at the time of registration and to update such information to keep it accurate, current, and complete.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">4.2</span>
+        <p>You are solely responsible for maintaining the confidentiality of your account credentials, including your password and any administrative bypass password. You agree to notify the Company immediately at support@evolvia-app.com upon becoming aware of any unauthorized access to your account.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">4.3</span>
+        <p>The Company shall not be liable for any loss or damage arising from your failure to safeguard your account credentials, including losses arising from unauthorized activation of Locked Mode or Strict Mode by a third party using your credentials.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">4.4</span>
+        <p>Each account is for single-user, personal, non-commercial use only. You may not share your account credentials with any other person or allow multiple users to access the Application through a single account.</p>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">4.5</span>
+        <p>You acknowledge and understand that activating Locked Mode creates a binding, self-imposed restriction that the Application is designed to enforce. The Company is not responsible for your inability to access blocked applications during an active Locked Mode session, as this behavior is a core and intentional function of the Service.</p>
+      </div>
+    </section>
 
-            <h2>Connectivity & Responsibilities</h2>
-            <p>Some functions require an active internet connection. The Service Provider cannot be held responsible for limited functionality due to a lack of Wi-Fi or data allowance exhaustion. You accept responsibility for any mobile network charges, including roaming data charges.</p>
+    <section class="section" id="s5">
+      <div class="section-header"><span class="section-num">§ 05</span><h2>Subscription Plans and Pricing</h2></div>
+      <div class="clause">
+        <span class="clause-num">5.1</span>
+        <p>The Application offers the following subscription tiers that unlock Premium features without restriction:</p>
+      </div>
+      <table class="pricing-table">
+        <thead>
+          <tr><th>Plan</th><th>Price</th><th>Billing Cycle</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="plan-name">Monthly</td><td class="price">$4.99 USD</td><td>Every 30 days</td></tr>
+          <tr><td class="plan-name">Annual</td><td class="price">$49.99 USD</td><td>Every 365 days</td></tr>
+          <tr><td class="plan-name">Lifetime <span class="badge">Early Access</span></td><td class="price">$99.99 USD</td><td>One-time payment</td></tr>
+          <tr><td class="plan-name">Lifetime <span class="badge">Standard</span></td><td class="price">$120.00 USD</td><td>One-time payment</td></tr>
+        </tbody>
+      </table>
+      <div class="clause">
+        <span class="clause-num">5.2</span>
+        <p>All pricing is listed in United States Dollars (USD). Prices may vary in other currencies based on applicable exchange rates and regional platform pricing adjustments applied by the Google Play Store or Apple App Store.</p>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">5.3</span>
+        <p>Free Trial: The Application offers a seven (7) day free trial for new subscribers. Upon expiration of the free trial, your selected subscription plan will automatically begin and you will be charged the applicable subscription fee unless you cancel prior to the end of the trial period.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">5.4</span>
+        <p>Subscriptions are managed through your respective app store platform (Google Play or Apple App Store). Billing, renewal, and cancellation are governed by the applicable platform's terms of service.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">5.5</span>
+        <p>Lifetime Subscriptions are tied to the individual user account under which they were purchased. Lifetime subscriptions are non-transferable and do not guarantee perpetual service availability independent of the Company's continued operation of the Application.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">5.6</span>
+        <p>The Company reserves the right to modify subscription pricing at any time with at least 30 days' prior notice to active subscribers. Price changes will not affect the current billing cycle in progress at the time of notice.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">5.7</span>
+        <p>Users are responsible for all taxes, levies, or duties applicable to their subscription fees under applicable law.</p>
+      </div>
+    </section>
 
-            <h2>Updates & Termination</h2>
-            <p>The Service Provider may update the application at any time. You agree to always accept updates when offered to continue using the service. We may also cease providing the application and terminate its use at any time without notice.</p>
+    <section class="section" id="s6">
+      <div class="section-header"><span class="section-num">§ 06</span><h2>Free Trial Terms</h2></div>
+      <div class="clause">
+        <span class="clause-num">6.1</span>
+        <p>New users may be eligible for a seven (7) day free trial of the Premium subscription tier. Eligibility is limited to new accounts and is subject to verification by the applicable app store platform.</p>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">6.2</span>
+        <p>To avoid being charged, you must cancel your subscription before the end of the free trial period. Cancellation instructions are available through your respective app store account settings.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">6.3</span>
+        <p>The Company reserves the right to modify, suspend, or discontinue free trial offerings at any time without notice. Only one free trial is permitted per user, per device, and per payment method.</p>
+      </div>
+    </section>
 
-            <div class="contact-box">
-                <h3>Contact Us</h3>
-                <p>If you have any questions or suggestions about these Terms and Conditions, please contact us:</p>
-                <p><a href="mailto:evolvia.app@gmail.com" class="email-link">evolvia.app@gmail.com</a></p>
-            </div>
-        </section>
+    <section class="section" id="s7">
+      <div class="section-header"><span class="section-num">§ 07</span><h2>Refund Policy</h2></div>
+      <div class="clause">
+        <span class="clause-num">7.1</span>
+        <p>All subscription purchases are processed through the Google Play Store or Apple App Store, and refund requests are subject to the policies of the applicable platform.</p>
+      </div>
+      <div class="clause important">
+        <span class="clause-num">7.2</span>
+        <p>The Company offers a 7-day refund window from the date of initial purchase for monthly and annual subscriptions, subject to the following conditions:</p>
+        <ul class="clause-list">
+          <li>The refund request is submitted within 7 calendar days of the original transaction date;</li>
+          <li>The user has not made excessive use of Premium features during the trial period beyond reasonable evaluation use;</li>
+          <li>The user submits a refund request to support@evolvia-app.com with their order confirmation number and reason for refund.</li>
+        </ul>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">7.3</span>
+        <p>Lifetime Subscriptions (Early Access and Standard) are non-refundable after purchase, given their one-time, discounted pricing structure, except as required by applicable consumer protection law.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">7.4</span>
+        <p>Refunds for purchases made through the Google Play Store or Apple App Store must additionally comply with those platforms' respective refund policies. The Company will cooperate with platform-initiated refund reviews.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">7.5</span>
+        <p>The Company reserves the right to deny refund requests where there is evidence of abuse, fraud, or repeated subscription purchases and cancellations.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">7.6</span>
+        <p>Refunds, if approved, will be processed within 10 business days to the original payment method, subject to your financial institution's processing times.</p>
+      </div>
+    </section>
 
-        <footer>
-            &copy; 2026 Evolvia-app.com | Generated by App Privacy Policy Generator
-        </footer>
-    </div>
+    <section class="section" id="s8">
+      <div class="section-header"><span class="section-num">§ 08</span><h2>Data Collection and Privacy</h2></div>
+      <div class="clause">
+        <span class="clause-num">8.1</span>
+        <p>The Application collects and processes the following categories of data exclusively on your local device, unless otherwise stated:</p>
+        <ul class="clause-list">
+          <li>Account credentials (passwords, encrypted locally)</li>
+          <li>Device usage statistics (app usage time, session data)</li>
+          <li>Browsing history (for blocking functionality; stored locally only)</li>
+          <li>Crash logs (transmitted to Firebase Crashlytics for diagnostic purposes)</li>
+          <li>Payment information (processed and managed by Google Play or Apple App Store; not stored by the Company)</li>
+        </ul>
+      </div>
+      <div class="clause important">
+        <span class="clause-num">8.2</span>
+        <p>The Company does not collect, store, transmit, or sell your personal usage data, browsing history, or behavioral data to any server, third party, or data broker. All such data remains on your device and is deleted upon uninstallation of the Application.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">8.3</span>
+        <p>The Application integrates the following third-party services, which may collect non-personally-identifiable data as described in their respective privacy policies:</p>
+        <ul class="clause-list">
+          <li><strong>Google AdMob</strong> &#8211; for in-app advertising (free tier). AdMob may collect device identifiers and serve personalized or non-personalized ads. Users in applicable jurisdictions have the right to opt out of personalized advertising.</li>
+          <li><strong>Firebase Analytics</strong> &#8211; for anonymized app usage analytics.</li>
+          <li><strong>Firebase Crashlytics</strong> &#8211; for crash reporting and app stability diagnostics.</li>
+        </ul>
+      </div>
+      <div class="clause">
+        <span class="clause-num">8.4</span>
+        <p>You are encouraged to review the privacy policies of each third-party provider: Google Privacy Policy.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">8.5</span>
+        <p>The Company processes data in accordance with its full Privacy Policy, available at www.evolvia-app.com/privacy, which is incorporated into these Terms by reference.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">8.6</span>
+        <p>Users located in the European Economic Area (EEA), United Kingdom, or California have additional rights under the GDPR, UK GDPR, and California Consumer Privacy Act (CCPA) respectively, as detailed in the Privacy Policy.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s9">
+      <div class="section-header"><span class="section-num">§ 09</span><h2>Android System Permissions</h2></div>
+      <div class="clause">
+        <span class="clause-num">9.1</span>
+        <p>The Application requires the following elevated system permissions to deliver its core functionality. By granting these permissions, you acknowledge their purpose and provide your informed consent:</p>
+        <ul class="clause-list">
+          <li><strong>a) Accessibility Service Permission</strong> &#8212; Used to detect when restricted apps or websites are launched and to enforce blocking rules in real time. This permission allows the Application to monitor foreground app activity and intercept navigation to blocked content. It does not access personal messages, photos, financial data, or other unrelated content.</li>
+          <li><strong>b) Usage Access Permission</strong> &#8212; Used to retrieve device usage statistics, including time spent in individual applications, for the purpose of generating usage reports visible to the user within the Application.</li>
+          <li><strong>c) Device Administrator Privilege</strong> &#8212; Used to enforce Locked Mode and Strict Mode restrictions, prevent unauthorized removal of the Application during active blocking sessions, and maintain the integrity of user-defined digital wellness commitments.</li>
+        </ul>
+      </div>
+      <div class="clause">
+        <span class="clause-num">9.2</span>
+        <p>You may revoke any of the above permissions at any time through your device's system settings. However, revocation of required permissions will disable the corresponding features of the Application, and the Company is not responsible for any resulting limitation of Service.</p>
+      </div>
+      <div class="clause important">
+        <span class="clause-num">9.3</span>
+        <p>The Company does not use any of the above permissions for surveillance, data harvesting, or any purpose beyond the features described in these Terms.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s10">
+      <div class="section-header"><span class="section-num">§ 10</span><h2>Locked Mode and Strict Mode Disclaimers</h2></div>
+      <div class="clause warning">
+        <span class="clause-num">10.1</span>
+        <p>Locked Mode is an intentionally restrictive feature designed to enforce the user's own digital wellness commitments. Once activated, Locked Mode cannot be deactivated before the user-selected period expires, except through the administrative bypass password.</p>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">10.2</span>
+        <p>You assume full responsibility for any consequences arising from activating Locked Mode, including but not limited to: inability to access blocked applications for work, emergency communications, navigation, or other purposes during the active period. You are strongly advised to exclude emergency services and critical applications from your blocking settings before activating Locked Mode.</p>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">10.3</span>
+        <p>The Company expressly disclaims all liability for harm, loss, or damage of any kind arising from your voluntary activation of Locked Mode or Strict Mode, including consequential, incidental, or indirect damages.</p>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">10.4</span>
+        <p>Forgotten Passwords: The Application provides an administrative bypass password as a recovery mechanism. The Company does not store, have access to, or have the ability to recover user-set passwords. If you lose both your user password and administrative bypass password, the Company cannot restore access to your settings. You assume full responsibility for safeguarding both passwords.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">10.5</span>
+        <p>The maximum continuous duration for a single Locked Mode cycle is seven (7) consecutive days, followed by an automatic one (1) day unlock window. If the user takes no action during the unlock window, the seven-day cycle may resume.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s11">
+      <div class="section-header"><span class="section-num">§ 11</span><h2>Intellectual Property Rights</h2></div>
+      <div class="clause">
+        <span class="clause-num">11.1</span>
+        <p>The Application, including all content, features, functionality, design, source code, trademarks, logos, trade names, and service marks ("Intellectual Property"), is and shall remain the exclusive property of Evolvia Studios LLC and its licensors.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">11.2</span>
+        <p>These Terms do not convey to you any ownership interest in or to the Application or its Intellectual Property. You are granted a limited, non-exclusive, non-transferable, revocable license to use the Application on a compatible device you own or control, solely for your personal, non-commercial digital wellness purposes, subject to and in accordance with these Terms.</p>
+      </div>
+      <div class="clause important">
+        <span class="clause-num">11.3</span>
+        <p>You may not: (a) copy, modify, distribute, sell, or lease any part of the Application or its Intellectual Property; (b) reverse engineer, decompile, or disassemble the Application; (c) use any Company trademark, logo, or trade name without prior written consent; (d) create derivative works based on the Application; or (e) attempt to extract or otherwise exploit the Application's source code.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">11.4</span>
+        <p>Any feedback, suggestions, or ideas you provide regarding the Application may be used by the Company without restriction and without compensation to you.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s12">
+      <div class="section-header"><span class="section-num">§ 12</span><h2>Prohibited Uses</h2></div>
+      <div class="clause important">
+        <span class="clause-num">12.1</span>
+        <p>You agree that you will not use the Application to:</p>
+        <ul class="clause-list">
+          <li>(a) Violate any applicable federal, state, local, or international law or regulation;</li>
+          <li>(b) Circumvent, disable, or interfere with the Application's security or restriction features;</li>
+          <li>(c) Exploit the administrative bypass password mechanism to defeat the legitimate blocking features of another user;</li>
+          <li>(d) Use the Application to impose restrictions on another person's device without their full, informed, and voluntary consent;</li>
+          <li>(e) Attempt to gain unauthorized access to any portion of the Application or its related systems;</li>
+          <li>(f) Introduce any virus, malware, or disruptive code into the Application or associated infrastructure;</li>
+          <li>(g) Engage in any automated access, scraping, or data mining of the Application;</li>
+          <li>(h) Impersonate any person or entity or misrepresent your affiliation with any person or entity;</li>
+          <li>(i) Use the Application for any commercial purpose without the Company's express written authorization.</li>
+        </ul>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">12.2</span>
+        <p>Violation of this Section may result in immediate termination of your account and subscription without refund, and may subject you to civil and/or criminal liability.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s13">
+      <div class="section-header"><span class="section-num">§ 13</span><h2>Third-Party Services and Links</h2></div>
+      <div class="clause">
+        <span class="clause-num">13.1</span>
+        <p>The Application integrates with third-party services including Google AdMob, Firebase Analytics, and Firebase Crashlytics (collectively, "Third-Party Services"). Your use of these Third-Party Services is subject to their respective terms of service and privacy policies.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">13.2</span>
+        <p>The Company makes no representations or warranties regarding the accuracy, reliability, or legality of any Third-Party Services and is not responsible for their conduct, content, or data practices.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">13.3</span>
+        <p>The Application may display advertisements served by Google AdMob. The Company does not control the content of third-party advertisements and does not endorse any advertised products or services.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">13.4</span>
+        <p>Any links to third-party websites or services within the Application are provided for convenience only. The Company does not endorse and is not responsible for any third-party content, products, or services accessible through such links.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s14">
+      <div class="section-header"><span class="section-num">§ 14</span><h2>Disclaimer of Warranties</h2></div>
+      <div class="caps-block">
+        14.1 &#8212; THE APPLICATION IS PROVIDED ON AN &#8220;AS IS&#8221; AND &#8220;AS AVAILABLE&#8221; BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, OR UNINTERRUPTED, ERROR-FREE OPERATION.
+      </div>
+      <div class="clause">
+        <span class="clause-num">14.2</span>
+        <p>The Company does not warrant that: (a) the Application will meet your specific requirements; (b) the Application will be available at all times or at any particular time; (c) any errors or defects in the Application will be corrected; or (d) the Application is free of viruses or other harmful components.</p>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">14.3</span>
+        <p>Digital Wellness Results Disclaimer: The Company makes no guarantee, representation, or warranty that use of the Application will result in any particular health, behavioral, psychological, or productivity outcome. The Application is a tool to support your own goals &#8212; it is not a medical device, mental health treatment, or therapeutic intervention. If you are experiencing addiction, compulsive behavior, or mental health concerns, please consult a qualified healthcare professional.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">14.4</span>
+        <p>Some jurisdictions do not allow the exclusion of implied warranties. In such jurisdictions, the above exclusions apply to the fullest extent permitted by law.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s15">
+      <div class="section-header"><span class="section-num">§ 15</span><h2>Limitation of Liability</h2></div>
+      <div class="caps-block">
+        15.1 &#8212; TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, EVOLVIA STUDIOS LLC, ITS MEMBERS, MANAGERS, EMPLOYEES, AGENTS, LICENSORS, AND SERVICE PROVIDERS SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, PUNITIVE, OR EXEMPLARY DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, DATA, GOODWILL, USE, OR OTHER INTANGIBLE LOSSES, ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF OR INABILITY TO USE THE APPLICATION.
+      </div>
+      <div class="clause important">
+        <span class="clause-num">15.2</span>
+        <p>In no event shall the Company's total aggregate liability to you exceed the greater of (a) the total fees paid by you to the Company in the twelve (12) months immediately preceding the event giving rise to the claim, or (b) $10.00 USD.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">15.3</span>
+        <p>The foregoing limitations apply regardless of the legal theory under which such damages are sought, including contract, tort, negligence, strict liability, or otherwise, and even if the Company has been advised of the possibility of such damages.</p>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">15.4</span>
+        <p>Locked Mode Liability Exclusion: The Company expressly disclaims all liability for any harm, missed communications, missed obligations, or other consequences arising from your voluntary, self-imposed activation of Locked Mode or Strict Mode.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s16">
+      <div class="section-header"><span class="section-num">§ 16</span><h2>Indemnification</h2></div>
+      <div class="clause">
+        <span class="clause-num">16.1</span>
+        <p>You agree to indemnify, defend, and hold harmless Evolvia Studios LLC and its members, managers, officers, employees, agents, successors, and assigns from and against any and all claims, demands, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to:</p>
+        <ul class="clause-list">
+          <li>(a) Your use or misuse of the Application;</li>
+          <li>(b) Your violation of these Terms;</li>
+          <li>(c) Your violation of any applicable law, rule, or regulation;</li>
+          <li>(d) Your infringement of any third party's intellectual property or other rights;</li>
+          <li>(e) Any content or data you submit, upload, or transmit through or in connection with the Application;</li>
+          <li>(f) Your activation of Locked Mode, Strict Mode, or any feature that restricts access on your or another's device.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="s17">
+      <div class="section-header"><span class="section-num">§ 17</span><h2>Termination</h2></div>
+      <div class="clause">
+        <span class="clause-num">17.1</span>
+        <p>These Terms are effective until terminated. The Company may terminate or suspend your access to the Application at any time, with or without cause, with or without notice, effective immediately, including in the event of your breach of any provision of these Terms.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">17.2</span>
+        <p>You may terminate these Terms at any time by uninstalling the Application from your device and, where applicable, canceling your subscription through your app store account.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">17.3</span>
+        <p>Upon termination: (a) all licenses granted to you under these Terms will immediately cease; (b) you must cease all use of the Application; (c) locally stored data will be deleted upon uninstallation; and (d) subscription fees for the current billing period are non-refundable except as provided in Section 7.</p>
+      </div>
+      <div class="clause important">
+        <span class="clause-num">17.4</span>
+        <p>Sections 11, 14, 15, 16, 19, 20, 22, and 23 shall survive termination of these Terms.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s18">
+      <div class="section-header"><span class="section-num">§ 18</span><h2>Modifications to the Application and Terms</h2></div>
+      <div class="clause">
+        <span class="clause-num">18.1</span>
+        <p>The Company reserves the right, at its sole discretion, to modify, update, suspend, discontinue, or terminate the Application or any feature thereof at any time without notice.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">18.2</span>
+        <p>The Company may revise these Terms at any time. Updated Terms will be posted at www.evolvia-app.com/terms and, where material changes are made, users will be notified via email or in-app notification at least 14 days prior to the effective date of the change.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">18.3</span>
+        <p>Your continued use of the Application after the effective date of any revised Terms constitutes your binding acceptance of the changes.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s19">
+      <div class="section-header"><span class="section-num">§ 19</span><h2>Governing Law and Dispute Resolution</h2></div>
+      <div class="clause">
+        <span class="clause-num">19.1</span>
+        <p>These Terms and any dispute arising hereunder shall be governed by and construed in accordance with the laws of the State of Wyoming, United States of America, without regard to its conflict of law principles.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">19.2</span>
+        <p>Informal Resolution: Before initiating any formal proceeding, you agree to first attempt to resolve any dispute by contacting the Company at legal@evolvia-app.com. The parties will attempt in good faith to resolve the dispute within 30 days.</p>
+      </div>
+      <div class="clause important">
+        <span class="clause-num">19.3</span>
+        <p>Binding Arbitration: If the parties cannot resolve a dispute informally, any claim, controversy, or dispute arising out of or relating to these Terms or the Application shall be finally resolved by binding individual arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules, except as provided in Section 19.5. The arbitration shall be conducted in Wyoming or, at the user's election, via remote proceeding.</p>
+      </div>
+      <div class="caps-block">
+        19.4 &#8212; CLASS ACTION WAIVER: TO THE FULLEST EXTENT PERMITTED BY LAW, YOU WAIVE ANY RIGHT TO BRING OR PARTICIPATE IN ANY CLASS ACTION, COLLECTIVE ACTION, OR REPRESENTATIVE PROCEEDING AGAINST THE COMPANY. All arbitrations shall be conducted on an individual basis only.
+      </div>
+      <div class="clause">
+        <span class="clause-num">19.5</span>
+        <p>Exceptions to Arbitration: Either party may seek injunctive or other equitable relief in a court of competent jurisdiction to prevent actual or threatened infringement, misappropriation, or violation of intellectual property rights or confidentiality obligations.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">19.6</span>
+        <p>For users in the European Union, nothing in these Terms limits your right to bring a complaint before your local data protection authority or consumer protection agency.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s20">
+      <div class="section-header"><span class="section-num">§ 20</span><h2>Compliance with App Store Policies</h2></div>
+      <div class="clause">
+        <span class="clause-num">20.1</span>
+        <p>The Application is distributed through the Google Play Store and Apple App Store. Your use of the Application through these platforms is additionally subject to the applicable platform's terms of service, developer policies, and usage rules.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">20.2</span>
+        <p>The Company's obligations under these Terms are solely between the Company and you. Google and Apple are not parties to these Terms and bear no responsibility for the Application or its content.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">20.3</span>
+        <p>To the extent that any provision of these Terms conflicts with applicable app store policies, the applicable platform policy shall govern with respect to platform-specific obligations only.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s21">
+      <div class="section-header"><span class="section-num">§ 21</span><h2>International Use and Compliance</h2></div>
+      <div class="clause">
+        <span class="clause-num">21.1</span>
+        <p>The Application is operated from the United States of America and is intended for global use. The Company makes no representation that the Application or its features are appropriate or available for use in all jurisdictions.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">21.2</span>
+        <p>Users accessing the Application from outside the United States are responsible for compliance with all applicable local laws, including data protection laws, consumer protection regulations, and any restrictions on the use of software that exercises device administrator or accessibility permissions.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">21.3</span>
+        <p>The Company complies, to the extent applicable, with the following data protection frameworks: GDPR (EU/EEA), UK GDPR, CCPA (California), PIPEDA (Canada), and LGPD (Brazil). Users in these jurisdictions have specific rights as detailed in the Privacy Policy.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">21.4</span>
+        <p>The Application and its features may not be exported or re-exported to any country subject to a U.S. government embargo or to any person on any U.S. government list of prohibited or restricted parties.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s22">
+      <div class="section-header"><span class="section-num">§ 22</span><h2>Accessibility and Disability Accommodations</h2></div>
+      <div class="clause">
+        <span class="clause-num">22.1</span>
+        <p>The Company is committed to making the Application accessible to users with disabilities to the extent technically feasible. If you require accessibility accommodations or have encountered a barrier in using the Application, please contact support@evolvia-app.com.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">22.2</span>
+        <p>The Application's use of Android's Accessibility Service is solely for its blocking and monitoring functionality and is not designed to serve as an assistive technology for users with disabilities. Users requiring assistive technology should use Android's native accessibility tools.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s23">
+      <div class="section-header"><span class="section-num">§ 23</span><h2>Severability and Waiver</h2></div>
+      <div class="clause">
+        <span class="clause-num">23.1</span>
+        <p>If any provision of these Terms is found by a court or arbitrator of competent jurisdiction to be invalid, illegal, or unenforceable, such provision shall be modified to the minimum extent necessary to make it enforceable, or if not possible, severed from these Terms. The remaining provisions shall continue in full force and effect.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">23.2</span>
+        <p>The Company's failure to enforce any provision of these Terms at any time shall not be construed as a waiver of that provision or of any other provision. No waiver shall be effective unless made in writing and signed by an authorized representative of the Company.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s24">
+      <div class="section-header"><span class="section-num">§ 24</span><h2>Entire Agreement</h2></div>
+      <div class="clause">
+        <span class="clause-num">24.1</span>
+        <p>These Terms, together with the Privacy Policy, End User License Agreement (EULA), and Refund Policy (all available at www.evolvia-app.com), constitute the entire agreement between you and Evolvia Studios LLC with respect to the Application and supersede all prior or contemporaneous understandings, representations, warranties, and agreements, whether written or oral, relating to the Application.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">24.2</span>
+        <p>In the event of any conflict between these Terms and the EULA, the EULA shall govern with respect to licensing matters; these Terms shall govern in all other respects.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s25">
+      <div class="section-header"><span class="section-num">§ 25</span><h2>Contact Information and Notices</h2></div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-card-label">General Support (25.1)</div>
+          <div class="contact-card-value">support@evolvia-app.com</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-label">Legal &amp; Compliance (25.2)</div>
+          <div class="contact-card-value">legal@evolvia-app.com</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-label">Privacy Requests (25.3)</div>
+          <div class="contact-card-value">privacy@evolvia-app.com</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-label">Website (25.4)</div>
+          <div class="contact-card-value">www.evolvia-app.com</div>
+        </div>
+      </div>
+      <div class="clause">
+        <span class="clause-num">25.4</span>
+        <p>Mailing address: Evolvia Studios LLC, State of Wyoming, United States of America. Website: www.evolvia-app.com</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">25.5</span>
+        <p>Notices to the Company must be in writing and delivered via email to the applicable address above or via certified mail to the Company's registered address. Notices from the Company to you may be delivered by email, in-app notification, or posting on the Company website.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">25.6</span>
+        <p>These Terms were last updated on March 4, 2026.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <span class="footer-logo">Evolvia Studios LLC</span>
+  <p>&#169; 2026 Evolvia Studios LLC. All rights reserved. Evolvia &#8211; Block. Focus. Evolve is a trademark of Evolvia Studios LLC.</p>
+</footer>
 
 </body>
 </html>
