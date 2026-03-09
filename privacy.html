@@ -1,171 +1,1109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy | Evolvia</title>
-    <style>
-        :root {
-            --gold: #D4AF37;
-            --dark-bg: #000000;
-            --gold-glow: rgba(212, 175, 55, 0.1);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Evolvia</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0b07;
+    --surface: #141208;
+    --border: #2a2410;
+    --accent: #f5c518;
+    --accent2: #ffaa00;
+    --muted: #4a3e10;
+    --text: #f2edd8;
+    --text-dim: #9a8c5a;
+    --text-dimmer: #5a4e28;
+  }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
-            background: radial-gradient(circle at top, var(--gold-glow) 0%, var(--dark-bg) 60%);
-            background-color: var(--dark-bg);
-            color: #e0e0e0;
-            line-height: 1.7;
-        }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-        nav {
-            margin-bottom: 50px;
-        }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.6;
+  }
 
-        .back-btn {
-            color: var(--gold);
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid var(--gold);
-            padding: 8px 20px;
-            border-radius: 50px;
-            transition: 0.3s;
-        }
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(245, 197, 24, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-        .back-btn:hover {
-            background: var(--gold);
-            color: black;
-        }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(12, 11, 7, 0.88);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 10px var(--accent2);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .header-meta { font-size: 11px; color: var(--text-dim); letter-spacing: 0.05em; }
 
-        header {
-            border-bottom: 1px solid #333;
-            padding-bottom: 30px;
-            margin-bottom: 40px;
-        }
+  .hero {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 2rem 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    padding: 5px 10px;
+    border: 1px solid rgba(245, 197, 24, 0.25);
+    border-radius: 3px;
+    background: rgba(245, 197, 24, 0.06);
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+  h1 span { color: var(--accent); }
+  .hero-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dimmer); }
+  .meta-value { font-size: 13px; color: var(--text-dim); }
 
-        h1 {
-            color: var(--gold);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
+  .layout {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 0;
+    padding-bottom: 80px;
+  }
 
-        h2, h3 {
-            color: var(--gold);
-            margin-top: 40px;
-        }
+  .sidebar {
+    padding: 40px 24px 40px 2rem;
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 60px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .sidebar::-webkit-scrollbar { display: none; }
+  .sidebar-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dimmer); margin-bottom: 16px; }
+  .nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .nav-list a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+    border-left: 2px solid transparent;
+    line-height: 1.4;
+  }
+  .nav-list a:hover { color: var(--text); background: rgba(245,197,24,0.04); border-left-color: var(--accent); }
+  .nav-num { color: var(--text-dimmer); margin-right: 6px; font-size: 10px; }
 
-        p, li {
-            color: #bbb;
-            font-size: 1.05rem;
-        }
+  .content { padding: 40px 2rem 40px 48px; }
 
-        ul {
-            padding-left: 20px;
-        }
+  .section { margin-bottom: 56px; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.05em; white-space: nowrap; }
+  h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--text); }
 
-        .contact-box {
-            background: #0a0a0a;
-            border: 1px solid #222;
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 50px;
-            text-align: center;
-        }
+  .clause {
+    margin-bottom: 14px;
+    padding-left: 16px;
+    border-left: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .clause:hover { border-left-color: var(--muted); }
+  .clause-num { font-size: 11px; color: var(--text-dimmer); display: inline; margin-right: 8px; }
+  .clause p { display: inline; color: var(--text-dim); font-size: 13px; line-height: 1.9; }
 
-        .email-link {
-            color: var(--gold);
-            text-decoration: underline;
-        }
+  .clause.important {
+    border-left-color: rgba(245, 197, 24, 0.5);
+    background: rgba(245, 197, 24, 0.05);
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+  }
+  .clause.warning {
+    border-left-color: rgba(255, 100, 40, 0.45);
+    background: rgba(255, 100, 40, 0.04);
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+  }
+  .clause.warning p, .clause.warning .clause-num { color: rgba(255, 165, 80, 0.9); }
 
-        footer {
-            margin-top: 80px;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #444;
-        }
-    </style>
+  .clause-list {
+    margin: 10px 0 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .clause-list li {
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.8;
+    padding: 6px 10px 6px 12px;
+    border-left: 1px solid var(--border);
+  }
+  .clause-list li strong { color: var(--text); }
+
+  .caps-block {
+    background: rgba(30, 24, 8, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    margin: 12px 0;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+  }
+
+  .pricing-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  .pricing-table th {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dimmer);
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+  }
+  .pricing-table td { padding: 12px 16px; color: var(--text-dim); border-bottom: 1px solid rgba(42,36,16,0.5); }
+  .pricing-table tr:hover td { background: rgba(245,197,24,0.02); }
+  .pricing-table .plan-name { color: var(--text); font-family: 'Syne', sans-serif; font-weight: 600; font-size: 13px; }
+  .pricing-table .price { color: var(--accent); font-weight: 500; }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: rgba(245, 197, 24, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(245, 197, 24, 0.25);
+    margin-left: 6px;
+  }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .contact-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px; transition: border-color 0.2s; }
+  .contact-card:hover { border-color: var(--muted); }
+  .contact-card-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dimmer); margin-bottom: 6px; }
+  .contact-card-value { font-size: 12px; color: var(--accent); }
+
+  .step-block {
+    background: rgba(20, 18, 8, 0.8);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .step-block-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .step-block p { display: block; font-size: 12px; color: var(--text-dim); line-height: 1.8; }
+
+  .data-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 12px; }
+  .data-table th {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dimmer);
+    text-align: left;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    background: rgba(20, 18, 8, 0.6);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    color: var(--text-dim);
+    border-bottom: 1px solid rgba(42,36,16,0.4);
+    vertical-align: top;
+    line-height: 1.7;
+    font-size: 12px;
+  }
+  .data-table tr:hover td { background: rgba(245,197,24,0.02); }
+  .data-table .col-key { color: var(--text); font-weight: 500; }
+  .data-table .col-yes { color: #7ecb8a; }
+  .data-table .col-no { color: var(--text-dimmer); }
+
+  .sub-heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 18px 0 8px 0;
+  }
+
+  .rights-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 7px 12px;
+    background: rgba(245, 197, 24, 0.07);
+    border-left: 2px solid var(--accent);
+    margin: 14px 0 8px 0;
+    display: block;
+  }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 32px 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer p { font-size: 12px; color: var(--text-dimmer); }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; color: var(--text-dim); }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 2px; }
+
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .content { padding: 32px 1.5rem; }
+    .hero { padding: 50px 1.5rem 40px; }
+    h1 { font-size: 2.2rem; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .hero-meta { gap: 20px; }
+  }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <nav>
-            <a href="/" class="back-btn">← Back to Evolvia</a>
-        </nav>
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo"><span class="logo-dot"></span>Evolvia</a>
+    <span class="header-meta">Legal Document &middot; v1.0 &middot; March 2026</span>
+  </div>
+</header>
 
-        <header>
-            <h1>Privacy Policy</h1>
-            <p>Effective Date: January 22, 2026</p>
-        </header>
+<div class="hero">
+  <div class="hero-label">&#11041; Legal Agreement</div>
+  <h1>Privacy<br><span>Policy</span></h1>
+  <div class="hero-meta">
+    <div class="meta-item"><span class="meta-label">Entity</span><span class="meta-value">Evolvia Studios LLC</span></div>
+    <div class="meta-item"><span class="meta-label">Effective Date</span><span class="meta-value">March 4, 2026</span></div>
+    <div class="meta-item"><span class="meta-label">Jurisdiction</span><span class="meta-value">Wyoming, USA</span></div>
+    <div class="meta-item"><span class="meta-label">Website</span><span class="meta-value">www.evolvia-app.com</span></div>
+  </div>
+</div>
 
-        <section>
-            <p>This privacy policy applies to the <strong>Evolvia</strong> app (hereby referred to as "Application") for mobile devices created by <strong>Evolvia</strong> (hereby referred to as "Service Provider") as a Freemium service. This service is intended for use "AS IS".</p>
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Sections</div>
+    <ul class="nav-list">
+      <li><a href="#s1"><span class="nav-num">01</span>Introduction &amp; Identity</a></li>
+      <li><a href="#s2"><span class="nav-num">02</span>Core Privacy Commitment</a></li>
+      <li><a href="#s3"><span class="nav-num">03</span>Information We Collect</a></li>
+      <li><a href="#s4"><span class="nav-num">04</span>Information We Do NOT Collect</a></li>
+      <li><a href="#s5"><span class="nav-num">05</span>Legal Basis for Processing</a></li>
+      <li><a href="#s6"><span class="nav-num">06</span>How We Use Your Information</a></li>
+      <li><a href="#s7"><span class="nav-num">07</span>Android System Permissions</a></li>
+      <li><a href="#s8"><span class="nav-num">08</span>Data Storage &amp; Retention</a></li>
+      <li><a href="#s9"><span class="nav-num">09</span>Data Sharing &amp; Disclosure</a></li>
+      <li><a href="#s10"><span class="nav-num">10</span>Advertising &amp; Your Choices</a></li>
+      <li><a href="#s11"><span class="nav-num">11</span>Children's Privacy (COPPA)</a></li>
+      <li><a href="#s12"><span class="nav-num">12</span>Security Measures</a></li>
+      <li><a href="#s13"><span class="nav-num">13</span>International Data Transfers</a></li>
+      <li><a href="#s14"><span class="nav-num">14</span>Your Privacy Rights</a></li>
+      <li><a href="#s15"><span class="nav-num">15</span>Cookies &amp; Tracking Technologies</a></li>
+      <li><a href="#s16"><span class="nav-num">16</span>Data Breach Notification</a></li>
+      <li><a href="#s17"><span class="nav-num">17</span>Third-Party Privacy Policies</a></li>
+      <li><a href="#s18"><span class="nav-num">18</span>California Privacy Rights</a></li>
+      <li><a href="#s19"><span class="nav-num">19</span>Changes to This Policy</a></li>
+      <li><a href="#s20"><span class="nav-num">20</span>Contact Information &amp; DPO</a></li>
+    </ul>
+  </nav>
 
-            <h2>Information Collection and Use</h2>
-            <p>The Application collects information when you download and use it. This information may include:</p>
-            <ul>
-                <li>Your device's Internet Protocol address (e.g. IP address)</li>
-                <li>The pages of the Application that you visit, the time and date of your visit, and the time spent on those pages</li>
-                <li>The operating system you use on your mobile device</li>
-            </ul>
+  <main class="content">
 
-            <p>The Application collects your device's location to provide features such as:</p>
-            <ul>
-                <li><strong>Geolocation Services:</strong> Personalized content and relevant recommendations.</li>
-                <li><strong>Analytics and Improvements:</strong> Analyzing user behavior to identify trends and improve performance.</li>
-                <li><strong>Third-Party Services:</strong> Periodically transmitting anonymized data to optimize offerings.</li>
-            </ul>
+    <!-- SECTION 1 -->
+    <section class="section" id="s1">
+      <div class="section-header"><span class="section-num">§ 01</span><h2>Introduction and Identity of the Data Controller</h2></div>
 
-            <h2>Personally Identifiable Information</h2>
-            <p>For a better experience, the Service Provider may require you to provide us with certain personally identifiable information, including but not limited to:</p>
-            <ul>
-                <li>App usage statistics</li>
-                <li>Web browsing history & Screen interaction data</li>
-                <li>Document and PDF access records</li>
-                <li>Device information & In-app purchase verification data</li>
-            </ul>
+      <div class="clause important">
+        <span class="clause-num">1.1</span>
+        <p>Evolvia Studios LLC ("Company," "we," "us," or "our"), a limited liability company organized under the laws of the State of Wyoming, United States of America, operates the Evolvia &#8211; Block. Focus. Evolve mobile application ("Application," "App," "Service"). This Privacy Policy explains how we collect, use, store, protect, and disclose information in connection with your use of the Application.</p>
+      </div>
 
-            <h2>Third Party Access</h2>
-            <p>The Application utilizes third-party services that have their own Privacy Policies. Below are the links to the service providers used:</p>
-            <ul>
-                <li><a href="https://www.google.com/policies/privacy/" target="_blank" class="email-link">Google Play Services</a></li>
-                <li><a href="https://support.google.com/admob/answer/6128543?hl=en" target="_blank" class="email-link">AdMob</a></li>
-            </ul>
+      <div class="clause">
+        <span class="clause-num">1.2</span>
+        <p>Evolvia Studios LLC is the data controller for purposes of the General Data Protection Regulation (GDPR), the UK GDPR, the California Consumer Privacy Act (CCPA/CPRA), and any other applicable privacy legislation that recognizes the concept of a data controller or equivalent.</p>
+      </div>
 
-            <h2>Opt-Out Rights</h2>
-            <p>You can stop all collection of information by the Application easily by uninstalling it. Use the standard uninstall processes available as part of your mobile device.</p>
+      <div class="clause">
+        <span class="clause-num">1.3</span>
+        <p>This Privacy Policy applies to all users of the Application globally, regardless of the platform through which the Application is accessed (Google Play Store or Apple App Store), and supplements the Company's Terms and Conditions, which are incorporated herein by reference.</p>
+      </div>
 
-            <h2>Data Retention Policy</h2>
-            <p>The Service Provider will retain User Provided data for as long as you use the Application. If you'd like your data deleted, please contact <strong>evolvia.app@gmail.com</strong>.</p>
+      <div class="clause warning">
+        <span class="clause-num">1.4</span>
+        <p>By installing or using the Application, you acknowledge that you have read, understood, and agree to the data practices described in this Privacy Policy. If you do not agree, you must immediately cease using the Application and uninstall it from your device.</p>
+      </div>
 
-            <h2>Children</h2>
-            <p>The Application does not knowingly solicit data from or market to children under the age of 13. If a parent becomes aware of data submission, please contact the Service Provider immediately.</p>
+      <div class="clause">
+        <span class="clause-num">1.5</span>
+        <p>This Policy should be read together with our Terms and Conditions and End User License Agreement, all available at www.evolvia-app.com.</p>
+      </div>
+    </section>
 
-            <h2>Security</h2>
-            <p>We provide physical, electronic, and procedural safeguards to protect the confidentiality of your information.</p>
+    <!-- SECTION 2 -->
+    <section class="section" id="s2">
+      <div class="section-header"><span class="section-num">§ 02</span><h2>Summary of Our Core Privacy Commitment</h2></div>
 
-            <div class="contact-box">
-                <h3>Contact Us</h3>
-                <p>If you have any questions regarding privacy while using the Application, please contact us:</p>
-                <p><a href="mailto:evolvia.app@gmail.com" class="email-link">evolvia.app@gmail.com</a></p>
-            </div>
-        </section>
+      <div class="clause">
+        <span class="clause-num">2.1</span>
+        <p>We believe your personal data belongs to you. Evolvia is engineered on a local-first, privacy-by-design architecture. This means:</p>
+        <ul class="clause-list">
+          <li><strong>We do not operate user data servers.</strong> Your usage data, browsing history, and behavioral data are stored exclusively on your device.</li>
+          <li><strong>We do not sell your data.</strong> We have never sold and will never sell personal information to data brokers, advertisers, or any third party for monetary or other consideration.</li>
+          <li><strong>We do not profile you for advertising.</strong> While we display ads through Google AdMob (free tier only), we do not build or sell behavioral advertising profiles from your personal usage data.</li>
+          <li><strong>We collect only what is necessary.</strong> All data collection is limited to what is strictly required to provide the App's functionality or maintain service quality.</li>
+        </ul>
+      </div>
 
-        <footer>
-            &copy; 2026 Evolvia-app.com | Generated by App Privacy Policy Generator
-        </footer>
-    </div>
+      <div class="clause">
+        <span class="clause-num">2.2</span>
+        <p>This Section is a plain-language summary. The full details of our practices are set forth in the sections below, which govern in the event of any conflict.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="section" id="s3">
+      <div class="section-header"><span class="section-num">§ 03</span><h2>Information We Collect</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">3.1</span>
+        <p>We collect the following categories of information, depending on your use of the Application:</p>
+      </div>
+
+      <div class="sub-heading">A. Information You Provide Directly</div>
+      <ul class="clause-list">
+        <li><strong>Account credentials:</strong> If you create an account, we collect your email address and a hashed (encrypted) version of your password. We do not store plaintext passwords.</li>
+        <li><strong>User-set blocking preferences:</strong> App names, website URLs, and schedules you configure within the Application. This data is stored locally on your device only.</li>
+        <li><strong>Support communications:</strong> If you contact us via email or support channels, we collect the content of your communications and your email address.</li>
+      </ul>
+
+      <div class="sub-heading">B. Information Collected Automatically (Device-Local)</div>
+      <ul class="clause-list">
+        <li><strong>App usage statistics:</strong> Time spent in individual applications, session start/end times, and aggregate daily usage totals &#8212; stored locally on your device and never transmitted to Company servers.</li>
+        <li><strong>Browsing history data:</strong> Website visit history collected solely to enable website blocking functionality &#8212; stored exclusively on your device and never transmitted externally.</li>
+        <li><strong>Device interaction data:</strong> Information about how you interact with the Application's own interface, such as settings changes and feature activation events &#8212; stored locally.</li>
+      </ul>
+
+      <div class="sub-heading">C. Information Collected by Third-Party Services</div>
+      <p style="display:block; margin-bottom:8px; color: var(--text-dim); font-size:13px;">The following data is collected by integrated third-party services under their own privacy policies:</p>
+      <ul class="clause-list">
+        <li><strong>Crash logs and diagnostics:</strong> Collected and transmitted to Firebase Crashlytics upon application crash events. May include device model, OS version, Application version, and a stack trace. Does not include personal usage content.</li>
+        <li><strong>Anonymized analytics events:</strong> Collected by Firebase Analytics, including anonymized app open events, feature usage frequency, and session duration aggregates. Firebase Analytics anonymizes IP addresses by default.</li>
+        <li><strong>Advertising identifiers:</strong> Google AdMob may collect your device's advertising identifier (GAID on Android, IDFA on iOS) and related signals for the purpose of serving advertisements on the free tier of the Application. See Section 10 for opt-out rights.</li>
+      </ul>
+
+      <div class="sub-heading">D. Payment Information</div>
+      <div class="clause important">
+        <p>Payment processing is handled exclusively by the Google Play Store or Apple App Store. The Company does not collect, store, or have access to your credit card number, bank account information, or full payment details. We may receive a transaction confirmation and subscription status from the platform (e.g., active, expired, cancelled).</p>
+      </div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="section" id="s4">
+      <div class="section-header"><span class="section-num">§ 04</span><h2>Information We Do Not Collect</h2></div>
+
+      <div class="clause important">
+        <span class="clause-num">4.1</span>
+        <p>For clarity and transparency, the following categories of data are not collected, transmitted, or stored by Evolvia Studios LLC:</p>
+        <ul class="clause-list">
+          <li>The content of your text messages, emails, or communications</li>
+          <li>Your photos, videos, or media files</li>
+          <li>Your precise or approximate GPS location</li>
+          <li>Your contacts or address book</li>
+          <li>Your call logs or phone records</li>
+          <li>The specific content of websites you visit (only URLs for blocking purposes, stored locally)</li>
+          <li>Your Social Security Number, government ID, or financial account numbers</li>
+          <li>Biometric data of any kind</li>
+          <li>Any data from the microphone or camera</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">4.2</span>
+        <p>We do not use your Accessibility Service permission or Usage Access permission to collect any data beyond what is explicitly described in Section 3 and Section 7 of this Policy.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="section" id="s5">
+      <div class="section-header"><span class="section-num">§ 05</span><h2>Legal Basis for Processing (GDPR and UK GDPR)</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">5.1</span>
+        <p>For users located in the European Economic Area (EEA) or the United Kingdom, we process personal data only where we have a lawful legal basis to do so. The legal bases we rely upon are:</p>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>Data Type</th><th>Legal Basis</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="col-key">Account credentials</td><td>Performance of contract (Art. 6(1)(b) GDPR)</td></tr>
+          <tr><td class="col-key">Crash logs / Crashlytics</td><td>Legitimate interests &#8212; service quality and stability (Art. 6(1)(f) GDPR)</td></tr>
+          <tr><td class="col-key">Firebase Analytics data</td><td>Legitimate interests &#8212; product improvement (Art. 6(1)(f) GDPR)</td></tr>
+          <tr><td class="col-key">AdMob advertising identifiers</td><td>Consent (Art. 6(1)(a) GDPR) &#8212; where required by applicable law</td></tr>
+          <tr><td class="col-key">Support communications</td><td>Legitimate interests &#8212; responding to user inquiries (Art. 6(1)(f) GDPR)</td></tr>
+          <tr><td class="col-key">Subscription/payment status</td><td>Performance of contract (Art. 6(1)(b) GDPR)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="clause">
+        <span class="clause-num">5.2</span>
+        <p>Where we rely on legitimate interests, we have conducted a balancing assessment and determined that our legitimate interests are not overridden by your rights and freedoms, given the limited and non-intrusive nature of the data collected.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">5.3</span>
+        <p>Where we rely on consent (e.g., for personalized advertising via AdMob), you have the right to withdraw that consent at any time without affecting the lawfulness of processing prior to withdrawal. See Section 14 for how to exercise this right.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="section" id="s6">
+      <div class="section-header"><span class="section-num">§ 06</span><h2>How We Use Your Information</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">6.1</span>
+        <p>We use the information we collect for the following purposes only:</p>
+        <ul class="clause-list">
+          <li>(a) To provide and maintain the Application and its features, including account management, subscription management, blocking functionality, and usage reporting &#8212; all processed locally on your device.</li>
+          <li>(b) To communicate with you, including responding to support inquiries, sending account-related notifications (e.g., subscription renewal reminders, policy updates), and providing technical assistance.</li>
+          <li>(c) To improve Application quality and stability, using anonymized crash reports (Firebase Crashlytics) and aggregated analytics (Firebase Analytics) to identify bugs, optimize performance, and prioritize feature development.</li>
+          <li>(d) To serve advertisements on the free tier of the Application via Google AdMob, subject to applicable consent requirements.</li>
+          <li>(e) To enforce our Terms and Conditions, detect fraud or abuse, and protect the rights, property, and safety of the Company and its users.</li>
+          <li>(f) To comply with applicable law, including responding to lawful legal process, regulatory obligations, and court orders.</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">6.2</span>
+        <p>We do not use your information for automated decision-making that produces legal or similarly significant effects on you without human review.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 7 -->
+    <section class="section" id="s7">
+      <div class="section-header"><span class="section-num">§ 07</span><h2>Use of Android System Permissions</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">7.1</span>
+        <p>The Application requires certain elevated Android system permissions to deliver its core functionality. This section provides a detailed, transparent account of how each permission is used in relation to your data:</p>
+      </div>
+
+      <div class="sub-heading">Accessibility Service Permission</div>
+      <ul class="clause-list">
+        <li><strong>Purpose:</strong> Detects when a blocked app or website is launched and enforces the blocking action by redirecting the user.</li>
+        <li><strong>Data use:</strong> Reads the package name or URL of the currently active foreground application or browser tab solely to compare against your locally stored blocklist. This comparison occurs entirely on-device. No foreground activity data is transmitted externally.</li>
+        <li><strong>What it does NOT do:</strong> It does not read, record, or transmit the content of your screen, text fields, messages, passwords, or any other on-screen content.</li>
+      </ul>
+
+      <div class="sub-heading">Usage Access Permission</div>
+      <ul class="clause-list">
+        <li><strong>Purpose:</strong> Retrieves aggregate app usage statistics (time per app, session frequency) from the Android system for display in your personal usage dashboard.</li>
+        <li><strong>Data use:</strong> Usage statistics are processed and displayed within the Application on your device only. This data is not transmitted to Company servers.</li>
+      </ul>
+
+      <div class="sub-heading">Device Administrator Privilege</div>
+      <ul class="clause-list">
+        <li><strong>Purpose:</strong> Enforces Locked Mode and Strict Mode by preventing unauthorized deactivation of the Application during an active blocking session.</li>
+        <li><strong>Data use:</strong> This permission does not collect any data. It grants the Application the system-level authority necessary to maintain enforcement of your voluntarily selected restrictions.</li>
+      </ul>
+
+      <div class="clause">
+        <span class="clause-num">7.2</span>
+        <p>You may revoke any of the above permissions at any time through your device's system settings (Settings &#8594; Accessibility / Usage Access / Device Administrators). Revocation will disable corresponding Application features.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 8 -->
+    <section class="section" id="s8">
+      <div class="section-header"><span class="section-num">§ 08</span><h2>Data Storage and Retention</h2></div>
+
+      <div class="clause important">
+        <span class="clause-num">8.1</span>
+        <p>Local Storage: All user-generated data &#8212; including blocking preferences, usage statistics, browsing history (for blocking purposes), and Application settings &#8212; is stored exclusively on your local device using the Application's sandboxed storage environment. This data is isolated from other applications and is not accessible by the Company.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">8.2</span>
+        <p>Company Servers: The Company does not operate personal data servers for user behavioral or usage data. The only data that may reach Company-affiliated infrastructure is:</p>
+        <ul class="clause-list">
+          <li>Crash logs processed by Firebase Crashlytics (Google infrastructure)</li>
+          <li>Anonymized analytics processed by Firebase Analytics (Google infrastructure)</li>
+          <li>Subscription status information communicated by the Google Play Store or Apple App Store</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">8.3</span>
+        <p>Retention Periods:</p>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>Data Type</th><th>Retention Period</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="col-key">Local device data (usage stats, blocklists, history)</td><td>Until you uninstall the Application or manually delete within the App</td></tr>
+          <tr><td class="col-key">Account credentials (if applicable)</td><td>Duration of account existence; deleted upon account deletion request</td></tr>
+          <tr><td class="col-key">Crash logs (Firebase Crashlytics)</td><td>90 days per Firebase's default retention policy</td></tr>
+          <tr><td class="col-key">Analytics data (Firebase Analytics)</td><td>Up to 14 months per Firebase's default retention policy</td></tr>
+          <tr><td class="col-key">Support communications</td><td>Up to 3 years from last interaction, or as required by law</td></tr>
+          <tr><td class="col-key">Subscription status</td><td>Duration of subscription plus 3 years for accounting/legal purposes</td></tr>
+        </tbody>
+      </table>
+
+      <div class="clause">
+        <span class="clause-num">8.4</span>
+        <p>Upon your uninstallation of the Application, all locally stored data is deleted from your device. The Company has no ability to recover locally stored data following uninstallation.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 9 -->
+    <section class="section" id="s9">
+      <div class="section-header"><span class="section-num">§ 09</span><h2>Data Sharing and Disclosure</h2></div>
+
+      <div class="clause important">
+        <span class="clause-num">9.1</span>
+        <p>We do not sell your personal information. This commitment applies regardless of the definition of "sale" under any applicable law, including the CCPA.</p>
+      </div>
+
+      <div class="clause important">
+        <span class="clause-num">9.2</span>
+        <p>We do not share personal information with third parties for their own marketing or advertising purposes.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">9.3</span>
+        <p>We may disclose information only in the following limited circumstances:</p>
+        <ul class="clause-list">
+          <li><strong>(a) Third-Party Service Providers (Processors):</strong> We use Google LLC (Firebase Crashlytics, Firebase Analytics, Google AdMob) as a data processor under contractual data processing agreements. Google processes data strictly for the purposes described in this Policy and is prohibited from using that data for its own purposes.</li>
+          <li><strong>(b) App Store Platforms:</strong> Google Play Store and Apple App Store process subscription and payment data under their own privacy policies, as independent data controllers.</li>
+          <li><strong>(c) Legal Compliance:</strong> We may disclose information to law enforcement, courts, regulators, or other governmental authorities where required by applicable law, valid legal process (such as a subpoena or court order), or to protect the rights, property, or safety of the Company, its users, or the public. We will notify you of any such request to the extent permitted by law.</li>
+          <li><strong>(d) Business Transfers:</strong> In the event of a merger, acquisition, asset sale, or other business transfer involving the Company, user information may be transferred as part of that transaction. We will provide notice and, where required, obtain consent prior to any transfer that would materially change how your information is used.</li>
+          <li><strong>(e) With Your Consent:</strong> We may share your information in any other circumstance with your prior, explicit, and informed consent.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SECTION 10 -->
+    <section class="section" id="s10">
+      <div class="section-header"><span class="section-num">§ 10</span><h2>Advertising and Your Choices</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">10.1</span>
+        <p>The free tier of the Application displays advertisements served by Google AdMob. AdMob may use your device's advertising identifier and related signals to serve personalized advertisements.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">10.2</span>
+        <p>Opt-Out of Personalized Advertising:</p>
+        <div class="step-block" style="margin-top:10px;">
+          <div>
+            <div class="step-block-label">On Android</div>
+            <p>Go to Settings &#8594; Google &#8594; Ads &#8594; Opt out of Ads Personalization.</p>
+          </div>
+          <div>
+            <div class="step-block-label">On iOS</div>
+            <p>Go to Settings &#8594; Privacy &#8594; Tracking and disable "Allow Apps to Request to Track."</p>
+          </div>
+          <div>
+            <div class="step-block-label">Google Ads Settings</div>
+            <p>You may also visit Google's Ads Settings to manage your advertising preferences.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">10.3</span>
+        <p>Opting out of personalized advertising does not remove ads from the Application; it results in the display of non-personalized (contextual) advertising instead.</p>
+      </div>
+
+      <div class="clause important">
+        <span class="clause-num">10.4</span>
+        <p>Premium subscribers do not receive AdMob advertisements. The advertising data practices in this Section apply only to users on the free tier of the Application.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">10.5</span>
+        <p>For users in the EEA or UK, AdMob will only serve personalized ads where you have provided valid GDPR consent via our in-app consent management mechanism, in accordance with Google's EU User Consent Policy.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 11 -->
+    <section class="section" id="s11">
+      <div class="section-header"><span class="section-num">§ 11</span><h2>Children's Privacy (COPPA Compliance)</h2></div>
+
+      <div class="clause important">
+        <span class="clause-num">11.1</span>
+        <p>The Application is not directed to children under the age of 13, and we do not knowingly collect personal information from children under 13.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">11.2</span>
+        <p>Users between 13 and 17 may use the Application only with verifiable parental or guardian consent. Parents or guardians of minor users assume responsibility for reviewing this Privacy Policy and consenting to the data practices herein on behalf of the minor.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">11.3</span>
+        <p>If you are a parent or guardian and believe that your child under the age of 13 has provided personal information to us without your consent, please contact us immediately at privacy@evolvia-app.com. We will promptly investigate and, where confirmed, delete such information from our records.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">11.4</span>
+        <p>We comply with the Children's Online Privacy Protection Act (COPPA) and, for European minor users, the GDPR's enhanced protections for children's personal data, including the requirement for parental consent for users under the applicable national age threshold (which may be higher than 13 in some EU member states).</p>
+      </div>
+    </section>
+
+    <!-- SECTION 12 -->
+    <section class="section" id="s12">
+      <div class="section-header"><span class="section-num">§ 12</span><h2>Security Measures</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">12.1</span>
+        <p>We implement commercially reasonable administrative, technical, and physical security measures designed to protect the information we process against unauthorized access, disclosure, alteration, or destruction. These measures include:</p>
+        <ul class="clause-list">
+          <li>Encryption of account passwords (hashing with salt; plaintext passwords are never stored)</li>
+          <li>Encrypted local storage for Application data on supported devices</li>
+          <li>Secure HTTPS connections for all communications between the Application and third-party service APIs</li>
+          <li>Contractual data security requirements imposed on third-party service providers (Google LLC)</li>
+          <li>Regular review of our data handling practices and security architecture</li>
+        </ul>
+      </div>
+
+      <div class="clause warning">
+        <span class="clause-num">12.2</span>
+        <p>Limitation: Given that all primary user data (usage statistics, blocking history, browsing data) is stored locally on your device, the security of that data is primarily dependent on your device's own security settings, including screen lock, device encryption, and physical access controls. We strongly encourage you to use your device's built-in security features.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">12.3</span>
+        <p>No method of data transmission or storage is 100% secure. While we strive to protect your information using industry-standard practices, we cannot guarantee absolute security. In the event of a data breach affecting your rights and freedoms, we will notify you and applicable regulators as required by law.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 13 -->
+    <section class="section" id="s13">
+      <div class="section-header"><span class="section-num">§ 13</span><h2>International Data Transfers</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">13.1</span>
+        <p>The Company is based in the United States. If you are accessing the Application from outside the United States, your information (to the limited extent it leaves your device) may be transferred to, processed in, and stored in the United States or other countries where Google LLC (Firebase, AdMob) maintains infrastructure.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">13.2</span>
+        <p>For transfers of personal data from the EEA or UK to the United States, we rely on the following transfer mechanisms where applicable:</p>
+        <ul class="clause-list">
+          <li>Standard Contractual Clauses (SCCs) as adopted by the European Commission, incorporated into our agreements with Google LLC;</li>
+          <li>UK International Data Transfer Agreements (IDTAs) for UK data transfers.</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">13.3</span>
+        <p>For California residents, transfers of personal data are subject to the CCPA and are not considered a "sale" of personal information.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">13.4</span>
+        <p>We take steps to ensure that any international transfer of your data is handled securely and in accordance with applicable data protection law.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 14 -->
+    <section class="section" id="s14">
+      <div class="section-header"><span class="section-num">§ 14</span><h2>Your Privacy Rights</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">14.1</span>
+        <p>Depending on your jurisdiction, you may have the following rights regarding your personal data:</p>
+      </div>
+
+      <span class="rights-label">For All Users:</span>
+      <ul class="clause-list">
+        <li><strong>Right to Access:</strong> Request a copy of the personal information we hold about you.</li>
+        <li><strong>Right to Correction:</strong> Request correction of inaccurate or incomplete personal information.</li>
+        <li><strong>Right to Deletion:</strong> Request deletion of your personal information from our records (subject to legal retention obligations).</li>
+        <li><strong>Right to Withdraw Consent:</strong> Where processing is based on consent, withdraw consent at any time without affecting prior lawful processing.</li>
+        <li><strong>Right to Opt-Out of Personalized Ads:</strong> As described in Section 10.</li>
+      </ul>
+
+      <span class="rights-label">For EEA and UK Users (GDPR / UK GDPR): In addition to the above:</span>
+      <ul class="clause-list">
+        <li>Right to Restriction of Processing</li>
+        <li>Right to Data Portability</li>
+        <li>Right to Object to processing based on legitimate interests</li>
+        <li>Right to Lodge a Complaint with your local supervisory authority (e.g., your national Data Protection Authority)</li>
+      </ul>
+
+      <span class="rights-label">For California Residents (CCPA/CPRA): In addition to the above:</span>
+      <ul class="clause-list">
+        <li>Right to Know what personal information is collected, used, disclosed, or sold</li>
+        <li>Right to Delete personal information we have collected</li>
+        <li>Right to Opt-Out of Sale or Sharing (we do not sell or share personal information)</li>
+        <li>Right to Non-Discrimination &#8212; we will not discriminate against you for exercising your privacy rights</li>
+        <li>Right to Limit Use of Sensitive Personal Information (where applicable)</li>
+      </ul>
+
+      <div class="clause important">
+        <span class="clause-num">14.2</span>
+        <p>To exercise any of the above rights, submit a request to privacy@evolvia-app.com with the subject line "Privacy Rights Request" and include your full name, email address associated with your account, and a description of your request. We will respond within 30 days (or 45 days with notice if additional time is required).</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">14.3</span>
+        <p>We may need to verify your identity before processing a rights request. We will not fulfill requests if we cannot reasonably verify the requestor's identity.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 15 -->
+    <section class="section" id="s15">
+      <div class="section-header"><span class="section-num">§ 15</span><h2>Cookies and Tracking Technologies</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">15.1</span>
+        <p>The Application itself (as a native mobile app) does not use browser cookies. However, the Application may use the following analogous tracking technologies:</p>
+        <ul class="clause-list">
+          <li>Mobile advertising identifiers (Google Advertising ID / GAID on Android; IDFA on iOS) &#8212; used by Google AdMob for advertising purposes as described in Section 10.</li>
+          <li>Firebase SDK instance identifiers &#8212; anonymized identifiers used by Firebase Analytics and Firebase Crashlytics to associate crash reports and analytics events with a single installation instance (not a real person).</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">15.2</span>
+        <p>You may reset your mobile advertising identifier at any time through your device settings:</p>
+        <ul class="clause-list">
+          <li><strong>Android:</strong> Settings &#8594; Google &#8594; Ads &#8594; Reset advertising ID</li>
+          <li><strong>iOS:</strong> Settings &#8594; Privacy &#8594; Tracking</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">15.3</span>
+        <p>If the Company operates a website at evolvia-app.com, that website may use cookies and similar technologies separately governed by a website-specific cookie policy, which will be made available on the website.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 16 -->
+    <section class="section" id="s16">
+      <div class="section-header"><span class="section-num">§ 16</span><h2>Data Breach Notification</h2></div>
+
+      <div class="clause warning">
+        <span class="clause-num">16.1</span>
+        <p>In the event of a security breach that results in the unauthorized access to, disclosure of, or destruction of your personal information, the Company will:</p>
+        <ul class="clause-list">
+          <li style="color: rgba(255, 165, 80, 0.9); border-left-color: rgba(255,100,40,0.3);">(a) Investigate the breach promptly upon discovery;</li>
+          <li style="color: rgba(255, 165, 80, 0.9); border-left-color: rgba(255,100,40,0.3);">(b) Notify affected users without undue delay, and in any event within 72 hours of becoming aware of the breach, to the extent required by applicable law (including GDPR Article 33 and 34);</li>
+          <li style="color: rgba(255, 165, 80, 0.9); border-left-color: rgba(255,100,40,0.3);">(c) Notify applicable regulatory authorities (including EU/UK supervisory authorities) as required by law;</li>
+          <li style="color: rgba(255, 165, 80, 0.9); border-left-color: rgba(255,100,40,0.3);">(d) Take remediation steps to contain and address the breach and to prevent recurrence.</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">16.2</span>
+        <p>Notifications will be delivered via email to the address associated with your account and/or via in-app notice. We will describe the nature of the breach, the categories of data affected, likely consequences, and the measures taken or proposed to address the breach.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">16.3</span>
+        <p>Given that primary user data is stored locally on your device, the most significant breach risk relates to Firebase and account credential infrastructure. Device-level breaches (e.g., device theft or unauthorized device access) are beyond the Company's control and responsibility.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 17 -->
+    <section class="section" id="s17">
+      <div class="section-header"><span class="section-num">§ 17</span><h2>Third-Party Privacy Policies</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">17.1</span>
+        <p>Our Application integrates with third-party services whose data practices are governed by their own privacy policies. We encourage you to review these policies:</p>
+        <ul class="clause-list">
+          <li><strong>Google Privacy Policy:</strong> https://policies.google.com/privacy &#8212; applies to Firebase Analytics, Firebase Crashlytics, and Google AdMob</li>
+          <li><strong>Google Play Store:</strong> https://play.google.com/about/play-terms</li>
+          <li><strong>Apple App Store:</strong> https://www.apple.com/legal/privacy</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">17.2</span>
+        <p>The Company is not responsible for the privacy practices of any third-party service provider. We encourage you to review the applicable third-party policies, particularly with respect to AdMob's data use for advertising purposes.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">17.3</span>
+        <p>Third-party links or services accessible through the Application are not covered by this Privacy Policy. Navigating to third-party sites or services from the Application is at your own discretion.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 18 -->
+    <section class="section" id="s18">
+      <div class="section-header"><span class="section-num">§ 18</span><h2>California Privacy Rights (CCPA / CPRA)</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">18.1</span>
+        <p>This Section supplements the general rights described in Section 14 and provides disclosures required specifically under the California Consumer Privacy Act (CCPA) as amended by the California Privacy Rights Act (CPRA), for California residents.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">18.2</span>
+        <p>Categories of Personal Information Collected in the Past 12 Months:</p>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>Category</th><th>Collected?</th><th>Purpose</th><th>Shared With</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-key">Identifiers (email, account ID)</td>
+            <td class="col-yes">Yes</td>
+            <td>Account management</td>
+            <td>None (Company only)</td>
+          </tr>
+          <tr>
+            <td class="col-key">Commercial information (subscription status)</td>
+            <td class="col-yes">Yes</td>
+            <td>Billing management</td>
+            <td>App store platforms</td>
+          </tr>
+          <tr>
+            <td class="col-key">Internet/electronic activity (crash logs, analytics)</td>
+            <td class="col-yes">Yes (anonymized)</td>
+            <td>App quality</td>
+            <td>Google (Firebase)</td>
+          </tr>
+          <tr>
+            <td class="col-key">Device identifiers (advertising ID)</td>
+            <td class="col-yes">Yes (free tier)</td>
+            <td>Advertising</td>
+            <td>Google AdMob</td>
+          </tr>
+          <tr>
+            <td class="col-key">Usage data / browsing history</td>
+            <td class="col-yes">Yes (locally only)</td>
+            <td>Core app features</td>
+            <td>No one &#8212; local only</td>
+          </tr>
+          <tr>
+            <td class="col-key">Sensitive personal information</td>
+            <td class="col-no">No</td>
+            <td>N/A</td>
+            <td>N/A</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="clause important">
+        <span class="clause-num">18.3</span>
+        <p>We do not sell or share personal information as those terms are defined under the CCPA/CPRA. California residents have the right to opt out of such sale or sharing; however, as we do not engage in such practices, no opt-out mechanism is necessary.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">18.4</span>
+        <p>Shine the Light (California Civil Code &#167; 1798.83): We do not disclose personal information to third parties for their own direct marketing purposes. California residents may request confirmation of this practice at privacy@evolvia-app.com.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">18.5</span>
+        <p>To submit a verifiable consumer request under the CCPA, contact us at privacy@evolvia-app.com. We will respond within 45 days, with a possible 45-day extension upon notice.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 19 -->
+    <section class="section" id="s19">
+      <div class="section-header"><span class="section-num">§ 19</span><h2>Changes to This Privacy Policy</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">19.1</span>
+        <p>We reserve the right to update or modify this Privacy Policy at any time. When we make material changes, we will:</p>
+        <ul class="clause-list">
+          <li>(a) Post the revised Privacy Policy at www.evolvia-app.com/privacy with an updated "Effective Date";</li>
+          <li>(b) Notify active users via email and/or in-app notification at least 14 days before the revised Policy takes effect for material changes;</li>
+          <li>(c) Where required by applicable law (e.g., GDPR for consent-based processing), obtain renewed consent before implementing changes that affect how we use your data.</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">19.2</span>
+        <p>Your continued use of the Application after the effective date of any revised Privacy Policy constitutes your acknowledgment of and agreement to the updated terms.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">19.3</span>
+        <p>We encourage you to review this Privacy Policy periodically to stay informed about how we protect your information.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 20 -->
+    <section class="section" id="s20">
+      <div class="section-header"><span class="section-num">§ 20</span><h2>Contact Information and Data Protection Officer</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">20.1</span>
+        <p>For all privacy-related inquiries, requests, or complaints, contact us at:</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-card-label">Privacy Requests and Data Rights</div>
+          <div class="contact-card-value">privacy@evolvia-app.com</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-label">General Support</div>
+          <div class="contact-card-value">support@evolvia-app.com</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-label">Legal and Compliance</div>
+          <div class="contact-card-value">legal@evolvia-app.com</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-label">Postal Address</div>
+          <div class="contact-card-value" style="line-height:1.7; font-size:11px;">Evolvia Studios LLC State of Wyoming, United States of America &#127760; www.evolvia-app.com</div>
+        </div>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">20.2</span>
+        <p>EU/UK Representative and DPO: At this stage of the Company's operations, Evolvia Studios LLC has not appointed a formal EU/UK Data Protection Officer (DPO). As the Application grows its EEA and UK user base to a threshold requiring a DPO appointment under GDPR Article 37, the Company will designate a DPO and publish their contact details at www.evolvia-app.com/privacy. EEA and UK users may direct privacy concerns to privacy@evolvia-app.com in the interim.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">20.3</span>
+        <p>If you believe we have not adequately addressed your privacy concern, you have the right to lodge a complaint with:</p>
+        <ul class="clause-list">
+          <li>Your national Data Protection Authority (for EEA users)</li>
+          <li>The UK Information Commissioner's Office (ICO) at ico.org.uk (for UK users)</li>
+          <li>The California Attorney General (for California residents)</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">20.4</span>
+        <p>This Privacy Policy was last updated on March 4, 2026.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <span class="footer-logo">Evolvia Studios LLC</span>
+  <p>&#169; 2026 Evolvia Studios LLC. All rights reserved. Evolvia &#8211; Block. Focus. Evolve is a trademark of Evolvia Studios LLC.</p>
+</footer>
 
 </body>
 </html>
