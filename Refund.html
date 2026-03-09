@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refund Policy — Evolvia</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0b07;
+    --surface: #141208;
+    --border: #2a2410;
+    --accent: #f5c518;
+    --accent2: #ffaa00;
+    --muted: #4a3e10;
+    --text: #f2edd8;
+    --text-dim: #9a8c5a;
+    --text-dimmer: #5a4e28;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.6;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(245, 197, 24, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(12, 11, 7, 0.88);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 10px var(--accent2);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .header-meta { font-size: 11px; color: var(--text-dim); letter-spacing: 0.05em; }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 2rem 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    padding: 5px 10px;
+    border: 1px solid rgba(245, 197, 24, 0.25);
+    border-radius: 3px;
+    background: rgba(245, 197, 24, 0.06);
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+  h1 span { color: var(--accent); }
+  .hero-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dimmer); }
+  .meta-value { font-size: 13px; color: var(--text-dim); }
+
+  .layout {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 0;
+    padding-bottom: 80px;
+  }
+
+  .sidebar {
+    padding: 40px 24px 40px 2rem;
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 60px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .sidebar::-webkit-scrollbar { display: none; }
+  .sidebar-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dimmer); margin-bottom: 16px; }
+  .nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .nav-list a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+    border-left: 2px solid transparent;
+    line-height: 1.4;
+  }
+  .nav-list a:hover { color: var(--text); background: rgba(245,197,24,0.04); border-left-color: var(--accent); }
+  .nav-num { color: var(--text-dimmer); margin-right: 6px; font-size: 10px; }
+
+  .content { padding: 40px 2rem 40px 48px; }
+
+  .section { margin-bottom: 56px; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.05em; white-space: nowrap; }
+  h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--text); }
+
+  .clause {
+    margin-bottom: 14px;
+    padding-left: 16px;
+    border-left: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .clause:hover { border-left-color: var(--muted); }
+  .clause-num { font-size: 11px; color: var(--text-dimmer); display: inline; margin-right: 8px; }
+  .clause p { display: inline; color: var(--text-dim); font-size: 13px; line-height: 1.9; }
+
+  .clause.important {
+    border-left-color: rgba(245, 197, 24, 0.5);
+    background: rgba(245, 197, 24, 0.05);
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+  }
+  .clause.warning {
+    border-left-color: rgba(255, 100, 40, 0.45);
+    background: rgba(255, 100, 40, 0.04);
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+  }
+  .clause.warning p, .clause.warning .clause-num { color: rgba(255, 165, 80, 0.9); }
+
+  .clause-list {
+    margin: 10px 0 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .clause-list li {
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.8;
+    padding: 6px 10px 6px 12px;
+    border-left: 1px solid var(--border);
+  }
+  .clause-list li strong { color: var(--text); }
+
+  /* Step list for cancellation instructions */
+  .step-block {
+    background: rgba(20, 18, 8, 0.8);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .step-block-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .step-block p {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.8;
+  }
+
+  .caps-block {
+    background: rgba(30, 24, 8, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    margin: 12px 0;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+  }
+
+  /* Pricing table */
+  .pricing-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  .pricing-table th {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dimmer);
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+  }
+  .pricing-table td { padding: 12px 16px; color: var(--text-dim); border-bottom: 1px solid rgba(42,36,16,0.5); vertical-align: top; }
+  .pricing-table tr:hover td { background: rgba(245,197,24,0.02); }
+  .pricing-table .plan-name { color: var(--text); font-family: 'Syne', sans-serif; font-weight: 600; font-size: 13px; }
+  .pricing-table .price { color: var(--accent); font-weight: 500; }
+  .refund-yes { color: #7ecb8a; font-size: 12px; }
+  .refund-no { color: rgba(255, 120, 80, 0.85); font-size: 12px; }
+  .refund-na { color: var(--text-dimmer); font-size: 12px; }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: rgba(245, 197, 24, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(245, 197, 24, 0.25);
+    margin-left: 6px;
+  }
+
+  /* Contact grid */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .contact-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px; transition: border-color 0.2s; }
+  .contact-card:hover { border-color: var(--muted); }
+  .contact-card-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dimmer); margin-bottom: 6px; }
+  .contact-card-value { font-size: 12px; color: var(--accent); }
+  .contact-card-sub { font-size: 11px; color: var(--text-dimmer); margin-top: 4px; }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 32px 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer p { font-size: 12px; color: var(--text-dimmer); }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; color: var(--text-dim); }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 2px; }
+
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .content { padding: 32px 1.5rem; }
+    .hero { padding: 50px 1.5rem 40px; }
+    h1 { font-size: 2.2rem; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .hero-meta { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo"><span class="logo-dot"></span>Evolvia</a>
+    <span class="header-meta">Legal Document &middot; v1.0 &middot; March 2026</span>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-label">&#11041; Legal Agreement</div>
+  <h1>Refund<br><span>Policy</span></h1>
+  <div class="hero-meta">
+    <div class="meta-item"><span class="meta-label">Entity</span><span class="meta-value">Evolvia Studios LLC</span></div>
+    <div class="meta-item"><span class="meta-label">Effective Date</span><span class="meta-value">March 4, 2026</span></div>
+    <div class="meta-item"><span class="meta-label">Jurisdiction</span><span class="meta-value">Wyoming, USA</span></div>
+    <div class="meta-item"><span class="meta-label">Website</span><span class="meta-value">www.evolvia-app.com</span></div>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Sections</div>
+    <ul class="nav-list">
+      <li><a href="#s1"><span class="nav-num">01</span>Purpose and Scope</a></li>
+      <li><a href="#s2"><span class="nav-num">02</span>Subscription Plans &amp; Pricing</a></li>
+      <li><a href="#s3"><span class="nav-num">03</span>Free Trial Policy</a></li>
+      <li><a href="#s4"><span class="nav-num">04</span>Refund Eligibility</a></li>
+      <li><a href="#s5"><span class="nav-num">05</span>Refund Process &amp; Timelines</a></li>
+      <li><a href="#s6"><span class="nav-num">06</span>Cancellation Policy</a></li>
+      <li><a href="#s7"><span class="nav-num">07</span>Statutory Consumer Rights</a></li>
+      <li><a href="#s8"><span class="nav-num">08</span>Contact &amp; Disputes</a></li>
+    </ul>
+  </nav>
+
+  <main class="content">
+
+    <!-- SECTION 1 -->
+    <section class="section" id="s1">
+      <div class="section-header"><span class="section-num">§ 01</span><h2>Purpose and Scope</h2></div>
+      <div class="clause important">
+        <span class="clause-num">1.1</span>
+        <p>This Refund Policy ("Policy") governs all refund requests, subscription cancellations, and related disputes arising from purchases made in connection with the Evolvia &#8211; Block. Focus. Evolve mobile application ("Application"), operated by Evolvia Studios LLC, a limited liability company organized under the laws of the State of Wyoming, United States of America ("Company," "we," "us," or "our").</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">1.2</span>
+        <p>This Policy applies to all purchases made through the Google Play Store and Apple App Store, including Monthly, Annual, and Lifetime subscription plans, and constitutes a binding part of the legal framework governing your use of the Application alongside the Terms and Conditions, Privacy Policy, and End User License Agreement, all available at evolvia-app.com.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">1.3</span>
+        <p>By completing any purchase within the Application, you acknowledge that you have read, understood, and agree to be bound by this Policy in its entirety.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="section" id="s2">
+      <div class="section-header"><span class="section-num">§ 02</span><h2>Subscription Plans and Pricing</h2></div>
+      <div class="clause">
+        <span class="clause-num">2.1</span>
+        <p>The Application offers the following purchasable plans at the time of this Policy's effective date:</p>
+      </div>
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th>Plan</th>
+            <th>Price (USD)</th>
+            <th>Billing Cycle</th>
+            <th>Refund Eligible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="plan-name">Free Trial</td>
+            <td class="price">$0.00</td>
+            <td>7 days</td>
+            <td class="refund-na">N/A</td>
+          </tr>
+          <tr>
+            <td class="plan-name">Monthly Premium</td>
+            <td class="price">$4.99</td>
+            <td>Every 30 days</td>
+            <td class="refund-yes">Yes &#8212; within 7 days</td>
+          </tr>
+          <tr>
+            <td class="plan-name">Annual Premium</td>
+            <td class="price">$49.99</td>
+            <td>Every 365 days</td>
+            <td class="refund-yes">Yes &#8212; within 7 days</td>
+          </tr>
+          <tr>
+            <td class="plan-name">Lifetime <span class="badge">Early Access</span></td>
+            <td class="price">$99.99</td>
+            <td>One-time</td>
+            <td class="refund-no">No &#8212; see Section 4.3</td>
+          </tr>
+          <tr>
+            <td class="plan-name">Lifetime <span class="badge">Standard</span></td>
+            <td class="price">$120.00</td>
+            <td>One-time</td>
+            <td class="refund-no">No &#8212; see Section 4.3</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="clause">
+        <span class="clause-num">2.2</span>
+        <p>All prices are listed in United States Dollars (USD). Regional pricing variations applied by the Google Play Store or Apple App Store do not alter the refund terms set forth in this Policy.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">2.3</span>
+        <p>The Company reserves the right to modify pricing at any time with no less than 30 days' prior notice to active subscribers. Price changes do not affect the current billing cycle in progress at the time of notice.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="section" id="s3">
+      <div class="section-header"><span class="section-num">§ 03</span><h2>Free Trial Policy</h2></div>
+      <div class="clause">
+        <span class="clause-num">3.1</span>
+        <p>New users are eligible for a seven (7) day free trial of the Monthly Premium tier upon initial registration. The free trial grants full, unrestricted access to all Premium features of the Application at no charge for the trial duration.</p>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">3.2</span>
+        <p>Automatic Conversion: At the conclusion of the free trial period, your subscription will automatically convert to a paid Monthly Premium subscription at $4.99 USD per month and your designated payment method will be charged, unless you cancel before the trial expires.</p>
+      </div>
+      <div class="clause warning">
+        <span class="clause-num">3.3</span>
+        <p>Cancellation Before Trial Ends: To avoid being charged, you must cancel your subscription through your Google Play or Apple App Store account settings before the free trial period expires. The Company does not process trial cancellations directly and cannot reverse a charge that has already been processed by the platform upon trial conversion.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">3.4</span>
+        <p>One free trial is available per user, per account, per device, and per payment method. Attempts to claim multiple free trials through new accounts or alternate payment methods may result in immediate cancellation of the duplicate trial and suspension of the associated account.</p>
+      </div>
+      <div class="clause">
+        <span class="clause-num">3.5</span>
+        <p>No refund is issued for free trial periods, as no charge is incurred during the trial.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="section" id="s4">
+      <div class="section-header"><span class="section-num">§ 04</span><h2>Refund Eligibility and Conditions</h2></div>
+
+      <div class="clause important">
+        <span class="clause-num">4.1</span>
+        <p>Monthly and Annual Subscriptions &#8212; 7-Day Refund Window</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">The Company offers a seven (7) calendar day refund window from the date of the original charge for Monthly and Annual subscription purchases, subject to all of the following conditions being satisfied:</p>
+        <ul class="clause-list">
+          <li>(a) The refund request is submitted within 7 calendar days of the original transaction date;</li>
+          <li>(b) The user submits a valid refund request to support@evolvia-app.com including: full name, email address associated with the account, order or transaction ID, platform of purchase (Google Play or Apple App Store), and reason for the refund request;</li>
+          <li>(c) The user has not made excessive use of Premium features during the eligible period beyond what is reasonably necessary to evaluate the Application &#8212; as determined at the Company's sole and reasonable discretion;</li>
+          <li>(d) The account is not currently under investigation for, or found to have engaged in, fraud, abuse, or violation of the Terms and Conditions or EULA;</li>
+          <li>(e) The request represents the user's first refund request. Repeat refund requests from the same user, account, device, or payment method are not eligible.</li>
+        </ul>
+      </div>
+
+      <div class="clause warning">
+        <span class="clause-num">4.2</span>
+        <p>Renewal Charges</p>
+        <p style="display:block; margin-top:8px; font-size:13px; color: rgba(255, 165, 80, 0.9);">Refunds are not available for subscription renewal charges. It is the user's sole responsibility to cancel a subscription before the renewal date to avoid being charged for the next billing cycle. The Company does not issue refunds for charges incurred due to a user's failure to cancel prior to renewal.</p>
+      </div>
+
+      <div class="clause warning">
+        <span class="clause-num">4.3</span>
+        <p>Lifetime Subscriptions &#8212; Non-Refundable</p>
+        <p style="display:block; margin-top:8px; font-size:13px; color: rgba(255, 165, 80, 0.9);">All Lifetime subscription purchases &#8212; both the Early Access tier ($99.99 USD) and the Standard tier ($120.00 USD) &#8212; are strictly non-refundable following completion of purchase. By purchasing a Lifetime subscription, you expressly acknowledge and agree that:</p>
+        <ul class="clause-list" style="margin-top:8px;">
+          <li style="color: rgba(255, 165, 80, 0.9);">(a) The one-time, deeply discounted pricing structure of the Lifetime tier reflects its non-refundable nature;</li>
+          <li style="color: rgba(255, 165, 80, 0.9);">(b) You have had the opportunity to evaluate the Application during the free trial period prior to committing to a Lifetime purchase;</li>
+          <li style="color: rgba(255, 165, 80, 0.9);">(c) The non-refundable nature of the Lifetime subscription does not affect your statutory consumer rights under applicable mandatory law, as described in Section 7.</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">4.4</span>
+        <p>Discretionary Refunds</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">Outside of the eligibility window described in Section 4.1, the Company may, at its sole and absolute discretion, consider refund requests on a case-by-case basis in exceptional circumstances, including but not limited to documented technical failures attributable solely to the Application that rendered it wholly unusable. Submission of a request outside the eligibility window does not create any obligation on the part of the Company to approve it.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="section" id="s5">
+      <div class="section-header"><span class="section-num">§ 05</span><h2>Refund Process and Timelines</h2></div>
+
+      <div class="clause important">
+        <span class="clause-num">5.1</span>
+        <p>How to Request a Refund</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">All refund requests must be submitted by email to support@evolvia-app.com with the subject line: "Refund Request &#8211; [Your Order ID]", and must include the following information:</p>
+        <ul class="clause-list">
+          <li>Full name</li>
+          <li>Email address associated with your Evolvia account</li>
+          <li>Transaction or order ID (available in your app store purchase history)</li>
+          <li>Platform of purchase (Google Play Store or Apple App Store)</li>
+          <li>Subscription plan purchased</li>
+          <li>Date of purchase</li>
+          <li>Reason for refund request</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">5.2</span>
+        <p>Platform-Initiated Refund Requests</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">Purchases made through the Google Play Store may alternatively be submitted for refund directly through Google Play's own refund request system within Google's applicable refund window. Purchases through the Apple App Store may be submitted via Apple's Report a Problem portal at reportaproblem.apple.com. Platform-initiated refund decisions are made by the applicable platform under their own refund policies and are not within the Company's direct control.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">5.3</span>
+        <p>Review and Response</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">The Company will acknowledge receipt of your refund request within 3 business days and will communicate a decision within 7 business days of receipt. The Company reserves the right to request additional information to process your request, and the review period will be paused pending your response to any such request.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">5.4</span>
+        <p>Processing Time</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">Approved refunds will be processed within 10 business days of approval and returned to the original payment method used at the time of purchase. Processing times may vary depending on your financial institution or card issuer and are beyond the Company's control once the refund has been initiated.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">5.5</span>
+        <p>Partial Refunds</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">The Company does not issue partial refunds for unused portions of an active subscription period, except where required by applicable mandatory consumer protection law.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="section" id="s6">
+      <div class="section-header"><span class="section-num">§ 06</span><h2>Cancellation Policy</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">6.1</span>
+        <p>How to Cancel</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">Subscription cancellations must be processed through the app store platform through which the subscription was originally purchased:</p>
+        <div class="step-block" style="margin-top:10px;">
+          <div>
+            <div class="step-block-label">Google Play Store</div>
+            <p>Open the Google Play Store app &#8594; Profile icon &#8594; Payments &amp; subscriptions &#8594; Subscriptions &#8594; Evolvia &#8594; Cancel subscription.</p>
+          </div>
+          <div>
+            <div class="step-block-label">Apple App Store</div>
+            <p>Open Settings &#8594; [Your Name] &#8594; Subscriptions &#8594; Evolvia &#8594; Cancel Subscription.</p>
+          </div>
+        </div>
+        <p style="display:block; margin-top:10px; color: var(--text-dim); font-size:13px;">The Company does not process subscription cancellations directly and cannot cancel a subscription on your behalf through platform billing systems.</p>
+      </div>
+
+      <div class="clause important">
+        <span class="clause-num">6.2</span>
+        <p>Effect of Cancellation</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">Upon cancellation of a recurring subscription:</p>
+        <ul class="clause-list">
+          <li>(a) Your Premium access will remain active through the end of the current paid billing period;</li>
+          <li>(b) No further charges will be made after the current billing cycle concludes;</li>
+          <li>(c) Your account will revert to the free tier at the end of the billing period;</li>
+          <li>(d) Cancellation does not entitle you to a refund of any fees already charged for the current billing cycle, except within the 7-day refund window described in Section 4.1.</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">6.3</span>
+        <p>Cancellation of Lifetime Subscriptions</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">Lifetime subscriptions are not subject to recurring cancellation. Access under a Lifetime subscription continues until the account is deleted, the Application is discontinued, or the license is terminated pursuant to the EULA, Section 14.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">6.4</span>
+        <p>Account Deletion</p>
+        <p style="display:block; margin-top:8px; color: var(--text-dim); font-size:13px;">If you wish to delete your Evolvia account entirely, submit a request to support@evolvia-app.com with subject line: "Account Deletion Request." Account deletion is permanent and irreversible. Active subscriptions must be cancelled through the applicable platform prior to account deletion to prevent continued billing.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 7 -->
+    <section class="section" id="s7">
+      <div class="section-header"><span class="section-num">§ 07</span><h2>Statutory Consumer Rights</h2></div>
+
+      <div class="clause important">
+        <span class="clause-num">7.1</span>
+        <p>Nothing in this Refund Policy is intended to limit, exclude, or restrict any statutory consumer rights you may have under applicable mandatory law that cannot be waived by contract, including but not limited to:</p>
+        <ul class="clause-list">
+          <li><strong>European Union / EEA users:</strong> Under EU Directive 2011/83/EU (Consumer Rights Directive), you may have a statutory right of withdrawal of up to 14 days from the date of purchase of a digital service, unless you have expressly consented to the immediate commencement of the service and acknowledged that you thereby lose your right of withdrawal. Where you activated your subscription and began using Premium features immediately upon purchase, and acknowledged waiver of the withdrawal right at the time of purchase, this statutory right may not apply.</li>
+          <li><strong>United Kingdom users:</strong> Similar rights apply under the UK Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013.</li>
+          <li><strong>California users:</strong> Your rights under the California Automatic Renewal Law (ARL) are preserved. You will receive clear disclosure of all auto-renewal terms before purchase, and you may cancel at any time as described in Section 6.</li>
+          <li><strong>Australian users:</strong> Your rights under the Australian Consumer Law (ACL), including guarantees relating to fitness for purpose and acceptable quality, are not excluded by this Policy.</li>
+        </ul>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">7.2</span>
+        <p>To assert any statutory right not addressed by this Policy, contact the Company at legal@evolvia-app.com or your applicable consumer protection authority.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 8 -->
+    <section class="section" id="s8">
+      <div class="section-header"><span class="section-num">§ 08</span><h2>Contact, Disputes, and Policy Updates</h2></div>
+
+      <div class="clause">
+        <span class="clause-num">8.1</span>
+        <p>Contact for Refund Matters:</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-card-label">Refund Requests &amp; Subscription Issues</div>
+          <div class="contact-card-value">support@evolvia-app.com</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-label">Disputes, Statutory Rights &amp; Escalations</div>
+          <div class="contact-card-value">legal@evolvia-app.com</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-label">Website</div>
+          <div class="contact-card-value">www.evolvia-app.com</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-label">Mailing Address</div>
+          <div class="contact-card-value" style="font-size:11px; line-height:1.6;">Evolvia Studios LLC<br>State of Wyoming, United States of America</div>
+        </div>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">8.2</span>
+        <p>Dispute Resolution: Any dispute arising out of or relating to this Refund Policy that cannot be resolved through direct communication with the Company shall be resolved in accordance with the binding arbitration and dispute resolution provisions set forth in Section 19 of the Terms and Conditions, incorporated herein by reference.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">8.3</span>
+        <p>Policy Updates: The Company reserves the right to modify this Refund Policy at any time. Material changes will be communicated via email or in-app notification no fewer than 14 days before the revised Policy takes effect. Your continued use of the Application following the effective date of any revision constitutes your acceptance of the updated Policy. The most current version of this Policy is always available at www.evolvia-app.com/refunds.</p>
+      </div>
+
+      <div class="clause">
+        <span class="clause-num">8.4</span>
+        <p>This Refund Policy was last updated on March 4, 2026.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <span class="footer-logo">Evolvia Studios LLC</span>
+  <p>&#169; 2026 Evolvia Studios LLC. All rights reserved. Evolvia &#8211; Block. Focus. Evolve is a trademark of Evolvia Studios LLC.</p>
+</footer>
+
+</body>
+</html>
